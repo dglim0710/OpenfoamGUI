@@ -23,7 +23,7 @@ class task_frame(LabelFrame):
             for i in range(0,len(Label_array)):
                 Label(self, text=Label_array[i]).grid(row=i, column=0,  padx=5, pady=5)
                 Entry(self).grid(row=i, column=1)
-            Button(self, text='Save', width=3).grid(row=len(Label_array)+3, column=3, pady=30)
+            Button(self, text='Save', width=5).grid(row=len(Label_array)+3, column=3, pady=30)
         elif n == 2:
             self.config(text=tree_menu_list[n])
             Label_array = ['Type','Location','Nozzle velocity','Motion direction','Radius','Width','Height','Length','Angle','Fixed thickness','Jet velocity','Angular velocity','Thickness tol1','Thickness tol2']
@@ -34,15 +34,15 @@ class task_frame(LabelFrame):
             for i in range(1,len(Label_array)):
                 Label(self, text=Label_array[i]).grid(row=i, column=0, padx=5, pady=5)
                 Entry(self).grid(row=i, column=1)
-            Button(self, text='Save', width=3).grid(row=len(Label_array)+3, column=3, pady=30)
+            Button(self, text='Save', width=5).grid(row=len(Label_array)+3, column=3, pady=30)
         elif n == 3:
             self.config(text=tree_menu_list[n])
             Label_array = ['Start time','End time','Time step','Write interval','Iterations']
             for i in range(0,len(Label_array)):
                 Label(self, text=Label_array[i]).grid(row=i, column=0, padx=5, pady=5)
                 Entry(self).grid(row=i, column=1)
-            Button(self, text='Save', width=3).grid(row=len(Label_array)+3, column=3)
-            Button(self, text='Run', width=3).grid(row=len(Label_array)+4, column=3)
+            Button(self, text='Save', width=5).grid(row=len(Label_array)+3, column=3)
+            Button(self, text='Run', width=5).grid(row=len(Label_array)+4, column=3)
 
 
 class tree_frame(LabelFrame):
@@ -58,16 +58,16 @@ class tree_frame(LabelFrame):
         label1 = Label(self, text='- SETTINGS')
         label1.grid(row=0, column=0, padx=2, pady=2)
         label1.config(bg='white', activebackground='gray')
-        bt1 = Button(self, text='Properties', command=lambda: replace_task_frame(1), width=10)
+        bt1 = Button(self, text='Properties', command=lambda: replace_task_frame(1), width=15)
         bt1.grid(row=1, column=0, padx=2, pady=2)
         bt1.config(bg='white', activebackground='gray', bd=0)
-        bt2 = Button(self, text='Nozzle spec', command=lambda: replace_task_frame(2), width=10)
+        bt2 = Button(self, text='Nozzle spec', command=lambda: replace_task_frame(2), width=15)
         bt2.grid(row=2, column=0, padx=2, pady=2)
         bt2.config(bg='white', activebackground='gray', bd=0)
-        bt3 = Button(self, text='Solution control', command=lambda: replace_task_frame(3), width=10)
+        bt3 = Button(self, text='Solution control', command=lambda: replace_task_frame(3), width=15)
         bt3.grid(row=3, column=0, padx=2, pady=2)
         bt3.config(bg='white', activebackground='gray', bd=0)
-        bt4 = Button(self, text='Result', width=10)
+        bt4 = Button(self, text='Result', width=15)
         bt4.grid(row=4, column=0, padx=2, pady=2)
         bt4.config(bg='white', activebackground='gray', bd=0)
 
