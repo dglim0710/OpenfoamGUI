@@ -13,13 +13,14 @@ class task_frame(LabelFrame):
         self.create_task()
 
     def create_task(self):
-        tree_menu_list = ['First page','Properties','Nozzle spec','Solution control']
+        tree_menu_list = ['First page', 'Properties', 'Nozzle spec', 'Solution control']
+        fontsize = 30
 
         if n == 0:
-            self.config(text=tree_menu_list[n], width=300, height=600)
+            self.config(text=tree_menu_list[n], width='600', font=fontsize)
             Label(self, text='Select tree menu').pack()
         elif n == 1:
-            self.config(text=tree_menu_list[n])
+            self.config(text=tree_menu_list[n], width='600', font=fontsize)
             Label_dict = {'Liquid Density': 0., 'Liquid Viscosity': 0., 'Gas Density': 0., 'Gas Viscosity':0., 'Gravity': 0.}
             Label_array = list(Label_dict.keys())
             Label_values = list(Label_dict.values())
@@ -30,14 +31,15 @@ class task_frame(LabelFrame):
                 Label_dict[Label_array[i]].grid(row=i, column=1)
             Button(self, text='Save', width=5, command=lambda: save(Label_values)).grid(row=len(Label_array)+3, column=3, pady=30)
         elif n == 2:
-            self.config(text=tree_menu_list[n])
+            self.config(text=tree_menu_list[n], width='600', font=fontsize)
             Label_dict = {'Type': 0., 'Location':0. ,'Nozzle velocity': 0., 'Motion direction': 0., 'Radius': 0., 'Width': 0., 'Height': 0., 'Length': 0., 'Angle': 0., 'Fixed thickness': 0., 'Jet velocity': 0., 'Angular velocity': 0., 'Thickness tol1': 0., 'Thickness tol2': 0.}
             Label_array = list(Label_dict.keys())
             Label_values = list(Label_dict.values())
             OptionList = ['Circular', 'Rectangular']
-            self.dropVar = StringVar()
+            Label_values[0] = StringVar()
+            Label_values[0].set(OptionList[1])
             Label(self, text=Label_array[0]).grid(row=0, column=0, padx=5, pady=5)
-            OptionMenu(self, self.dropVar, *OptionList).grid(row=0, column=1, padx=5, pady=5)
+            OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=1, padx=5, pady=5)
             for i in range(1, len(Label_array)):
                 Label_values[i] = DoubleVar()
                 Label(self, text=Label_array[i]).grid(row=i, column=0, padx=5, pady=5)
@@ -45,7 +47,7 @@ class task_frame(LabelFrame):
                 Label_dict[Label_array[i]].grid(row=i, column=1)
             Button(self, text='Save', width=5, command=lambda: save(Label_values)).grid(row=len(Label_array)+3, column=3, pady=30)
         elif n == 3:
-            self.config(text=tree_menu_list[n])
+            self.config(text=tree_menu_list[n], width='600', font=fontsize)
             Label_dict = {'Start time': 0., 'End time': 0., 'Time step': 0., 'Write interval': 0., 'Iterations': 0.}
             Label_array = list(Label_dict.keys())
             Label_values = list(Label_dict.values())
@@ -61,13 +63,14 @@ class task_frame(LabelFrame):
 class tree_frame(LabelFrame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        fontsize = 1
+        self.config(text='Tree menu', bg='white', bd=4, width='300', font=fontsize)
         self.render()
 
     def render(self):
         self.create_tree()
 
     def create_tree(self):
-        self.config(text='Tree menu', bg='white', bd=4)
         label1 = Label(self, text='- SETTINGS')
         label1.grid(row=0, column=0, padx=2, pady=2)
         label1.config(bg='white', activebackground='gray')
@@ -94,7 +97,6 @@ class logo_frame(LabelFrame):
         self.create_logo()
 
     def create_logo(self):
-        self.config(width=300, height=300, background='white')
         Button(self, text='1').pack()
 
 
@@ -102,14 +104,14 @@ class Application(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Dev Simulator')
-        self.geometry('900x600')
+        self.geometry('1200x800')
         self.render()
 
     def render(self):
         global b
+        tree_frame(self).pack(side=LEFT, fill=BOTH, expand=Y)
+        logo_frame(self).pack(side=BOTTOM, fill=BOTH)
         b = task_frame(self)
-        tree_frame(self, height='400', width='300').pack(side=LEFT, fill=BOTH, expand=Y)
-        logo_frame(self, height='200', width='200').pack(side=BOTTOM)
         b.pack(side=RIGHT, fill=BOTH, expand=Y)
 
 
@@ -139,8 +141,9 @@ def Runsolver(Casepath, OFpath):
 
 
 def save(label_values):
-    for i in range(1, len(label_values)):
+    for i in range(0, len(label_values)):
         print(label_values[i].get())
+        print(type(label_values[i].get()))
 
 
 app = Application()
