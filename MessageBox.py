@@ -16,3 +16,7 @@ def Simulationtime_error():
 
 def Float_warning():
     tkinter.messagebox.showwarning('Warning', 'Iterations, Write interval should be INTEGER.')
+
+
+def UnselectedFolder():
+    tkinter.messagebox.showwarning('Warning', 'Set a folder of a simluation.\n Click Basic setting \u2192 Browse')

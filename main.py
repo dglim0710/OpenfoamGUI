@@ -6,8 +6,8 @@ import PreFile
 import MessageBox
 
 n = 0
-Case_folder_path = 'You need to set the path of a simulation folder\n Click Basic setting \u2192 Browse'
-Of_folder_path = 'Set the path of the Openfoam folder'
+Case_folder_path = '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !'
+Of_folder_path = '! Set the path of the Openfoam folder !'
 
 
 class task_frame(LabelFrame):
@@ -25,12 +25,14 @@ class task_frame(LabelFrame):
         if n == 0:
             global Case_folder_path
             self.config(text=tree_menu_list[n], font=fontsize)
-            Label(self, text=Case_folder_path, width=40).grid(row=0, column=0)
+            Label(self, text='Case folder : ', width=15).grid(row=0, column=0)
+            Label(self, text=Case_folder_path, width=len(Case_folder_path)).grid(row=0, column=1)
             bt1 = Button(self, text='Browse', command=lambda: Case_browse_button())
-            bt1.grid(row=0, column=1)
-            Label(self, text=Of_folder_path, width=40).grid(row=1, column=0)
+            bt1.grid(row=0, column=2)
+            Label(self, text='Openfoam folder : ', width=15).grid(row=1, column=0)
+            Label(self, text=Of_folder_path, width=len(Of_folder_path)).grid(row=1, column=1)
             bt1 = Button(self, text='Browse', command=lambda: Of_browse_button())
-            bt1.grid(row=1, column=1)
+            bt1.grid(row=1, column=2)
         elif n == 1:
             self.config(text=tree_menu_list[n], font=fontsize)
             Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity']
@@ -139,7 +141,7 @@ class task_frame(LabelFrame):
                         k = k+1
                     j = j+1
             Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=5, pady=5, sticky=E)
-            Button(self, text='Run', width=5, command=Runsolver(Case_folder_path, Of_folder_path)).grid(row=len(Label_array)+4, column=5, sticky=E)
+            Button(self, text='Run', width=5, command=lambda: Runsolver(Case_folder_path, Of_folder_path)).grid(row=len(Label_array)+4, column=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
             Label(self, text=Case_folder_path, width=len(Case_folder_path)).grid(row=len(Label_dict)+5, column=1, columnspan=5)
 
@@ -205,7 +207,7 @@ class tree_frame(LabelFrame):
         label3 = Label(self, text='- Post-process')
         label3.grid(row=14, column=0, padx=2, pady=2)
         label3.config(bg='white', activebackground='gray')
-        bt7 = Button(self, text='Result', width=15, command=paraFoam(Case_folder_path, Of_folder_path))
+        bt7 = Button(self, text='Result', width=15, command=lambda: paraFoam(Case_folder_path, Of_folder_path))
         bt7.grid(row=15, column=0, padx=2, pady=2)
         bt7.config(bg='white', activebackground='gray', bd=0)
 
@@ -258,16 +260,16 @@ def replace_task_frame(menu_number):
 
 
 def paraFoam(Casepath, OFpath):
-    Casepath = 'cd'+Casepath+'&&'
-    OFpath = 'call'+OFpath+'&&'
+    Casepath = 'cd '+Casepath+' && '
+    OFpath = 'call '+OFpath+'/foamWindowsEnvironment.bat'+' && '
     Runpara = 'paraFoam'
     Total = Casepath+OFpath+Runpara
     os.system(Total)
 
 
 def Runsolver(Casepath, OFpath):
-    Casepath = 'cd'+Casepath+'&&'
-    OFpath = 'call'+OFpath+'&&'
+    Casepath = 'cd '+Casepath+' && '
+    OFpath = 'call '+OFpath+'/foamWindowsEnvironment.bat'+' && '
     RunOP = 'samsungFoamFVTPM7'
     Total = Casepath+OFpath+RunOP
     os.system(Total)
@@ -290,24 +292,31 @@ def save(label_values, label_dict, label_array, menu_number):
     if menu_number == 1:
         if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
             MessageBox.Zero_warning()
+        elif Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+            MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(folder_path+'/constant/transportProperties', "w") as text_file:
+            with open(Case_folder_path+'/constant/transportProperties', "w") as text_file:
                 text_file.write(PreFile.transportProperties_save(label_dict))
-            with open(folder_path+'/constant/g', "w") as text_file:
+            with open(Case_folder_path+'/constant/g', "w") as text_file:
                 text_file.write(PreFile.g_save(label_dict))
     elif menu_number == 2:
-        MessageBox.Save_complete()
-        with open(folder_path+'/constant/physicalParameters', "w") as text_file:
-            text_file.write(PreFile.physicalParameters_save(label_dict))
+        if Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+            MessageBox.UnselectedFolder()
+        else:
+            MessageBox.Save_complete()
+            with open(Case_folder_path+'/constant/physicalParameters', "w") as text_file:
+                text_file.write(PreFile.physicalParameters_save(label_dict))
     elif menu_number == 3:
         if label_dict['Start_time'] > label_dict['End_time']:
             MessageBox.Simulationtime_error()
+        elif Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+            MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(folder_path+'/system/controlDict', "w") as text_file:
+            with open(Case_folder_path+'/system/controlDict', "w") as text_file:
                 text_file.write(PreFile.controlDict_save(label_dict))
-            with open(folder_path+'/system/fvSolution', "w") as text_file:
+            with open(Case_folder_path+'/system/fvSolution', "w") as text_file:
                 text_file.write(PreFile.fvSolution_save(label_dict))
 
 
