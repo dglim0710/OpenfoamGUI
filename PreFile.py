@@ -112,9 +112,9 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
     parsed['OmegaX'] = parsed['OmegaX'] * (2 * 3.141592) / 60
     parsed['OmegaY'] = parsed['OmegaY'] * (2 * 3.141592) / 60
     parsed['OmegaZ'] = parsed['OmegaZ'] * (2 * 3.141592) / 60
-    UnitX = parsed['Motion_directionX'] / ( parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2  ) ** (1/2)
-    UnitY = parsed['Motion_directionY'] / ( parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2  ) ** (1/2)
-    UnitZ = parsed['Motion_directionZ'] / ( parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2  ) ** (1/2)
+    UnitX = parsed['Motion_directionX'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
+    UnitY = parsed['Motion_directionY'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
+    UnitZ = parsed['Motion_directionZ'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
     parsed['Motion_directionX'] = UnitX
     parsed['Motion_directionY'] = UnitY
     parsed['Motion_directionZ'] = UnitZ

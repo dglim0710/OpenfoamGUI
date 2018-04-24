@@ -31,10 +31,10 @@ Oxyz     (0 0 0);
 Jxyz0	(0.0 0.0 0.0);
 
 //nozzle velocity magnitude, i.e. the magnitude of velocity at which nozzle moves, do not confuse it with jet velocity
-NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	0.0;
+NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	1.0;
 
 // unit tangential vector of nozzle motion path
-NozzleMotionDir		(0.7071067811865476 0.7071067811865476 0.0);
+NozzleMotionDir		(1.0 0.0 0.0);
 
 JetR JetR  [0 1 0 0 0 0 0]	0.0;
 

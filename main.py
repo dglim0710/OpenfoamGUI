@@ -104,7 +104,7 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array,n)).grid(row=len(Label_array)+3, column=3)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=3)
             Button(self, text='Run', width=5, command=Runsolver).grid(row=len(Label_array)+4, column=3)
 
 
@@ -193,18 +193,27 @@ def save(label_values, label_dict, label_array, menu_number):
     for i in range(0, len(label_values)):
         label_dict[input_list[i]] = label_values[i].get()
     if menu_number == 1:
-        with open('./Case/constant/transportProperties', "w") as text_file:
-            text_file.write(PreFile.transportProperties_save(label_dict))
-        with open('./Case/constant/g', "w") as text_file:
-            text_file.write(PreFile.g_save(label_dict))
+        if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
+            MessageBox.Zero_warning()
+        else:
+            MessageBox.Save_complete()
+            with open('./Case/constant/transportProperties', "w") as text_file:
+                text_file.write(PreFile.transportProperties_save(label_dict))
+            with open('./Case/constant/g', "w") as text_file:
+                text_file.write(PreFile.g_save(label_dict))
     elif menu_number == 2:
+        MessageBox.Save_complete()
         with open('./Case/constant/physicalParameters', "w") as text_file:
             text_file.write(PreFile.physicalParameters_save(label_dict))
     elif menu_number == 3:
-        with open('./Case/system/controlDict', "w") as text_file:
-            text_file.write(PreFile.controlDict_save(label_dict))
-        with open('./Case/system/fvSolution', "w") as text_file:
-            text_file.write(PreFile.fvSolution_save(label_dict))
+        if label_dict['Start_time'] > label_dict['End_time']:
+            MessageBox.Simulationtime_error()
+        else:
+            MessageBox.Save_complete()
+            with open('./Case/system/controlDict', "w") as text_file:
+                text_file.write(PreFile.controlDict_save(label_dict))
+            with open('./Case/system/fvSolution', "w") as text_file:
+                text_file.write(PreFile.fvSolution_save(label_dict))
 
 
 app = Application()
