@@ -12,3 +12,7 @@ def Save_complete():
 
 def Simulationtime_error():
     tkinter.messagebox.showwarning('Warning', 'Start time cannot be larger than End time.')
+
+
+def Float_warning():
+    tkinter.messagebox.showwarning('Warning', 'Iterations, Write interval should be INTEGER.')
