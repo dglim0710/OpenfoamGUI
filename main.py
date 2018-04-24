@@ -1,5 +1,8 @@
 from tkinter import *
+from collections import OrderedDict
 import os
+import PreFile
+import MessageBox
 
 n = 0
 
@@ -21,42 +24,87 @@ class task_frame(LabelFrame):
             Label(self, text='Select tree menu').pack()
         elif n == 1:
             self.config(text=tree_menu_list[n], width='600', font=fontsize)
-            Label_dict = {'Liquid Density': 0., 'Liquid Viscosity': 0., 'Gas Density': 0., 'Gas Viscosity':0., 'Gravity': 0.}
-            Label_array = list(Label_dict.keys())
-            Label_values = list(Label_dict.values())
-            for i in range(0,len(Label_array)):
-                Label_values[i] = DoubleVar()
-                Label(self, text=Label_array[i]).grid(row=i, column=0,  padx=5, pady=5)
-                Label_dict[Label_array[i]] = Entry(self, textvariable=Label_values[i])
-                Label_dict[Label_array[i]].grid(row=i, column=1)
-            Button(self, text='Save', width=5, command=lambda: save(Label_values)).grid(row=len(Label_array)+3, column=3, pady=30)
+            Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity']
+            Unit_list = ['[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb2]', '[m/s\xb2]']
+            vector_dis = [0., 0., 0., 0., 0., 1.]
+            Value_dict = OrderedDict([('Liquid_Density', 0.), ('Liquid_Viscosity', 0.), ('Gas_Density', 0.), ('Gas_Viscosity', 0.), ('Surface_tension', 0),('GravityX', 0.), ('GravityY', 0.), ('GravityZ', 0.)])
+            Label_array = list(Value_dict.keys())
+            Label_values = list(Value_dict.values())
+            j = 0
+            for i in range(0, len(Label_dict)):
+                k = 2
+                Label(self, text=Label_dict[i]).grid(row=i, column=0,  padx=5, pady=5)
+                Label(self, text=Unit_list[i]).grid(row=i, column=1, padx=5, pady=5)
+                if vector_dis[i] == 0.:
+                    Label_values[j] = DoubleVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Value_dict[Label_array[j]].grid(row=i, column=2)
+                    j = j+1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j+3):
+                        Label_values[j] = DoubleVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]].grid(row=i, column=k)
+                        k = k+1
+                    j = j+1
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=3, pady=30)
         elif n == 2:
             self.config(text=tree_menu_list[n], width='600', font=fontsize)
-            Label_dict = {'Type': 0., 'Location':0. ,'Nozzle velocity': 0., 'Motion direction': 0., 'Radius': 0., 'Width': 0., 'Height': 0., 'Length': 0., 'Angle': 0., 'Fixed thickness': 0., 'Jet velocity': 0., 'Angular velocity': 0., 'Thickness tol1': 0., 'Thickness tol2': 0.}
-            Label_array = list(Label_dict.keys())
-            Label_values = list(Label_dict.values())
+            Label_dict = ['Type', 'Location', 'Omega', 'Nozzle direction', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity', 'Thickness tol1', 'Thickness tol2']
+            vector_dis = [0., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+            Unit_list = ['', '[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]', '', '']
+            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.), ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.), ('Nozzle_velocity', 0.),  ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.), ('Thickness_tol1', 0.), ('Thickness_tol2', 0.)])
+            Label_array = list(Value_dict.keys())
+            Label_values = list(Value_dict.values())
             OptionList = ['Circular', 'Rectangular']
             Label_values[0] = StringVar()
             Label_values[0].set(OptionList[1])
-            Label(self, text=Label_array[0]).grid(row=0, column=0, padx=5, pady=5)
-            OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=1, padx=5, pady=5)
-            for i in range(1, len(Label_array)):
-                Label_values[i] = DoubleVar()
-                Label(self, text=Label_array[i]).grid(row=i, column=0, padx=5, pady=5)
-                Label_dict[Label_array[i]] = Entry(self, textvariable=Label_values[i])
-                Label_dict[Label_array[i]].grid(row=i, column=1)
-            Button(self, text='Save', width=5, command=lambda: save(Label_values)).grid(row=len(Label_array)+3, column=3, pady=30)
+            Label(self, text=Label_dict[0]).grid(row=0, column=0, padx=5, pady=5)
+            OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=1)
+            j = 1
+            for i in range(1, len(Label_dict)):
+                k = 2
+                Label(self, text=Label_dict[i]).grid(row=i, column=0,  padx=5, pady=5)
+                Label(self, text=Unit_list[i]).grid(row=i, column=1,  padx=5, pady=5)
+                if vector_dis[i] == 0.:
+                    Label_values[j] = DoubleVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Value_dict[Label_array[j]].grid(row=i, column=2)
+                    j = j+1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j+3):
+                        Label_values[j] = DoubleVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]].grid(row=i, column=k)
+                        k = k+1
+                    j=j+1
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=3, pady=30)
         elif n == 3:
             self.config(text=tree_menu_list[n], width='600', font=fontsize)
-            Label_dict = {'Start time': 0., 'End time': 0., 'Time step': 0., 'Write interval': 0., 'Iterations': 0.}
-            Label_array = list(Label_dict.keys())
-            Label_values = list(Label_dict.values())
-            for i in range(0, len(Label_array)):
-                Label_values[i] = DoubleVar()
-                Label(self, text=Label_array[i]).grid(row=i, column=0, padx=5, pady=5)
-                Label_dict[Label_array[i]] = Entry(self, textvariable=Label_values[i])
-                Label_dict[Label_array[i]].grid(row=i, column=1)
-            Button(self, text='Save', width=5, command=lambda: save(Label_values)).grid(row=len(Label_array)+3, column=3)
+            Label_dict = ['Start time', 'End time', 'Time step', 'Write interval', 'Iterations']
+            Unit_list = ['[s]', '[s]', '[s]', '', '']
+            vector_dis = [0., 0., 0., 0., 0.]
+            Value_dict = OrderedDict([('Start_time', 0.), ('End_time', 0.), ('Time_step', 0.), ('Write_interval', 0.), ('Iterations', 0.)])
+            Label_array = list(Value_dict.keys())
+            Label_values = list(Value_dict.values())
+            j = 0
+            for i in range(0, len(Label_dict)):
+                k = 2
+                Label(self, text=Label_dict[i]).grid(row=i, column=0,  padx=5, pady=5)
+                Label(self, text=Unit_list[i]).grid(row=i, column=1, padx=5, pady=5)
+                if vector_dis[i] == 0.:
+                    Label_values[j] = DoubleVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Value_dict[Label_array[j]].grid(row=i, column=2)
+                    j = j+1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j+3):
+                        Label_values[j] = DoubleVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]].grid(row=i, column=k)
+                        k = k+1
+                    j = j+1
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array,n)).grid(row=len(Label_array)+3, column=3)
             Button(self, text='Run', width=5, command=Runsolver).grid(row=len(Label_array)+4, column=3)
 
 
@@ -140,10 +188,23 @@ def Runsolver(Casepath, OFpath):
     os.system(Total)
 
 
-def save(label_values):
+def save(label_values, label_dict, label_array, menu_number):
+    input_list = list(label_array)
     for i in range(0, len(label_values)):
-        print(label_values[i].get())
-        print(type(label_values[i].get()))
+        label_dict[input_list[i]] = label_values[i].get()
+    if menu_number == 1:
+        with open('./Case/constant/transportProperties', "w") as text_file:
+            text_file.write(PreFile.transportProperties_save(label_dict))
+        with open('./Case/constant/g', "w") as text_file:
+            text_file.write(PreFile.g_save(label_dict))
+    elif menu_number == 2:
+        with open('./Case/constant/physicalParameters', "w") as text_file:
+            text_file.write(PreFile.physicalParameters_save(label_dict))
+    elif menu_number == 3:
+        with open('./Case/system/controlDict', "w") as text_file:
+            text_file.write(PreFile.controlDict_save(label_dict))
+        with open('./Case/system/fvSolution', "w") as text_file:
+            text_file.write(PreFile.fvSolution_save(label_dict))
 
 
 app = Application()

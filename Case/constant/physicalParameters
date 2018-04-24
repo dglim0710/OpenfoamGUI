@@ -1,3 +1,4 @@
+
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | foam-extend: Open Source CFD                    |
@@ -15,40 +16,41 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 // nozzleType
-nozzleType "circular";
+nozzleType "Rectangular";
 
 h0 h0 [ 0 1 0 0 0 0 0] 1e-10;
 
 hTol hTol [ 0 1 0 0 0 0 0] 1e-5;
 
 
-Omega (0 0 52.36);
+Omega (0.0 0.0 0.0);
 
 Oxyz     (0 0 0);
 
 //Nozzle initial location
-Jxyz0	(0 0 0);
+Jxyz0	(0.0 0.0 0.0);
 
 //nozzle velocity magnitude, i.e. the magnitude of velocity at which nozzle moves, do not confuse it with jet velocity
-NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	0.0No;
+NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	0.0;
 
 // unit tangential vector of nozzle motion path
-NozzleMotionDir		(0.70710678 0.70710678 0);
-	
-JetR JetR  [0 1 0 0 0 0 0]	0.005;
+NozzleMotionDir		(0.7071067811865476 0.7071067811865476 0.0);
 
-JetH JetH  [0 1 0 0 0 0 0]	0.0066;
+JetR JetR  [0 1 0 0 0 0 0]	0.0;
 
-JetW JetW  [0 1 0 0 0 0 0]	0.001;
+JetH JetH  [0 1 0 0 0 0 0]	0.0;
 
-JetL JetL  [0 1 0 0 0 0 0]	0.11;
+JetW JetW  [0 1 0 0 0 0 0]	0.0;
 
-JetAngle JetAngle  [0 0 0 0 0 0 0]	0.785398163; //45 degree
+JetL JetL  [0 1 0 0 0 0 0]	0.0;
+
+JetAngle JetAngle  [0 0 0 0 0 0 0]	0.0; //45 degree
 
 
-hFixedVal hFixedVal  [0 1 0 0 0 0 0]	0.0005;
+hFixedVal hFixedVal  [0 1 0 0 0 0 0]	0.0;
 
-UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	1.5;
+UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	0.0;
 
 
 // ************************************************************************* //
+    

@@ -1,3 +1,4 @@
+
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | foam-extend: Open Source CFD                    |
@@ -24,7 +25,7 @@ solvers
         tolerance       1e-09;
         relTol          0.0001;
 	}
-	
+
     U
     {
         solver          BiCGStab;
@@ -57,7 +58,7 @@ PISO
 PIMPLE
 {
     momentumPredictor yes;
-    nOuterCorrectors 15;
+    nOuterCorrectors 0.0;
     nCorrectors     4;
     nNonOrthogonalCorrectors 0;
     nAlphaCorr      2;
@@ -71,3 +72,4 @@ relaxationFactors
 }
 
 // ************************************************************************* //
+    
