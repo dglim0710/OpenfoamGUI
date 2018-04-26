@@ -304,28 +304,28 @@ FoamFile
 
 solvers
 {
-	psi
+    psi
     {
-		solver          BiCGStab;
+        solver          BiCGStab;
         preconditioner  ILU0;
-        tolerance       1e-09;
-        relTol          0.0001;
-	}
+        tolerance       $psi_abs;
+        relTol          $psi_rel;
+    }
 
     U
     {
         solver          BiCGStab;
         preconditioner  ILU0;
-        tolerance       1e-09;
-        relTol          0.0001;
+        tolerance       $u_abs;
+        relTol          $u_rel;
     }
 
     h
     {
         solver          BiCGStab;
         preconditioner  ILU0;
-        tolerance       1e-09;
-        relTol          0.0001;
+        tolerance       $h_abs;
+        relTol          $h_rel;
     }
 }
 
@@ -353,12 +353,13 @@ PIMPLE
 
 relaxationFactors
 {
-    h 0.2;
-    U 0.2;
+    h $h_relax;
+    U $u_relax;
 }
-
 // ************************************************************************* //
     ''')
-    builded = fvSolution.substitute(Iterations=parsed['Iterations'])
+
+    builded = fvSolution.substitute(Iterations=parsed['Iterations'], psi_abs=parsed['psi_abs'], psi_rel=parsed['psi_rel'], u_abs=parsed['u_abs'], u_rel=parsed['u_rel'], h_abs=parsed['h_abs'], h_rel=parsed['h_rel'], u_relax=parsed['u_relax'], h_relax=parsed['h_relax'])
+
     return builded
 

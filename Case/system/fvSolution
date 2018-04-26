@@ -18,13 +18,13 @@ FoamFile
 
 solvers
 {
-	psi
+    psi
     {
-		solver          BiCGStab;
+        solver          BiCGStab;
         preconditioner  ILU0;
         tolerance       1e-09;
         relTol          0.0001;
-	}
+    }
 
     U
     {
@@ -58,7 +58,7 @@ PISO
 PIMPLE
 {
     momentumPredictor yes;
-    nOuterCorrectors 0.0;
+    nOuterCorrectors 15;
     nCorrectors     4;
     nNonOrthogonalCorrectors 0;
     nAlphaCorr      2;
@@ -70,6 +70,5 @@ relaxationFactors
     h 0.2;
     U 0.2;
 }
-
 // ************************************************************************* //
     
