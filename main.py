@@ -19,7 +19,7 @@ class task_frame(LabelFrame):
         self.create_task()
 
     def create_task(self):
-        tree_menu_list = ['Basic setting', 'Properties', 'Nozzle spec', 'Solution control', 'Boundary condition', 'Solution scheme', 'Sovler control', 'Meshing']
+        tree_menu_list = ['Basic setting', 'Properties', 'Nozzle spec', 'Solution control', 'Boundary condition', 'Solution scheme', 'Sovler control', 'Meshing', 'Result']
         fontsize = 30
 
         if n == 0:
@@ -67,7 +67,7 @@ class task_frame(LabelFrame):
                     j = j+1
             Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=6, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+10, column=0, pady=5)
-            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+10, column=1, rowspan=1, columnspan=6)
+            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+10, column=2, rowspan=1, columnspan=3)
         elif n == 2:
             self.config(text=tree_menu_list[n], font=fontsize)
             Label_dict = ['Type', 'Location', 'Omega', 'Nozzle direction', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity', 'Thickness tol1', 'Thickness tol2']
@@ -217,12 +217,19 @@ class task_frame(LabelFrame):
             Label(self, text=Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif n == 7:
             self.config(text=tree_menu_list[n], font=fontsize)
+        elif n == 8:
+            self.config(text=tree_menu_list[n], font=fontsize)
+            Label(self, text='Case folder : ', width=10).grid(row=0, column=0)
+            Label(self, text=Case_folder_path).grid(row=0, column=1, columnspan=2)
+            bt1 = Button(self, text='Browse', command=lambda: Case_browse_button(), width=5)
+            bt1.grid(row=0, column=3)
+            bt1 = Button(self, text='Result', command=lambda: paraFoam(Case_folder_path, Of_folder_path), width=5)
+            bt1.grid(row=1, column=3)
 
 class tree_frame(LabelFrame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        fontsize = 1
-        self.config(text='Tree menu', bg='white', bd=4, font=fontsize)
+        self.config(text='Tree menu', bg='white', bd=4, font=1)
         self.render()
 
     def render(self):
@@ -279,7 +286,7 @@ class tree_frame(LabelFrame):
         label3 = Label(self, text='- Post-process')
         label3.grid(row=14, column=0, padx=2, pady=2)
         label3.config(bg='white', activebackground='gray')
-        bt7 = Button(self, text='Result', width=15, command=lambda: paraFoam(Case_folder_path, Of_folder_path))
+        bt7 = Button(self, text='Result', width=15, command=lambda: replace_task_frame(8))
         bt7.grid(row=15, column=0, padx=2, pady=2)
         bt7.config(bg='white', activebackground='gray', bd=0)
 
@@ -311,7 +318,7 @@ class logo_frame(Frame):
 class Application(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.title('Dev Simulator')
+        self.title('Developer Simulator_V_0.1')
         self.geometry()
         self.render()
 
@@ -384,6 +391,8 @@ def save(label_values, label_dict, label_array, menu_number):
             MessageBox.Simulationtime_error()
         elif Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
             MessageBox.UnselectedFolder()
+        elif label_dict['Time_step'] == 0. or label_dict['Write_interval'] == 0:
+            MessageBox.Timestep_error()
         else:
             MessageBox.Save_complete()
             with open(Case_folder_path+'/system/controlDict', "w") as text_file:

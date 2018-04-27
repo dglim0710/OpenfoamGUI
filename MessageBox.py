@@ -20,3 +20,6 @@ def Float_warning():
 
 def UnselectedFolder():
     tkinter.messagebox.showwarning('Warning', 'Set a folder of a simluation.\n Click Basic setting \u2192 Browse')
+
+def Timestep_error():
+    tkinter.messagebox.showwarning('Warning', 'Time step should be more than zero.')
