@@ -37,6 +37,7 @@ class task_frame(LabelFrame):
             self.config(text=tree_menu_list[n], font=fontsize)
             Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity']
             Unit_list = ['[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb2]', '[m/s\xb2]']
+            default_value = [0., 0., 0., 0., 0., 0., 0., -9.81]
             vector_dis = [0., 0., 0., 0., 0., 1.]
             int_dis = [0., 0., 0., 0., 0., 0., 0., 0.]
             Value_dict = OrderedDict([('Liquid_Density', 0.), ('Liquid_Viscosity', 0.), ('Gas_Density', 0.), ('Gas_Viscosity', 0.), ('Surface_tension', 0),('GravityX', 0.), ('GravityY', 0.), ('GravityZ', 0.)])
@@ -53,6 +54,7 @@ class task_frame(LabelFrame):
                     elif int_dis[j] == 1.:
                         Label_values[j] = IntVar()
                     Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(default_value[j])
                     Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
                     j = j+1
                 elif vector_dis[i] == 1.:
@@ -62,6 +64,7 @@ class task_frame(LabelFrame):
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
                         Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(default_value[j])
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
@@ -114,6 +117,7 @@ class task_frame(LabelFrame):
             Unit_list = ['[s]', '[s]', '[s]', '', '']
             vector_dis = [0., 0., 0., 0., 0.]
             int_dis = [0., 0., 0., 1., 1.]
+            default_value = [0., 0., 1e-6, 100]
             Value_dict = OrderedDict([('Start_time', 0.), ('End_time', 0.), ('Time_step', 0.), ('Write_interval', 0.)])
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
@@ -128,6 +132,7 @@ class task_frame(LabelFrame):
                     elif int_dis[j] == 1.:
                         Label_values[j] = IntVar()
                     Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(default_value[j])
                     Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
                     j = j+1
                 elif vector_dis[i] == 1.:
@@ -137,10 +142,11 @@ class task_frame(LabelFrame):
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
                         Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(default_value[j])
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=3, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n, int_dis)).grid(row=len(Label_dict)+3, column=3, pady=5, sticky=E)
             Button(self, text='Run', width=5, command=lambda: Runsolver(Case_folder_path, Of_folder_path)).grid(row=len(Label_array)+4, column=3, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
             Label(self, text=Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
@@ -217,6 +223,45 @@ class task_frame(LabelFrame):
             Label(self, text=Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif n == 7:
             self.config(text=tree_menu_list[n], font=fontsize)
+            Label_dict = ['Mesh type', 'Mesh size']
+            vector_dis = [0., 0.]
+            Unit_list = ['', '[m]']
+            Value_dict = OrderedDict([('Mesh_Type', 0.), ('Mesh_size', 0.)])
+            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,]
+            Label_array = list(Value_dict.keys())
+            Label_values = list(Value_dict.values())
+            OptionList = ['Triangular', 'Hexagonal']
+            Label_values[0] = StringVar()
+            Label_values[0].set(OptionList[1])
+            Label(self, text=Label_dict[0]).grid(row=0, column=0, pady=5)
+            OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=2)
+            j = 1
+            for i in range(1, len(Label_dict)):
+                k = 2
+                Label(self, text=Label_dict[i]).grid(row=i, column=0, columnspan=1, pady=5)
+                Label(self, text=Unit_list[i]).grid(row=i, column=1)
+                if vector_dis[i] == 0.:
+                    if int_dis[j] == 0.:
+                        Label_values[j] = DoubleVar()
+                    elif int_dis[j] == 1.:
+                        Label_values[j] = IntVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
+                    j = j+1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j+3):
+                        if int_dis[j] == 0.:
+                            Label_values[j] = DoubleVar()
+                        elif int_dis[j] == 1.:
+                            Label_values[j] = IntVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
+                        k = k+1
+                    j=j+1
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=6, pady=5)
+            Button(self, text='Generate mesh', command=lambda: GenerateMesh(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=5)
+            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
+            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
         elif n == 8:
             self.config(text=tree_menu_list[n], font=fontsize)
             Label(self, text='Case folder : ', width=10).grid(row=0, column=0)
@@ -354,6 +399,18 @@ def Runsolver(Casepath, OFpath):
     os.system(Total)
 
 
+def GenerateMesh(mesh_type):
+    if mesh_type == 'Triangular':
+        mesh_name = 'Mesh_Tri.py'
+    elif mesh_type == 'Hexagonal':
+        mesh_name = 'Mesh_Hexa.py'
+    print(mesh_name)
+    Salomepath = 'cd ./SALOME/WORK &&'
+    RUNSalome = 'run_salome.bat '
+    total = Salomepath+RUNSalome+mesh_name
+    os.system(total)
+
+
 def Case_browse_button():
     global Case_folder_path
     Case_folder_path = filedialog.askdirectory()
@@ -367,7 +424,10 @@ def Of_browse_button():
 def save(label_values, label_dict, label_array, menu_number):
     input_list = list(label_array)
     for i in range(0, len(label_values)):
+        # if int_check[i] == 1. and type(label_values[i].get()) is not int:
+            # MessageBox.Float_warning()
         label_dict[input_list[i]] = label_values[i].get()
+
     if menu_number == 1:
         if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
             MessageBox.Zero_warning()
