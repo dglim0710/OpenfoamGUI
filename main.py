@@ -35,7 +35,7 @@ class task_frame(LabelFrame):
             bt1.grid(row=1, column=3)
         elif n == 1:
             self.config(text=tree_menu_list[n], font=fontsize)
-            Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity']
+            Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity (x, y, z)']
             Unit_list = ['[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb2]', '[m/s\xb2]']
             default_value = [0., 0., 0., 0., 0., 0., 0., -9.81]
             vector_dis = [0., 0., 0., 0., 0., 1.]
@@ -73,7 +73,7 @@ class task_frame(LabelFrame):
             Label(self, text=Case_folder_path).grid(row=len(Label_dict)+10, column=2, rowspan=1, columnspan=3)
         elif n == 2:
             self.config(text=tree_menu_list[n], font=fontsize)
-            Label_dict = ['Type', 'Location', 'Omega', 'Nozzle direction', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity', 'Thickness tol1', 'Thickness tol2']
+            Label_dict = ['Type', 'Location  (x, y, z)', 'Omega  (x, y, z)', 'Nozzle direction  (x, y, z)', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity', 'Thickness tol1', 'Thickness tol2']
             vector_dis = [0., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
             Unit_list = ['', '[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]', '', '']
             Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.), ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.), ('Nozzle_velocity', 0.),  ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.), ('Thickness_tol1', 0.), ('Thickness_tol2', 0.)])
@@ -86,7 +86,7 @@ class task_frame(LabelFrame):
             Label(self, text=Label_dict[0]).grid(row=0, column=0, pady=5)
             OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=1, columnspan=2)
             j = 1
-            for i in range(1, len(Label_dict)):
+            for i in range(1, len(Label_dict)-2):
                 k = 2
                 Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
                 Label(self, text=Unit_list[i], width=10).grid(row=i, column=1)
@@ -404,7 +404,6 @@ def GenerateMesh(mesh_type):
         mesh_name = 'Mesh_Tri.py'
     elif mesh_type == 'Hexagonal':
         mesh_name = 'Mesh_Hexa.py'
-    print(mesh_name)
     Salomepath = 'cd ./SALOME/WORK &&'
     RUNSalome = 'run_salome.bat '
     total = Salomepath+RUNSalome+mesh_name
@@ -464,6 +463,9 @@ def save(label_values, label_dict, label_array, menu_number):
             MessageBox.Save_complete()
             with open(Case_folder_path+'/system/fvSolution', "w") as text_file:
                 text_file.write(PreFile.fvSolution_save(label_dict))
+
+
+
 
 
 app = Application()
