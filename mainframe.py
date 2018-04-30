@@ -142,7 +142,7 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=3, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=3, pady=2, sticky=E)
             Button(self, text='Run', width=5, command=lambda: Runsolver(globalvar.Case_folder_path, globalvar.Of_folder_path)).grid(row=len(Label_array)+4, column=3, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
@@ -254,12 +254,12 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=5)
-            Button(self, text='Meshing', command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=5)
-            Button(self, text='Generate mesh', command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=6, pady=5)
-            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=5)
+            Button(self, text='Save', width=10, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=2)
+            Button(self, text='Meshing', width=10,command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=2)
+            Button(self, text='Generate mesh', width=10,command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=6, pady=2)
+            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=2)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
-        elif n == 8:
+        elif globalvar.n == 8:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label(self, text='Case folder : ', width=10).grid(row=0, column=0)
             Label(self, text=globalvar.Case_folder_path).grid(row=0, column=1, columnspan=2)
@@ -279,24 +279,23 @@ class tree_frame(LabelFrame):
         self.create_tree()
 
     def create_tree(self):
-        global Case_folder_path
-        global Of_folder_path
         label1 = Label(self, text='- Pre-process')
         label1.grid(row=0, column=0, padx=2, pady=2)
         label1.config(bg='white', activebackground='gray')
-        bt0 = Button(self, text='Meshing', command=lambda: replace_task_frame(7), width=15)
+
+        bt0 = Button(self, text='Basic setting', command=lambda: replace_task_frame(0), width=15)
         bt0.grid(row=1, column=0, padx=2, pady=2)
+        bt0.config(bg='white', activebackground='gray', bd=0)
+        bt0 = Button(self, text='Meshing', command=lambda: replace_task_frame(7), width=15)
+        bt0.grid(row=2, column=0, padx=2, pady=2)
         bt0.config(bg='white', activebackground='gray', bd=0)
 
         empty0 = Label(self, text='')
-        empty0.grid(row=2, column=0, padx=2, pady=2)
+        empty0.grid(row=3, column=0, padx=2, pady=2)
         empty0.config(bg='white', activebackground='gray')
-        label1 = Label(self, text='- Settings')
-        label1.grid(row=3, column=0, padx=2, pady=2)
-        label1.config(bg='white', activebackground='gray')
-        bt0 = Button(self, text='Basic setting', command=lambda: replace_task_frame(0), width=15)
-        bt0.grid(row=4, column=0, padx=2, pady=2)
-        bt0.config(bg='white', activebackground='gray', bd=0)
+        label2 = Label(self, text='- Settings')
+        label2.grid(row=4, column=0, padx=2, pady=2)
+        label2.config(bg='white', activebackground='gray')
         bt1 = Button(self, text='Properties', command=lambda: replace_task_frame(1), width=15)
         bt1.grid(row=5, column=0, padx=2, pady=2)
         bt1.config(bg='white', activebackground='gray', bd=0)
@@ -310,9 +309,9 @@ class tree_frame(LabelFrame):
         empty1 = Label(self, text='')
         empty1.grid(row=8, column=0, padx=2, pady=2)
         empty1.config(bg='white', activebackground='gray')
-        label2 = Label(self, text='- Advanced settings')
-        label2.grid(row=9, column=0, padx=2, pady=2)
-        label2.config(bg='white', activebackground='gray')
+        label3 = Label(self, text='- Advanced settings')
+        label3.grid(row=9, column=0, padx=2, pady=2)
+        label3.config(bg='white', activebackground='gray')
         # bt4 = Button(self, text='Boundary condition', command=lambda: replace_task_frame(4), width=15)
         # bt4.grid(row=10, column=0, padx=2, pady=2)
         # bt4.config(bg='white', activebackground='gray', bd=0)
@@ -326,9 +325,9 @@ class tree_frame(LabelFrame):
         empty2 = Label(self, text='')
         empty2.grid(row=13, column=0, padx=2, pady=2)
         empty2.config(bg='white', activebackground='gray')
-        label3 = Label(self, text='- Post-process')
-        label3.grid(row=14, column=0, padx=2, pady=2)
-        label3.config(bg='white', activebackground='gray')
+        label4 = Label(self, text='- Post-process')
+        label4.grid(row=14, column=0, padx=2, pady=2)
+        label4.config(bg='white', activebackground='gray')
         bt7 = Button(self, text='Result', width=15, command=lambda: replace_task_frame(8))
         bt7.grid(row=15, column=0, padx=2, pady=2)
         bt7.config(bg='white', activebackground='gray', bd=0)
