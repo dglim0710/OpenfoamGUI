@@ -1,13 +1,10 @@
 from tkinter import *
 from tkinter import filedialog
 from collections import OrderedDict
+import globalvar
 import os
 import PreFile
 import MessageBox
-
-n = 0
-Case_folder_path = '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !'
-Of_folder_path = '! Set the path of the Openfoam folder !'
 
 
 class task_frame(LabelFrame):
@@ -22,19 +19,18 @@ class task_frame(LabelFrame):
         tree_menu_list = ['Basic setting', 'Properties', 'Nozzle spec', 'Solution control', 'Boundary condition', 'Solution scheme', 'Sovler control', 'Meshing', 'Result']
         fontsize = 30
 
-        if n == 0:
-            global Case_folder_path
-            self.config(text=tree_menu_list[n], font=fontsize)
+        if globalvar.n == 0:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label(self, text='Case folder : ', width=15).grid(row=0, column=0)
-            Label(self, text=Case_folder_path).grid(row=0, column=1, columnspan=2)
+            Label(self, text=globalvar.Case_folder_path).grid(row=0, column=1, columnspan=2)
             bt1 = Button(self, text='Browse', command=lambda: Case_browse_button())
             bt1.grid(row=0, column=3)
             Label(self, text='Openfoam folder : ', width=15).grid(row=1, column=0)
-            Label(self, text=Of_folder_path).grid(row=1, column=1, columnspan=2)
+            Label(self, text=globalvar.Of_folder_path).grid(row=1, column=1, columnspan=2)
             bt1 = Button(self, text='Browse', command=lambda: Of_browse_button())
             bt1.grid(row=1, column=3)
-        elif n == 1:
-            self.config(text=tree_menu_list[n], font=fontsize)
+        elif globalvar.n == 1:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity (x, y, z)']
             Unit_list = ['[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb2]', '[m/s\xb2]']
             default_value = [0., 0., 0., 0., 0., 0., 0., -9.81]
@@ -68,16 +64,16 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=6, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+10, column=0, pady=5)
-            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+10, column=2, rowspan=1, columnspan=3)
-        elif n == 2:
-            self.config(text=tree_menu_list[n], font=fontsize)
-            Label_dict = ['Type', 'Location  (x, y, z)', 'Omega  (x, y, z)', 'Nozzle direction  (x, y, z)', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity', 'Thickness tol1', 'Thickness tol2']
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+10, column=2, rowspan=1, columnspan=3)
+        elif globalvar.n == 2:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
+            Label_dict = ['Type', 'Location  (x, y, z)', 'Omega  (x, y, z)', 'Nozzle direction  (x, y, z)', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity']
             vector_dis = [0., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-            Unit_list = ['', '[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]', '', '']
-            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.), ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.), ('Nozzle_velocity', 0.),  ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.), ('Thickness_tol1', 0.), ('Thickness_tol2', 0.)])
-            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,]
+            Unit_list = ['', '[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]']
+            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.), ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.), ('Nozzle_velocity', 0.),  ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
+            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
             OptionList = ['circular', 'rectangular']
@@ -86,7 +82,7 @@ class task_frame(LabelFrame):
             Label(self, text=Label_dict[0]).grid(row=0, column=0, pady=5)
             OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=1, columnspan=2)
             j = 1
-            for i in range(1, len(Label_dict)-2):
+            for i in range(1, len(Label_dict)):
                 k = 2
                 Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
                 Label(self, text=Unit_list[i], width=10).grid(row=i, column=1)
@@ -108,11 +104,11 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=6, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
-            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=6)
-        elif n == 3:
-            self.config(text=tree_menu_list[n], font=fontsize)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=6)
+        elif globalvar.n == 3:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Start time', 'End time', 'Time step', 'Write interval']
             Unit_list = ['[s]', '[s]', '[s]', '', '']
             vector_dis = [0., 0., 0., 0., 0.]
@@ -146,16 +142,16 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n, int_dis)).grid(row=len(Label_dict)+3, column=3, pady=5, sticky=E)
-            Button(self, text='Run', width=5, command=lambda: Runsolver(Case_folder_path, Of_folder_path)).grid(row=len(Label_array)+4, column=3, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=3, pady=5, sticky=E)
+            Button(self, text='Run', width=5, command=lambda: Runsolver(globalvar.Case_folder_path, globalvar.Of_folder_path)).grid(row=len(Label_array)+4, column=3, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
-            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
-        elif n == 4:
-            self.config(text=tree_menu_list[n], font=fontsize)
-        elif n == 5:
-            self.config(text=tree_menu_list[n], font=fontsize)
-        elif n == 6:
-            self.config(text=tree_menu_list[n], font=fontsize)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
+        elif globalvar.n == 4:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
+        elif globalvar.n == 5:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
+        elif globalvar.n == 6:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['\u03A8', 'U', 'h', 'U', 'h',  'Iterations']
             Value_dict = OrderedDict([('psi_abs', 0.), ('psi_rel', 0.), ('u_abs', 0.), ('u_rel', 0.), ('h_abs', 0.), ('h_rel', 0.), ('u_relax', 0.), ('h_relax', 0.), ('Iterations', 0.)])
             vector_dis = [1., 1., 1., 0., 0., 0.]
@@ -218,11 +214,11 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i+3, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+5, column=3, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+5, column=3, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=5)
-            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
-        elif n == 7:
-            self.config(text=tree_menu_list[n], font=fontsize)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
+        elif globalvar.n == 7:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Mesh type', 'Mesh size']
             vector_dis = [0., 0.]
             Unit_list = ['', '[m]']
@@ -258,18 +254,20 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, n)).grid(row=len(Label_dict)+3, column=6, pady=5)
-            Button(self, text='Generate mesh', command=lambda: GenerateMesh(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=5)
-            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
-            Label(self, text=Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=5)
+            Button(self, text='Meshing', command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=5)
+            Button(self, text='Generate mesh', command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=6, pady=5)
+            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=5)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif n == 8:
-            self.config(text=tree_menu_list[n], font=fontsize)
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label(self, text='Case folder : ', width=10).grid(row=0, column=0)
-            Label(self, text=Case_folder_path).grid(row=0, column=1, columnspan=2)
+            Label(self, text=globalvar.Case_folder_path).grid(row=0, column=1, columnspan=2)
             bt1 = Button(self, text='Browse', command=lambda: Case_browse_button(), width=5)
             bt1.grid(row=0, column=3)
-            bt1 = Button(self, text='Result', command=lambda: paraFoam(Case_folder_path, Of_folder_path), width=5)
+            bt1 = Button(self, text='Result', command=lambda: paraFoam(globalvar.Case_folder_path, globalvar.Of_folder_path), width=5)
             bt1.grid(row=1, column=3)
+
 
 class tree_frame(LabelFrame):
     def __init__(self, *args, **kwargs):
@@ -375,12 +373,14 @@ class Application(Tk):
 
 
 def replace_task_frame(menu_number):
-    global n
     global b
-    n = menu_number
+    globalvar.n = menu_number
     b.destroy()
     b = task_frame(app)
     b.pack(side=RIGHT, fill=BOTH, expand=Y)
+
+
+#------------------------------------------------Button function--------------------------------------------------------
 
 
 def paraFoam(Casepath, OFpath):
@@ -399,7 +399,7 @@ def Runsolver(Casepath, OFpath):
     os.system(Total)
 
 
-def GenerateMesh(mesh_type):
+def meshing(mesh_type):
     if mesh_type == 'Triangular':
         mesh_name = 'Mesh_Tri.py'
     elif mesh_type == 'Hexagonal':
@@ -410,14 +410,25 @@ def GenerateMesh(mesh_type):
     os.system(total)
 
 
+def geneartemesh(Casepath, OFpath, mesh_type):
+    if mesh_type == 'Triangular':
+        mesh_name = 'Mesh_Tri.unv'
+    elif mesh_type == 'Hexagonal':
+        mesh_name = 'Mesh_Hexa.unv'
+    Casepath = 'cd '+Casepath+' && '
+    OFpath = 'call '+OFpath+'/foamWindowsEnvironment.bat'+' && '
+    generateMesh = 'ideasUnvToFoam '
+    changeDictionary = ' && changeDictionary'
+    Total = Casepath+OFpath+generateMesh+mesh_name+changeDictionary
+    os.system(Total)
+
+
 def Case_browse_button():
-    global Case_folder_path
-    Case_folder_path = filedialog.askdirectory()
+    globalvar.Case_folder_path = filedialog.askdirectory()
 
 
 def Of_browse_button():
-    global Of_folder_path
-    Of_folder_path = filedialog.askdirectory()
+    globalvar.Of_folder_path = filedialog.askdirectory()
 
 
 def save(label_values, label_dict, label_array, menu_number):
@@ -430,42 +441,46 @@ def save(label_values, label_dict, label_array, menu_number):
     if menu_number == 1:
         if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
             MessageBox.Zero_warning()
-        elif Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(Case_folder_path+'/constant/transportProperties', "w") as text_file:
+            with open(globalvar.Case_folder_path+'/constant/transportProperties', "w") as text_file:
                 text_file.write(PreFile.transportProperties_save(label_dict))
-            with open(Case_folder_path+'/constant/g', "w") as text_file:
+            with open(globalvar.Case_folder_path+'/constant/g', "w") as text_file:
                 text_file.write(PreFile.g_save(label_dict))
     elif menu_number == 2:
-        if Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(Case_folder_path+'/constant/physicalParameters', "w") as text_file:
+            with open(globalvar.Case_folder_path+'/constant/physicalParameters', "w") as text_file:
                 text_file.write(PreFile.physicalParameters_save(label_dict))
     elif menu_number == 3:
         if label_dict['Start_time'] > label_dict['End_time']:
             MessageBox.Simulationtime_error()
-        elif Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
             MessageBox.UnselectedFolder()
         elif label_dict['Time_step'] == 0. or label_dict['Write_interval'] == 0:
             MessageBox.Timestep_error()
         else:
             MessageBox.Save_complete()
-            with open(Case_folder_path+'/system/controlDict', "w") as text_file:
+            with open(globalvar.Case_folder_path+'/system/controlDict', "w") as text_file:
                 text_file.write(PreFile.controlDict_save(label_dict))
     elif menu_number == 6:
-        if Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(Case_folder_path+'/system/fvSolution', "w") as text_file:
+            with open(globalvar.Case_folder_path+'/system/fvSolution', "w") as text_file:
                 text_file.write(PreFile.fvSolution_save(label_dict))
+    elif menu_number == 7:
+        MessageBox.Save_complete()
+        with open('./SALOME/WORK/Mesh_Tri.py', "w") as text_file:
+            text_file.write(PreFile.mesh_save(label_dict))
 
 
-
+#----------------------------------------------------------------------------------------------------------------------
 
 
 app = Application()
