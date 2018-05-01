@@ -405,17 +405,17 @@ def replace_task_frame(menu_number):
 
 def paraFoam(Casepath):
     Casepath = 'cd '+Casepath+' && '
-    OFpath = 'call ./Openfoam/foamWindowsEnvironment.bat && '
+    OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
     Runpara = 'paraFoam'
-    Total = Casepath+OFpath+Runpara
+    Total = OFpath+Casepath+Runpara
     os.system(Total)
 
 
 def Runsolver(Casepath):
     Casepath = 'cd '+Casepath+' && '
-    OFpath = 'call ./Openfoam/foamWindowsEnvironment.bat && '
+    OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
     RunOP = 'samsungFoamFVTPM7'
-    Total = Casepath+OFpath+RunOP
+    Total = OFpath+Casepath+RunOP
     os.system(Total)
 
 
@@ -436,10 +436,10 @@ def geneartemesh(Casepath, OFpath, mesh_type):
     elif mesh_type == 'Hexagonal':
         mesh_name = 'Mesh_Hexa.unv'
     Casepath = 'cd '+Casepath+' && '
-    OFpath = 'call ./Openfoam/foamWindowsEnvironment.bat && '
+    OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
     generateMesh = 'ideasUnvToFoam '
     changeDictionary = ' && changeDictionary'
-    Total = Casepath+OFpath+generateMesh+mesh_name+changeDictionary
+    Total = OFpath+Casepath+generateMesh+mesh_name+changeDictionary
     os.system(Total)
 
 
