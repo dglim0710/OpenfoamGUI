@@ -64,9 +64,9 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=5, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+10, column=0, pady=5)
-            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+10, column=2, rowspan=1, columnspan=3)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+10, column=1, columnspan=5)
         elif globalvar.n == 2:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Type', 'Location  (x, y, z)', 'Omega  (x, y, z)', 'Nozzle direction  (x, y, z)', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity']
@@ -104,9 +104,9 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=5, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
-            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=6)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=5)
         elif globalvar.n == 3:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Start time', 'End time', 'Time step', 'Write interval']
@@ -214,9 +214,9 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i+3, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+5, column=3, pady=5, sticky=E)
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+5, column=4, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=5)
-            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=4)
         elif globalvar.n == 7:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Mesh type', 'Maximum mesh size']
@@ -254,9 +254,9 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
-            Button(self, text='Save', width=12, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=2)
-            Button(self, text='Meshing', width=12,command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=2)
-            Button(self, text='Generate mesh', width=12,command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=6, pady=2)
+            Button(self, text='Save', width=12, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=3, pady=2)
+            Button(self, text='Meshing', width=12,command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=3, pady=2)
+            Button(self, text='Generate mesh', width=12,command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=3, pady=2)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=2)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif globalvar.n == 8:
@@ -461,7 +461,7 @@ def save(label_values, label_dict, label_array, menu_number):
     if menu_number == 1:
         if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
             MessageBox.Zero_warning()
-        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
@@ -470,7 +470,7 @@ def save(label_values, label_dict, label_array, menu_number):
             with open(globalvar.Case_folder_path+'/constant/g', "w") as text_file:
                 text_file.write(PreFile.g_save(label_dict))
     elif menu_number == 2:
-        if globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
@@ -479,7 +479,7 @@ def save(label_values, label_dict, label_array, menu_number):
     elif menu_number == 3:
         if label_dict['Start_time'] > label_dict['End_time']:
             MessageBox.Simulationtime_error()
-        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         elif label_dict['Time_step'] == 0. or label_dict['Write_interval'] == 0:
             MessageBox.Timestep_error()
@@ -488,16 +488,19 @@ def save(label_values, label_dict, label_array, menu_number):
             with open(globalvar.Case_folder_path+'/system/controlDict', "w") as text_file:
                 text_file.write(PreFile.controlDict_save(label_dict))
     elif menu_number == 6:
-        if globalvar.Case_folder_path == '! Set the path of a simulation folder !\n ! Click Basic setting \u2192 Browse !':
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/system/fvSolution', "w") as text_file:
                 text_file.write(PreFile.fvSolution_save(label_dict))
     elif menu_number == 7:
-        MessageBox.Save_complete()
-        with open('./SALOME/WORK/Mesh_Tri.py', "w") as text_file:
-            text_file.write(PreFile.mesh_save(label_dict))
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
+            MessageBox.UnselectedFolder()
+        else :
+            MessageBox.Save_complete()
+            with open('./SALOME/WORK/Mesh_Tri.py', "w") as text_file:
+                text_file.write(PreFile.mesh_save(label_dict))
 
 
 #----------------------------------------------------------------------------------------------------------------------
