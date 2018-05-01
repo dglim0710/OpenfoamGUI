@@ -143,7 +143,7 @@ class task_frame(LabelFrame):
                         k = k+1
                     j = j+1
             Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=3, pady=2, sticky=E)
-            Button(self, text='Run', width=5, command=lambda: Runsolver(globalvar.Case_folder_path, globalvar.Of_folder_path)).grid(row=len(Label_array)+4, column=3, sticky=E)
+            Button(self, text='Run', width=5, command=lambda: Runsolver(globalvar.Case_folder_path)).grid(row=len(Label_array)+4, column=3, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
         elif globalvar.n == 4:
@@ -265,7 +265,7 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=0, column=1, columnspan=2)
             bt1 = Button(self, text='Browse', command=lambda: Case_browse_button(), width=5)
             bt1.grid(row=0, column=3)
-            bt1 = Button(self, text='Result', command=lambda: paraFoam(globalvar.Case_folder_path, globalvar.Of_folder_path), width=5)
+            bt1 = Button(self, text='Result', command=lambda: paraFoam(globalvar.Case_folder_path), width=5)
             bt1.grid(row=1, column=3)
 
 
@@ -403,15 +403,15 @@ def replace_task_frame(menu_number):
 #------------------------------------------------Button function--------------------------------------------------------
 
 
-def paraFoam(Casepath, OFpath):
+def paraFoam(Casepath):
     Casepath = 'cd '+Casepath+' && '
-    OFpath = 'call '+OFpath+'/foamWindowsEnvironment.bat'+' && '
+    OFpath = 'call ./Openfoam/foamWindowsEnvironment.bat && '
     Runpara = 'paraFoam'
     Total = Casepath+OFpath+Runpara
     os.system(Total)
 
 
-def Runsolver(Casepath, OFpath):
+def Runsolver(Casepath):
     Casepath = 'cd '+Casepath+' && '
     OFpath = 'call ./Openfoam/foamWindowsEnvironment.bat && '
     RunOP = 'samsungFoamFVTPM7'
