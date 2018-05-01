@@ -25,10 +25,10 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=0, column=1, columnspan=2)
             bt1 = Button(self, text='Browse', command=lambda: Case_browse_button())
             bt1.grid(row=0, column=3)
-            Label(self, text='Openfoam folder : ', width=15).grid(row=1, column=0)
-            Label(self, text=globalvar.Of_folder_path).grid(row=1, column=1, columnspan=2)
-            bt1 = Button(self, text='Browse', command=lambda: Of_browse_button())
-            bt1.grid(row=1, column=3)
+            # Label(self, text='Openfoam folder : ', width=15).grid(row=1, column=0)
+            # Label(self, text=globalvar.Of_folder_path).grid(row=1, column=1, columnspan=2)
+            # bt1 = Button(self, text='Browse', command=lambda: Of_browse_button())
+            # bt1.grid(row=1, column=3)
         elif globalvar.n == 1:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity (x, y, z)']
@@ -219,7 +219,7 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif globalvar.n == 7:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
-            Label_dict = ['Mesh type', 'Mesh size']
+            Label_dict = ['Mesh type', 'Maximum mesh size']
             vector_dis = [0., 0.]
             Unit_list = ['', '[m]']
             Value_dict = OrderedDict([('Mesh_Type', 0.), ('Mesh_size', 0.)])
@@ -254,9 +254,9 @@ class task_frame(LabelFrame):
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
-            Button(self, text='Save', width=10, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=2)
-            Button(self, text='Meshing', width=10,command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=2)
-            Button(self, text='Generate mesh', width=10,command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=6, pady=2)
+            Button(self, text='Save', width=12, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=6, pady=2)
+            Button(self, text='Meshing', width=12,command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=6, pady=2)
+            Button(self, text='Generate mesh', width=12,command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=6, pady=2)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=2)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif globalvar.n == 8:
@@ -357,11 +357,32 @@ class logo_frame(Frame):
         wall.pack()
 
 
+class upper_menu(Menu):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.file_menu()
+        self.help_menu()
+
+    def file_menu(self):
+        filemenu = Menu(self, tearoff=0)
+        filemenu.add_command(label='Open Case folder', command=lambda: Case_browse_button())
+        filemenu.add_separator()
+        filemenu.add_command(label='Exit', command=quit)
+        self.add_cascade(label='File', menu=filemenu)
+
+    def help_menu(self):
+        helpmenu = Menu(self, tearoff=0)
+        helpmenu.add_command(label='Help')
+        helpmenu.add_command(label='About')
+        self.add_cascade(label='Help', menu=helpmenu)
+
+
 class Application(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Developer Simulator_V_0.1')
         self.geometry()
+        self.config(menu=upper_menu())
         self.render()
 
     def render(self):
@@ -392,7 +413,7 @@ def paraFoam(Casepath, OFpath):
 
 def Runsolver(Casepath, OFpath):
     Casepath = 'cd '+Casepath+' && '
-    OFpath = 'call '+OFpath+'/foamWindowsEnvironment.bat'+' && '
+    OFpath = 'call ./Openfoam/foamWindowsEnvironment.bat && '
     RunOP = 'samsungFoamFVTPM7'
     Total = Casepath+OFpath+RunOP
     os.system(Total)
@@ -415,7 +436,7 @@ def geneartemesh(Casepath, OFpath, mesh_type):
     elif mesh_type == 'Hexagonal':
         mesh_name = 'Mesh_Hexa.unv'
     Casepath = 'cd '+Casepath+' && '
-    OFpath = 'call '+OFpath+'/foamWindowsEnvironment.bat'+' && '
+    OFpath = 'call ./Openfoam/foamWindowsEnvironment.bat && '
     generateMesh = 'ideasUnvToFoam '
     changeDictionary = ' && changeDictionary'
     Total = Casepath+OFpath+generateMesh+mesh_name+changeDictionary
