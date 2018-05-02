@@ -69,11 +69,11 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+10, column=1, columnspan=5)
         elif globalvar.n == 2:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
-            Label_dict = ['Type', 'Location  (x, y, z)', 'Omega  (x, y, z)', 'Nozzle direction  (x, y, z)', 'Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity']
-            vector_dis = [0., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-            Unit_list = ['', '[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]']
-            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.), ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.), ('Nozzle_velocity', 0.),  ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
-            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+            Label_dict = ['Type', 'Location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)', 'Nozzle direction (x, y, z)','Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity']
+            vector_dis = [0., 1., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+            Unit_list = ['', '[m]', '[RPM]', '', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]']
+            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.), ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.),  ('jet_directionX', 0.), ('jet_directionY', 0.), ('jet_directionZ', 0.),('Nozzle_velocity', 0.),  ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
+            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
             OptionList = ['circular', 'rectangular']
@@ -497,7 +497,7 @@ def save(label_values, label_dict, label_array, menu_number):
     elif menu_number == 7:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
-        else :
+        else:
             MessageBox.Save_complete()
             with open('./SALOME/WORK/Mesh_Tri.py', "w") as text_file:
                 text_file.write(PreFile.mesh_save(label_dict))

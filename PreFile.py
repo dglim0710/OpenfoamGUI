@@ -166,6 +166,10 @@ NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	$Nozzle_velocity;
 // unit tangential vector of nozzle motion path
 NozzleMotionDir		($Motion_directionX $Motion_directionY $Motion_directionZ);
 
+// unit tangential vector of jet direction
+
+jetDir ($jet_directionX $jet_directionY $jet_directionZ)
+
 JetR JetR  [0 1 0 0 0 0 0]	$Radius;
 
 JetH JetH  [0 1 0 0 0 0 0]	$Height;
@@ -190,11 +194,17 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
     UnitX = parsed['Motion_directionX'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
     UnitY = parsed['Motion_directionY'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
     UnitZ = parsed['Motion_directionZ'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
+    UnitXX = parsed['jet_directionX'] / (parsed['jet_directionX']**2 + parsed['jet_directionY']**2 + parsed['jet_directionZ']**2) ** (1/2)
+    UnitYY = parsed['jet_directionY'] / (parsed['jet_directionX']**2 + parsed['jet_directionY']**2 + parsed['jet_directionZ']**2) ** (1/2)
+    UnitZZ = parsed['jet_directionZ'] / (parsed['jet_directionX']**2 + parsed['jet_directionY']**2 + parsed['jet_directionZ']**2) ** (1/2)
     parsed['Motion_directionX'] = UnitX
     parsed['Motion_directionY'] = UnitY
     parsed['Motion_directionZ'] = UnitZ
+    parsed['jet_directionX'] = UnitXX
+    parsed['jet_directionY'] = UnitYY
+    parsed['jet_directionZ'] = UnitZZ
     parsed['Angle'] = parsed['Angle'] * 3.141592 / 180
-    builded = physicalParameters.substitute(Type=parsed['Type'], OmegaX=parsed['OmegaX'], OmegaY=parsed['OmegaY'], OmegaZ=parsed['OmegaZ'], LocationX=parsed['LocationX'], LocationY=parsed['LocationY'], LocationZ=parsed['LocationZ'], Nozzle_velocity=parsed['Nozzle_velocity'], Motion_directionX=parsed['Motion_directionX'], Motion_directionY=parsed['Motion_directionY'], Motion_directionZ=parsed['Motion_directionZ'], Radius=parsed['Radius'], Height=parsed['Height'], Width=parsed['Width'], Angle=parsed['Angle'], Length=parsed['Length'], Fixed_thickness=parsed['Fixed_thickness'], Jet_velocity=parsed['Jet_velocity'])
+    builded = physicalParameters.substitute(Type=parsed['Type'], OmegaX=parsed['OmegaX'], OmegaY=parsed['OmegaY'], OmegaZ=parsed['OmegaZ'], LocationX=parsed['LocationX'], LocationY=parsed['LocationY'], LocationZ=parsed['LocationZ'], Nozzle_velocity=parsed['Nozzle_velocity'], Motion_directionX=parsed['Motion_directionX'], Motion_directionY=parsed['Motion_directionY'], Motion_directionZ=parsed['Motion_directionZ'], Radius=parsed['Radius'], Height=parsed['Height'], Width=parsed['Width'], Angle=parsed['Angle'], Length=parsed['Length'], Fixed_thickness=parsed['Fixed_thickness'], Jet_velocity=parsed['Jet_velocity'], jet_directionX=parsed['jet_directionX'], jet_directionY=parsed['jet_directionY'], jet_directionZ=parsed['jet_directionZ'])
     return builded
 
 def g_save(parsed):

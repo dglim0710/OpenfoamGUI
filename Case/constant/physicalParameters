@@ -34,7 +34,11 @@ Jxyz0	(0.0 0.0 0.0);
 NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	0.0;
 
 // unit tangential vector of nozzle motion path
-NozzleMotionDir		(1.0 0.0 0.0);
+NozzleMotionDir		(-0.7071067811865475 -0.7071067811865475 0.0);
+
+// unit tangential vector of jet direction
+
+jetDir (0.7071067811865475 0.7071067811865475 0.0)
 
 JetR JetR  [0 1 0 0 0 0 0]	0.0;
 
