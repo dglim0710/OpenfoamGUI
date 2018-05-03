@@ -17,7 +17,7 @@ class task_frame(LabelFrame):
 
     def create_task(self):
         tree_menu_list = ['Basic setting', 'Properties', 'Nozzle spec', 'Solution control', 'Boundary condition',
-                          'Solution scheme', 'Sovler control', 'Meshing', 'Result']
+                          'Solution scheme', 'Solver control', 'Meshing', 'Result']
         fontsize = 30
 
         if globalvar.n == 0:
@@ -26,7 +26,23 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=0, column=1, columnspan=2)
             bt1 = Button(self, text='Browse', command=lambda: Case_browse_button())
             bt1.grid(row=0, column=3)
-            Label(self, text='')
+            for l in range(1, 9):
+                Label(self, text='').grid(row=l, column=0)
+            Label_dict = ['Type']
+            Value_dict = OrderedDict([('Type', 0.)])
+            OptionList = ['circular', 'rectangular']
+            var2 = StringVar()
+            var2.set(globalvar.Nozzle_shape)
+            Label(self, text=Label_dict[0]).grid(row=l+1, column=0, pady=5)
+            OptionMenu(self, var2, *OptionList, command=lambda _: nozzletype(var2)).grid(row=l+1, column=1, columnspan=2)
+            var1 = IntVar(value=globalvar.twophase_check)
+            levelsetbutton = Checkbutton(self,  text='Using two phase Model', variable=var1, command=lambda: levelsetonoff(var1))
+            if globalvar.twophase_check == 1:
+                levelsetbutton.select()
+            else:
+                levelsetbutton.deselect()
+            levelsetbutton.grid(row=l+2, column=0)
+
             # Label(self, text='Openfoam folder : ', width=15).grid(row=1, column=0)
             # Label(self, text=globalvar.Of_folder_path).grid(row=1, column=1, columnspan=2)
             # bt1 = Button(self, text='Browse', command=lambda: Of_browse_button())
@@ -71,27 +87,62 @@ class task_frame(LabelFrame):
             Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=5, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+10, column=0, pady=5)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+10, column=1, columnspan=5)
-        elif globalvar.n == 2:
-            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
-            Label_dict = ['Type', 'Location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)', 'Nozzle direction (x, y, z)','Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity']
-            vector_dis = [0., 1., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-            Unit_list = ['', '[m]', '[RPM]', '', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]']
-            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
+        elif globalvar.n == 2 and globalvar.Nozzle_shape == 'circular':
+            self.config(text=tree_menu_list[globalvar.n]+' ('+globalvar.Nozzle_shape+')', font=fontsize)
+            Label_dict = ['Location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)',
+                          'Nozzle velocity', 'Radius', 'Fixed thickness', 'Jet velocity']
+            vector_dis = [1., 1., 1., 0., 0., 0., 0.]
+            Unit_list = ['[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[m/s]']
+            Value_dict = OrderedDict([('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
+                                      ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.),
+                                      ('Motion_directionY', 0.), ('Motion_directionZ', 0.), ('Nozzle_velocity', 0.),
+                                      ('Radius', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
+            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+            Label_array = list(Value_dict.keys())
+            Label_values = list(Value_dict.values())
+            j =0
+            for i in range(0, len(Label_dict)):
+                k = 2
+                Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
+                Label(self, text=Unit_list[i], width=10).grid(row=i, column=1)
+                if vector_dis[i] == 0.:
+                    if int_dis[j] == 0.:
+                        Label_values[j] = DoubleVar()
+                    elif int_dis[j] == 1.:
+                        Label_values[j] = IntVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
+                    j = j+1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j+3):
+                        if int_dis[j] == 0.:
+                            Label_values[j] = DoubleVar()
+                        elif int_dis[j] == 1.:
+                            Label_values[j] = IntVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
+                        k = k+1
+                    j=j+1
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=5, pady=5, sticky=E)
+            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=5)
+        elif globalvar.n == 2 and globalvar.Nozzle_shape == 'rectangular':
+            self.config(text=tree_menu_list[globalvar.n]+' ('+globalvar.Nozzle_shape+')', font=fontsize)
+            Label_dict = ['Location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)',
+                          'Nozzle direction (x, y, z)','Nozzle velocity',
+                          'Width', 'Height', 'Length', 'Angle']
+            vector_dis = [1., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0.]
+            Unit_list = ['[m]', '[RPM]', '', '', '[m/s]', '[m]', '[m]', '[m]', '[\u00b0]']
+            Value_dict = OrderedDict([('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
                                       ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.),
                                       ('Motion_directionY', 0.), ('Motion_directionZ', 0.),  ('jet_directionX', 0.),
                                       ('jet_directionY', 0.), ('jet_directionZ', 0.),('Nozzle_velocity', 0.),
-                                      ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.),
-                                      ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
-            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+                                      ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.),])
+            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
-            OptionList = ['circular', 'rectangular']
-            Label_values[0] = StringVar()
-            Label_values[0].set(OptionList[1])
-            Label(self, text=Label_dict[0]).grid(row=0, column=0, pady=5)
-            OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=1, columnspan=2)
-            j = 1
-            for i in range(1, len(Label_dict)):
+            j =0
+            for i in range(0, len(Label_dict)):
                 k = 2
                 Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
                 Label(self, text=Unit_list[i], width=10).grid(row=i, column=1)
@@ -372,6 +423,7 @@ class upper_menu(Menu):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.file_menu()
+        # self.setting_menu()
         self.help_menu()
 
     def file_menu(self):
@@ -386,6 +438,11 @@ class upper_menu(Menu):
         helpmenu.add_command(label='Help')
         helpmenu.add_command(label='About')
         self.add_cascade(label='Help', menu=helpmenu)
+
+    # def setting_menu(self):
+    #     settingmenu = Menu(self, tearoff=0)
+    #     settingmenu.add_command(label='Nozzle type')
+    #     self.add_cascade(label='Setting', menu=settingmenu)
 
 
 class Application(Tk):
@@ -462,6 +519,13 @@ def Case_browse_button():
 def Of_browse_button():
     globalvar.Of_folder_path = filedialog.askdirectory()
 
+
+def levelsetonoff(check):
+    globalvar.twophase_check = check.get()
+
+
+def nozzletype(type):
+    globalvar.Nozzle_shape = type.get()
 
 def save(label_values, label_dict, label_array, menu_number):
     input_list = list(label_array)

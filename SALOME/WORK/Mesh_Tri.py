@@ -19,7 +19,7 @@ v = geompy.MakeVector(o, z)
 
 # --- Define parameters
 wafer_radius = 0.15
-height = 0.025
+height = 0.0025
 
 # --- Make a shape and create study
 wafer = geompy.MakeDiskR(wafer_radius, 1)

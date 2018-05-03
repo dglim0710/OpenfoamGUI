@@ -16,44 +16,44 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 // nozzleType
-nozzleType "rectangular";
+nozzleType "circular";
 
 h0 h0 [ 0 1 0 0 0 0 0] 1e-10;
 
 hTol hTol [ 0 1 0 0 0 0 0] 1e-5;
 
 
-Omega (0.0 0.0 0.10471973333333334);
+Omega (0.0 0.0 0.0);
 
 Oxyz     (0 0 0);
 
 //Nozzle initial location
-Jxyz0	(0.0 1.0 0.0);
+Jxyz0	(0.0 0.0 0.0);
 
 //nozzle velocity magnitude, i.e. the magnitude of velocity at which nozzle moves, do not confuse it with jet velocity
-NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	1.0;
+NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	0.0;
 
 // unit tangential vector of nozzle motion path
 NozzleMotionDir		(1.0 0.0 0.0);
 
 // unit tangential vector of jet direction
 
-jetDir (0.0 1.0 0.0)
+jetDir (1.0 0.0 0.0)
 
-JetR JetR  [0 1 0 0 0 0 0]	2.0;
+JetR JetR  [0 1 0 0 0 0 0]	0.0;
 
-JetH JetH  [0 1 0 0 0 0 0]	4.0;
+JetH JetH  [0 1 0 0 0 0 0]	0.0;
 
-JetW JetW  [0 1 0 0 0 0 0]	3.0;
+JetW JetW  [0 1 0 0 0 0 0]	0.0;
 
-JetL JetL  [0 1 0 0 0 0 0]	5.0;
+JetL JetL  [0 1 0 0 0 0 0]	0.0;
 
-JetAngle JetAngle  [0 0 0 0 0 0 0]	0.10471973333333334; //45 degree
+JetAngle JetAngle  [0 0 0 0 0 0 0]	0.0; //45 degree
 
 
-hFixedVal hFixedVal  [0 1 0 0 0 0 0]	1.0;
+hFixedVal hFixedVal  [0 1 0 0 0 0 0]	0.0;
 
-UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	1.0;
+UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	0.0;
 
 
 // ************************************************************************* //

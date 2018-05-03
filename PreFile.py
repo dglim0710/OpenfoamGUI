@@ -72,7 +72,8 @@ wafer.ExportUNV('$Case_folder_path/Mesh_Tri.unv')
 import os
 os._exit(0)
     ''')
-    builded = mesh_script.substitute(Mesh_size=globalvar.VariableDict['Mesh_size'], Case_folder_path=globalvar.Case_folder_path)
+    builded = mesh_script.substitute(Mesh_size=globalvar.VariableDict['Mesh_size'],
+                                     Case_folder_path=globalvar.Case_folder_path)
     return builded
 
 
@@ -194,9 +195,9 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
 
 // ************************************************************************* //
     ''')
-    globalvar.VariableDict['OmegaX'] = globalvar.VariableDict['OmegaX'] * (2 * 3.141592) / 60
-    globalvar.VariableDict['OmegaY'] = globalvar.VariableDict['OmegaY'] * (2 * 3.141592) / 60
-    globalvar.VariableDict['OmegaZ'] = globalvar.VariableDict['OmegaZ'] * (2 * 3.141592) / 60
+    globalvar.VariableDict['OmegaX'] = globalvar.VariableDict['OmegaX'] * (2. * 3.141592) / 60.
+    globalvar.VariableDict['OmegaY'] = globalvar.VariableDict['OmegaY'] * (2. * 3.141592) / 60.
+    globalvar.VariableDict['OmegaZ'] = globalvar.VariableDict['OmegaZ'] * (2. * 3.141592) / 60.
     UnitX = globalvar.VariableDict['Motion_directionX'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
     UnitY = globalvar.VariableDict['Motion_directionY'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
     UnitZ = globalvar.VariableDict['Motion_directionZ'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
@@ -209,8 +210,8 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
     globalvar.VariableDict['jet_directionX'] = UnitXX
     globalvar.VariableDict['jet_directionY'] = UnitYY
     globalvar.VariableDict['jet_directionZ'] = UnitZZ
-    globalvar.VariableDict['Angle'] = globalvar.VariableDict['Angle'] * 3.141592 / 180
-    builded = physicalParameters.substitute(Type=globalvar.VariableDict['Type'],
+    globalvar.VariableDict['Angle'] = globalvar.VariableDict['Angle'] * 3.141592 / 180.
+    builded = physicalParameters.substitute(Type=globalvar.Nozzle_shape,
                                             OmegaX=globalvar.VariableDict['OmegaX'],
                                             OmegaY=globalvar.VariableDict['OmegaY'],
                                             OmegaZ=globalvar.VariableDict['OmegaZ'],

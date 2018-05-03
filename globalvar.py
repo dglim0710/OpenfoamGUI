@@ -3,7 +3,11 @@ from collections import OrderedDict
 global n
 global Case_folder_path
 global Of_folder_path
+global twophase_check
+global Nozzle_shape
 
+Nozzle_shape = 'circular'
+twophase_check = 1
 n = 0
 Case_folder_path = '! Set the path of a simulation folder !'
 Of_folder_path = '! Set the path of the Openfoam folder !'
