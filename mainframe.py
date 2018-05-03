@@ -16,7 +16,8 @@ class task_frame(LabelFrame):
         self.create_task()
 
     def create_task(self):
-        tree_menu_list = ['Basic setting', 'Properties', 'Nozzle spec', 'Solution control', 'Boundary condition', 'Solution scheme', 'Sovler control', 'Meshing', 'Result']
+        tree_menu_list = ['Basic setting', 'Properties', 'Nozzle spec', 'Solution control', 'Boundary condition',
+                          'Solution scheme', 'Sovler control', 'Meshing', 'Result']
         fontsize = 30
 
         if globalvar.n == 0:
@@ -25,6 +26,7 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=0, column=1, columnspan=2)
             bt1 = Button(self, text='Browse', command=lambda: Case_browse_button())
             bt1.grid(row=0, column=3)
+            Label(self, text='')
             # Label(self, text='Openfoam folder : ', width=15).grid(row=1, column=0)
             # Label(self, text=globalvar.Of_folder_path).grid(row=1, column=1, columnspan=2)
             # bt1 = Button(self, text='Browse', command=lambda: Of_browse_button())
@@ -36,7 +38,9 @@ class task_frame(LabelFrame):
             default_value = [0., 0., 0., 0., 0., 0., 0., -9.81]
             vector_dis = [0., 0., 0., 0., 0., 1.]
             int_dis = [0., 0., 0., 0., 0., 0., 0., 0.]
-            Value_dict = OrderedDict([('Liquid_Density', 0.), ('Liquid_Viscosity', 0.), ('Gas_Density', 0.), ('Gas_Viscosity', 0.), ('Surface_tension', 0),('GravityX', 0.), ('GravityY', 0.), ('GravityZ', 0.)])
+            Value_dict = OrderedDict([('Liquid_Density', 0.), ('Liquid_Viscosity', 0.), ('Gas_Density', 0.),
+                                      ('Gas_Viscosity', 0.), ('Surface_tension', 0),
+                                      ('GravityX', 0.), ('GravityY', 0.), ('GravityZ', 0.)])
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
             j = 0
@@ -72,7 +76,12 @@ class task_frame(LabelFrame):
             Label_dict = ['Type', 'Location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)', 'Nozzle direction (x, y, z)','Nozzle velocity', 'Radius', 'Width', 'Height', 'Length', 'Angle', 'Fixed thickness', 'Jet velocity']
             vector_dis = [0., 1., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
             Unit_list = ['', '[m]', '[RPM]', '', '', '[m/s]', '[m]', '[m]', '[m]', '[m]', '[\u00b0]', '[m]', '[m/s]']
-            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.), ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.),  ('jet_directionX', 0.), ('jet_directionY', 0.), ('jet_directionZ', 0.),('Nozzle_velocity', 0.),  ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
+            Value_dict = OrderedDict([('Type', 0.), ('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
+                                      ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.),
+                                      ('Motion_directionY', 0.), ('Motion_directionZ', 0.),  ('jet_directionX', 0.),
+                                      ('jet_directionY', 0.), ('jet_directionZ', 0.),('Nozzle_velocity', 0.),
+                                      ('Radius', 0.), ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.),
+                                      ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
             int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
@@ -153,7 +162,9 @@ class task_frame(LabelFrame):
         elif globalvar.n == 6:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['\u03A8', 'U', 'h', 'U', 'h',  'Iterations']
-            Value_dict = OrderedDict([('psi_abs', 0.), ('psi_rel', 0.), ('u_abs', 0.), ('u_rel', 0.), ('h_abs', 0.), ('h_rel', 0.), ('u_relax', 0.), ('h_relax', 0.), ('Iterations', 0.)])
+            Value_dict = OrderedDict([('psi_abs', 0.), ('psi_rel', 0.), ('u_abs', 0.), ('u_rel', 0.),
+                                      ('h_abs', 0.), ('h_rel', 0.), ('u_relax', 0.), ('h_relax', 0.),
+                                      ('Iterations', 0.)])
             vector_dis = [1., 1., 1., 0., 0., 0.]
             Unit_list = ['', '', '', '', '', '']
             int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 1.]
@@ -399,8 +410,9 @@ def replace_task_frame(menu_number):
     b = task_frame(app)
     b.pack(side=RIGHT, fill=BOTH, expand=Y)
 
-
-#------------------------------------------------Button function--------------------------------------------------------
+    #############################################Button function#######################################################
+    ###################################################################################################################
+    ###################################################################################################################
 
 
 def paraFoam(Casepath):
@@ -457,25 +469,27 @@ def save(label_values, label_dict, label_array, menu_number):
         # if int_check[i] == 1. and type(label_values[i].get()) is not int:
             # MessageBox.Float_warning()
         label_dict[input_list[i]] = label_values[i].get()
-
+    for j in label_array:
+        globalvar.VariableDict[j] = label_dict[j]
     if menu_number == 1:
-        if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
+        if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. \
+                or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
             MessageBox.Zero_warning()
         elif globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/constant/transportProperties', "w") as text_file:
-                text_file.write(PreFile.transportProperties_save(label_dict))
+                text_file.write(PreFile.transportProperties_save())
             with open(globalvar.Case_folder_path+'/constant/g', "w") as text_file:
-                text_file.write(PreFile.g_save(label_dict))
+                text_file.write(PreFile.g_save())
     elif menu_number == 2:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/constant/physicalParameters', "w") as text_file:
-                text_file.write(PreFile.physicalParameters_save(label_dict))
+                text_file.write(PreFile.physicalParameters_save())
     elif menu_number == 3:
         if label_dict['Start_time'] > label_dict['End_time']:
             MessageBox.Simulationtime_error()
@@ -486,24 +500,25 @@ def save(label_values, label_dict, label_array, menu_number):
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/system/controlDict', "w") as text_file:
-                text_file.write(PreFile.controlDict_save(label_dict))
+                text_file.write(PreFile.controlDict_save())
     elif menu_number == 6:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/system/fvSolution', "w") as text_file:
-                text_file.write(PreFile.fvSolution_save(label_dict))
+                text_file.write(PreFile.fvSolution_save())
     elif menu_number == 7:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
             with open('./SALOME/WORK/Mesh_Tri.py', "w") as text_file:
-                text_file.write(PreFile.mesh_save(label_dict))
+                text_file.write(PreFile.mesh_save())
 
+    ###################################################################################################################
+    ###################################################################################################################
 
-#----------------------------------------------------------------------------------------------------------------------
 
 
 app = Application()

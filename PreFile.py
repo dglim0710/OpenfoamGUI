@@ -2,7 +2,7 @@ from string import Template
 import globalvar
 
 
-def mesh_save(parsed):
+def mesh_save():
     mesh_script = Template(r'''
 import salome
 salome.salome_init()
@@ -72,11 +72,11 @@ wafer.ExportUNV('$Case_folder_path/Mesh_Tri.unv')
 import os
 os._exit(0)
     ''')
-    builded = mesh_script.substitute(Mesh_size=parsed['Mesh_size'], Case_folder_path=globalvar.Case_folder_path)
+    builded = mesh_script.substitute(Mesh_size=globalvar.VariableDict['Mesh_size'], Case_folder_path=globalvar.Case_folder_path)
     return builded
 
 
-def transportProperties_save(parsed):
+def transportProperties_save():
     transportProperties = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -121,13 +121,19 @@ sigma sigma [ 1 0 -2 0 0 0 0 ] $Surface_tension;
 
 // ************************************************************************* //
     ''')
-    liquid_nu = parsed['Liquid_Viscosity']/parsed['Liquid_Density']
-    gas_nu = parsed['Gas_Viscosity'] / parsed['Gas_Density']
-    builded = transportProperties.substitute(Liquid_Viscosity=parsed['Liquid_Viscosity'], Liquid_Density=parsed['Liquid_Density'], Gas_Viscosity=parsed['Gas_Viscosity'], Gas_Density=parsed['Gas_Density'], Liquid_nu=liquid_nu, Gas_nu=gas_nu, Surface_tension=parsed['Surface_tension'])
+    liquid_nu = globalvar.VariableDict['Liquid_Viscosity']/globalvar.VariableDict['Liquid_Density']
+    gas_nu = globalvar.VariableDict['Gas_Viscosity'] / globalvar.VariableDict['Gas_Density']
+    builded = transportProperties.substitute(Liquid_Viscosity=globalvar.VariableDict['Liquid_Viscosity'],
+                                             Liquid_Density=globalvar.VariableDict['Liquid_Density'],
+                                             Gas_Viscosity=globalvar.VariableDict['Gas_Viscosity'],
+                                             Gas_Density=globalvar.VariableDict['Gas_Density'],
+                                             Liquid_nu=liquid_nu,
+                                             Gas_nu=gas_nu,
+                                             Surface_tension=globalvar.VariableDict['Surface_tension'])
     return builded
 
 
-def physicalParameters_save(parsed):
+def physicalParameters_save():
     physicalParameters = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -188,26 +194,46 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
 
 // ************************************************************************* //
     ''')
-    parsed['OmegaX'] = parsed['OmegaX'] * (2 * 3.141592) / 60
-    parsed['OmegaY'] = parsed['OmegaY'] * (2 * 3.141592) / 60
-    parsed['OmegaZ'] = parsed['OmegaZ'] * (2 * 3.141592) / 60
-    UnitX = parsed['Motion_directionX'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
-    UnitY = parsed['Motion_directionY'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
-    UnitZ = parsed['Motion_directionZ'] / (parsed['Motion_directionX']**2 + parsed['Motion_directionY']**2 + parsed['Motion_directionZ']**2) ** (1/2)
-    UnitXX = parsed['jet_directionX'] / (parsed['jet_directionX']**2 + parsed['jet_directionY']**2 + parsed['jet_directionZ']**2) ** (1/2)
-    UnitYY = parsed['jet_directionY'] / (parsed['jet_directionX']**2 + parsed['jet_directionY']**2 + parsed['jet_directionZ']**2) ** (1/2)
-    UnitZZ = parsed['jet_directionZ'] / (parsed['jet_directionX']**2 + parsed['jet_directionY']**2 + parsed['jet_directionZ']**2) ** (1/2)
-    parsed['Motion_directionX'] = UnitX
-    parsed['Motion_directionY'] = UnitY
-    parsed['Motion_directionZ'] = UnitZ
-    parsed['jet_directionX'] = UnitXX
-    parsed['jet_directionY'] = UnitYY
-    parsed['jet_directionZ'] = UnitZZ
-    parsed['Angle'] = parsed['Angle'] * 3.141592 / 180
-    builded = physicalParameters.substitute(Type=parsed['Type'], OmegaX=parsed['OmegaX'], OmegaY=parsed['OmegaY'], OmegaZ=parsed['OmegaZ'], LocationX=parsed['LocationX'], LocationY=parsed['LocationY'], LocationZ=parsed['LocationZ'], Nozzle_velocity=parsed['Nozzle_velocity'], Motion_directionX=parsed['Motion_directionX'], Motion_directionY=parsed['Motion_directionY'], Motion_directionZ=parsed['Motion_directionZ'], Radius=parsed['Radius'], Height=parsed['Height'], Width=parsed['Width'], Angle=parsed['Angle'], Length=parsed['Length'], Fixed_thickness=parsed['Fixed_thickness'], Jet_velocity=parsed['Jet_velocity'], jet_directionX=parsed['jet_directionX'], jet_directionY=parsed['jet_directionY'], jet_directionZ=parsed['jet_directionZ'])
+    globalvar.VariableDict['OmegaX'] = globalvar.VariableDict['OmegaX'] * (2 * 3.141592) / 60
+    globalvar.VariableDict['OmegaY'] = globalvar.VariableDict['OmegaY'] * (2 * 3.141592) / 60
+    globalvar.VariableDict['OmegaZ'] = globalvar.VariableDict['OmegaZ'] * (2 * 3.141592) / 60
+    UnitX = globalvar.VariableDict['Motion_directionX'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
+    UnitY = globalvar.VariableDict['Motion_directionY'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
+    UnitZ = globalvar.VariableDict['Motion_directionZ'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
+    UnitXX = globalvar.VariableDict['jet_directionX'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+    UnitYY = globalvar.VariableDict['jet_directionY'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+    UnitZZ = globalvar.VariableDict['jet_directionZ'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+    globalvar.VariableDict['Motion_directionX'] = UnitX
+    globalvar.VariableDict['Motion_directionY'] = UnitY
+    globalvar.VariableDict['Motion_directionZ'] = UnitZ
+    globalvar.VariableDict['jet_directionX'] = UnitXX
+    globalvar.VariableDict['jet_directionY'] = UnitYY
+    globalvar.VariableDict['jet_directionZ'] = UnitZZ
+    globalvar.VariableDict['Angle'] = globalvar.VariableDict['Angle'] * 3.141592 / 180
+    builded = physicalParameters.substitute(Type=globalvar.VariableDict['Type'],
+                                            OmegaX=globalvar.VariableDict['OmegaX'],
+                                            OmegaY=globalvar.VariableDict['OmegaY'],
+                                            OmegaZ=globalvar.VariableDict['OmegaZ'],
+                                            LocationX=globalvar.VariableDict['LocationX'],
+                                            LocationY=globalvar.VariableDict['LocationY'],
+                                            LocationZ=globalvar.VariableDict['LocationZ'],
+                                            Nozzle_velocity=globalvar.VariableDict['Nozzle_velocity'],
+                                            Motion_directionX=globalvar.VariableDict['Motion_directionX'],
+                                            Motion_directionY=globalvar.VariableDict['Motion_directionY'],
+                                            Motion_directionZ=globalvar.VariableDict['Motion_directionZ'],
+                                            Radius=globalvar.VariableDict['Radius'],
+                                            Height=globalvar.VariableDict['Height'],
+                                            Width=globalvar.VariableDict['Width'],
+                                            Angle=globalvar.VariableDict['Angle'],
+                                            Length=globalvar.VariableDict['Length'],
+                                            Fixed_thickness=globalvar.VariableDict['Fixed_thickness'],
+                                            Jet_velocity=globalvar.VariableDict['Jet_velocity'],
+                                            jet_directionX=globalvar.VariableDict['jet_directionX'],
+                                            jet_directionY=globalvar.VariableDict['jet_directionY'],
+                                            jet_directionZ=globalvar.VariableDict['jet_directionZ'])
     return builded
 
-def g_save(parsed):
+def g_save():
     g = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -232,11 +258,13 @@ value           ($GravityX $GravityY $GravityZ);
 
 // ************************************************************************* //
     ''')
-    builded = g.substitute(GravityX=parsed['GravityX'], GravityY=parsed['GravityY'], GravityZ=parsed['GravityZ'])
+    builded = g.substitute(GravityX=globalvar.VariableDict['GravityX'],
+                           GravityY=globalvar.VariableDict['GravityY'],
+                           GravityZ=globalvar.VariableDict['GravityZ'])
     return builded
 
 
-def controlDict_save(parsed):
+def controlDict_save():
     controlDict = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -299,10 +327,13 @@ maxDeltaT           0.1;
 
 // ************************************************************************* //
     ''')
-    builded = controlDict.substitute(Start_time=parsed['Start_time'], End_time=parsed['End_time'], Time_step=parsed['Time_step'], Write_interval=parsed['Write_interval'])
+    builded = controlDict.substitute(Start_time=globalvar.VariableDict['Start_time'],
+                                     End_time=globalvar.VariableDict['End_time'],
+                                     Time_step=globalvar.VariableDict['Time_step'],
+                                     Write_interval=globalvar.VariableDict['Write_interval'])
     return builded
 
-def fvSchemes_save(parsed):
+def fvSchemes_save():
     fvSchemes = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -368,7 +399,7 @@ snGradSchemes
 // ************************************************************************* //
     ''')
 
-def fvSolution_save(parsed):
+def fvSolution_save():
     fvSolution = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -444,7 +475,15 @@ relaxationFactors
 // ************************************************************************* //
     ''')
 
-    builded = fvSolution.substitute(Iterations=parsed['Iterations'], psi_abs=parsed['psi_abs'], psi_rel=parsed['psi_rel'], u_abs=parsed['u_abs'], u_rel=parsed['u_rel'], h_abs=parsed['h_abs'], h_rel=parsed['h_rel'], u_relax=parsed['u_relax'], h_relax=parsed['h_relax'])
+    builded = fvSolution.substitute(Iterations=globalvar.VariableDict['Iterations'],
+                                    psi_abs=globalvar.VariableDict['psi_abs'],
+                                    psi_rel=globalvar.VariableDict['psi_rel'],
+                                    u_abs=globalvar.VariableDict['u_abs'],
+                                    u_rel=globalvar.VariableDict['u_rel'],
+                                    h_abs=globalvar.VariableDict['h_abs'],
+                                    h_rel=globalvar.VariableDict['h_rel'],
+                                    u_relax=globalvar.VariableDict['u_relax'],
+                                    h_relax=globalvar.VariableDict['h_relax'])
 
     return builded
 
