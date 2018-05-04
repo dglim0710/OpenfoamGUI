@@ -12,48 +12,47 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      physicalParameters;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-// nozzleType
-nozzleType "circular";
 
-h0 h0 [ 0 1 0 0 0 0 0] 1e-10;
+ddtSchemes
+{
+    default         none;
+    ddt(h,U) Euler;
+    ddt(h) Euler;
+}
 
-hTol hTol [ 0 1 0 0 0 0 0] 1e-5;
+gradSchemes
+{
+    default Gauss linear;
+}
 
+divSchemes
+{
+    default        none;
+    div(phi,h)     Gauss Gamma 0.5;
+    div(phi2,U)    Gauss upwind;
+    div(phiC,U)    Gauss upwind;
+    div(phiC,UB)   Gauss upwind;
+}
 
-Omega (0.0 0.0 0.0);
+laplacianSchemes
+{
+    default none;
+    laplacian(h) Gauss linear corrected;
+    laplacian(Gamma,U) Gauss linear corrected;
+}
 
-Oxyz     (0 0 0);
+interpolationSchemes
+{
+    default    linear;
+}
 
-//Nozzle initial location
-Jxyz0	(0.0 0.0 0.0);
-
-//nozzle velocity magnitude, i.e. the magnitude of velocity at which nozzle moves, do not confuse it with jet velocity
-NozzleVelocity NozzleVelocity [ 0 1 -1 0 0 0 0]	0.0;
-
-// unit tangential vector of nozzle motion path
-NozzleMotionDir		(1.0 0.0 0.0);
-
-// unit tangential vector of jet direction
-
-jetDir (1.0 0.0 0.0)
-
-JetR JetR  [0 1 0 0 0 0 0]	0.0;
-
-JetH JetH  [0 1 0 0 0 0 0]	0.0;
-
-JetW JetW  [0 1 0 0 0 0 0]	0.0;
-
-JetL JetL  [0 1 0 0 0 0 0]	0.0;
-
-JetAngle JetAngle  [0 0 0 0 0 0 0]	0.0; //45 degree
-
-
-hFixedVal hFixedVal  [0 1 0 0 0 0 0]	0.0;
-
-UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	0.0;
+snGradSchemes
+{
+    default    corrected;
+}
 
 
 // ************************************************************************* //

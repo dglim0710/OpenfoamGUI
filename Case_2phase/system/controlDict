@@ -1,3 +1,4 @@
+
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | foam-extend: Open Source CFD                    |
@@ -11,52 +12,51 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      fvSchemes;
+    object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-ddtSchemes
-{
-    default         none;
-    ddt(h,U) Euler;
-    ddt(h) Euler;
-    ddt(psi) Euler;
-}
+libs
+(
+    "liblduSolvers.so"
+)
 
-gradSchemes
-{
-    default Gauss linear;
-    grad(psi) Gauss linear;
-}
+application     samsungFoamFV;
 
-divSchemes
-{
-    default        Gauss linear;
-    div(phi,h)     Gauss Gamma 0.5;
-    div(phi2,U)    Gauss upwind;
-    div(phiC,U)    Gauss upwind;
-    div(phiC,UB)   Gauss upwind;
-    div(phi,alpha)  Gauss vanLeer01;
-    div(phirb,alpha) Gauss linear;
-    div(phiIntrfc,psi)	Gauss upwind;
-}
+startFrom       startTime;
 
-laplacianSchemes
-{
-    default none;
-    laplacian(h) Gauss linear corrected;
-    laplacian(Gamma,U) Gauss linear corrected;
-}
+startTime       0.0;
 
-interpolationSchemes
-{
-    default    linear;
-}
+stopAt          endTime;
 
-snGradSchemes
-{
-    default    corrected;
-}
+endTime         15.0;
+
+deltaT          1e-06;
+
+writeControl    timeStep;
+
+writeInterval   100;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression uncompressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+adjustTimeStep      no;
+
+maxCo               2;
+
+maxDeltaT           0.1;
 
 
 // ************************************************************************* //
+    

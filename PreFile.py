@@ -76,8 +76,115 @@ os._exit(0)
                                      Case_folder_path=globalvar.Case_folder_path)
     return builded
 
+def transportProperties_save_no_2p():
+    transportProperties = Template(r'''
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-def transportProperties_save():
+//mug mug [0 2 -1 0 0 0 0] 0;
+//mul mul [0 2 -1 0 0 0 0] 1e-3;
+mug mug [1 -1 -1 0 0 0 0] $Gas_Viscosity;
+mul mul [1 -1 -1 0 0 0 0] $Liquid_Viscosity;
+
+rhog rhog [ 1 -3  0 0 0 0 0 ] $Gas_Density;
+rhol rhol [ 1 -3  0 0 0 0 0 ] $Liquid_Density;
+
+sigma sigma [ 1 0 -2 0 0 0 0 ] $Surface_tension;
+
+h0 h0 [ 0 1 0 0 0 0 0] 1e-10;
+
+Omega ($OmegaX $OmegaY $OmegaZ);
+Oxyz     (0 0 0);
+
+fCo   0;  //0.0125;
+
+LapSwitch 0.;
+
+//Nozzle initial location
+Jxyz0	($LocationX $LocationY $LocationZ);
+
+//nozzle velocity magnitude, i.e. the magnitude of velocity at which nozzle moves, do not confuse it with jet velocity
+NozzleVel	$Nozzle_velocity;
+
+// nozzleType
+nozzleType "$Type";
+
+// unit tangential vector of nozzle motion path
+NozzleMotionDir		($Motion_directionX $Motion_directionY $Motion_directionZ);
+jetDir ($jet_directionX $jet_directionY $jet_directionZ);
+
+JetR	$Radius;
+
+JetH	$Height;
+JetW	$Width;
+JetL	$Length;
+JetAngle	$Angle; //45 degree
+
+hFixedVal	$Fixed_thickness;
+UMagFixedVal	$Jet_velocity;
+
+// ************************************************************************* //
+    ''')
+    OmegaX_rad = globalvar.VariableDict['OmegaX'] * (2. * 3.141592) / 60.
+    OmegaY_rad = globalvar.VariableDict['OmegaY'] * (2. * 3.141592) / 60.
+    OmegaZ_rad = globalvar.VariableDict['OmegaZ'] * (2. * 3.141592) / 60.
+    UnitX = globalvar.VariableDict['Motion_directionX'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
+    UnitY = globalvar.VariableDict['Motion_directionY'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
+    UnitZ = globalvar.VariableDict['Motion_directionZ'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
+    UnitXX = globalvar.VariableDict['jet_directionX'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+    UnitYY = globalvar.VariableDict['jet_directionY'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+    UnitZZ = globalvar.VariableDict['jet_directionZ'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+    Angle_rad = globalvar.VariableDict['Angle'] * 3.141592 / 180.
+    if globalvar.Nozzle_shape == 'circular':
+        nozzle_area = 3.141592 * (globalvar.VariableDict['Radius'])**2
+    elif globalvar.Nozzle_shape == 'rectangular':
+        nozzle_area = globalvar.VariableDict['Width'] * globalvar.VariableDict['Length']
+    Flow_rate_velocity = globalvar.VariableDict['Jet_velocity'] * 0.001 / (60. * nozzle_area)
+    builded = transportProperties.substitute(Liquid_Viscosity=globalvar.VariableDict['Liquid_Viscosity'],
+                                             Liquid_Density=globalvar.VariableDict['Liquid_Density'],
+                                             Gas_Viscosity=globalvar.VariableDict['Gas_Viscosity'],
+                                             Gas_Density=globalvar.VariableDict['Gas_Density'],
+                                             Surface_tension=globalvar.VariableDict['Surface_tension'],
+                                             Type=globalvar.Nozzle_shape,
+                                             OmegaX=OmegaX_rad,
+                                             OmegaY=OmegaY_rad,
+                                             OmegaZ=OmegaZ_rad,
+                                             LocationX=globalvar.VariableDict['LocationX'],
+                                             LocationY=globalvar.VariableDict['LocationY'],
+                                             LocationZ=globalvar.VariableDict['LocationZ'],
+                                             Nozzle_velocity=globalvar.VariableDict['Nozzle_velocity'],
+                                             Motion_directionX=UnitX,
+                                             Motion_directionY=UnitY,
+                                             Motion_directionZ=UnitZ,
+                                             Radius=globalvar.VariableDict['Radius'],
+                                             Height=globalvar.VariableDict['Height'],
+                                             Width=globalvar.VariableDict['Width'],
+                                             Angle=Angle_rad,
+                                             Length=globalvar.VariableDict['Length'],
+                                             Fixed_thickness=globalvar.VariableDict['Fixed_thickness'],
+                                             Jet_velocity=Flow_rate_velocity,
+                                             jet_directionX=UnitXX,
+                                             jet_directionY=UnitYY,
+                                             jet_directionZ=UnitZZ)
+
+    return builded
+
+
+def transportProperties_save_2p():
     transportProperties = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -134,7 +241,7 @@ sigma sigma [ 1 0 -2 0 0 0 0 ] $Surface_tension;
     return builded
 
 
-def physicalParameters_save():
+def physicalParameters_save_2p():
     physicalParameters = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -195,43 +302,42 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
 
 // ************************************************************************* //
     ''')
-    globalvar.VariableDict['OmegaX'] = globalvar.VariableDict['OmegaX'] * (2. * 3.141592) / 60.
-    globalvar.VariableDict['OmegaY'] = globalvar.VariableDict['OmegaY'] * (2. * 3.141592) / 60.
-    globalvar.VariableDict['OmegaZ'] = globalvar.VariableDict['OmegaZ'] * (2. * 3.141592) / 60.
+    OmegaX_rad = globalvar.VariableDict['OmegaX'] * (2. * 3.141592) / 60.
+    OmegaY_rad = globalvar.VariableDict['OmegaY'] * (2. * 3.141592) / 60.
+    OmegaZ_rad = globalvar.VariableDict['OmegaZ'] * (2. * 3.141592) / 60.
     UnitX = globalvar.VariableDict['Motion_directionX'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
     UnitY = globalvar.VariableDict['Motion_directionY'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
     UnitZ = globalvar.VariableDict['Motion_directionZ'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
     UnitXX = globalvar.VariableDict['jet_directionX'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
     UnitYY = globalvar.VariableDict['jet_directionY'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
     UnitZZ = globalvar.VariableDict['jet_directionZ'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
-    globalvar.VariableDict['Motion_directionX'] = UnitX
-    globalvar.VariableDict['Motion_directionY'] = UnitY
-    globalvar.VariableDict['Motion_directionZ'] = UnitZ
-    globalvar.VariableDict['jet_directionX'] = UnitXX
-    globalvar.VariableDict['jet_directionY'] = UnitYY
-    globalvar.VariableDict['jet_directionZ'] = UnitZZ
-    globalvar.VariableDict['Angle'] = globalvar.VariableDict['Angle'] * 3.141592 / 180.
+    Angle_rad = globalvar.VariableDict['Angle'] * 3.141592 / 180.
+    if globalvar.Nozzle_shape == 'circular':
+        nozzle_area = 3.141592 * (globalvar.VariableDict['Radius'])**2
+    elif globalvar.Nozzle_shape == 'rectangular':
+        nozzle_area = globalvar.VariableDict['Width'] * globalvar.VariableDict['Length']
+    Flow_rate_velocity = globalvar.VariableDict['Jet_velocity'] * 0.001 / (60. * nozzle_area)
     builded = physicalParameters.substitute(Type=globalvar.Nozzle_shape,
-                                            OmegaX=globalvar.VariableDict['OmegaX'],
-                                            OmegaY=globalvar.VariableDict['OmegaY'],
-                                            OmegaZ=globalvar.VariableDict['OmegaZ'],
+                                            OmegaX=OmegaX_rad,
+                                            OmegaY=OmegaY_rad,
+                                            OmegaZ=OmegaZ_rad,
                                             LocationX=globalvar.VariableDict['LocationX'],
                                             LocationY=globalvar.VariableDict['LocationY'],
                                             LocationZ=globalvar.VariableDict['LocationZ'],
                                             Nozzle_velocity=globalvar.VariableDict['Nozzle_velocity'],
-                                            Motion_directionX=globalvar.VariableDict['Motion_directionX'],
-                                            Motion_directionY=globalvar.VariableDict['Motion_directionY'],
-                                            Motion_directionZ=globalvar.VariableDict['Motion_directionZ'],
+                                            Motion_directionX=UnitX,
+                                            Motion_directionY=UnitY,
+                                            Motion_directionZ=UnitZ,
                                             Radius=globalvar.VariableDict['Radius'],
                                             Height=globalvar.VariableDict['Height'],
                                             Width=globalvar.VariableDict['Width'],
-                                            Angle=globalvar.VariableDict['Angle'],
+                                            Angle=Angle_rad,
                                             Length=globalvar.VariableDict['Length'],
                                             Fixed_thickness=globalvar.VariableDict['Fixed_thickness'],
-                                            Jet_velocity=globalvar.VariableDict['Jet_velocity'],
-                                            jet_directionX=globalvar.VariableDict['jet_directionX'],
-                                            jet_directionY=globalvar.VariableDict['jet_directionY'],
-                                            jet_directionZ=globalvar.VariableDict['jet_directionZ'])
+                                            Jet_velocity=Flow_rate_velocity,
+                                            jet_directionX=UnitXX,
+                                            jet_directionY=UnitYY,
+                                            jet_directionZ=UnitZZ)
     return builded
 
 def g_save():
@@ -334,7 +440,8 @@ maxDeltaT           0.1;
                                      Write_interval=globalvar.VariableDict['Write_interval'])
     return builded
 
-def fvSchemes_save():
+
+def fvSchemes_save_2p():
     fvSchemes = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -399,8 +506,76 @@ snGradSchemes
 
 // ************************************************************************* //
     ''')
+    builded = fvSchemes.substitute()
 
-def fvSolution_save():
+    return builded
+
+def fvSchemes_save_no_2p():
+    fvSchemes = Template(r'''
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         none;
+    ddt(h,U) Euler;
+    ddt(h) Euler;
+}
+
+gradSchemes
+{
+    default Gauss linear;
+}
+
+divSchemes
+{
+    default        none;
+    div(phi,h)     Gauss Gamma 0.5;
+    div(phi2,U)    Gauss upwind;
+    div(phiC,U)    Gauss upwind;
+    div(phiC,UB)   Gauss upwind;
+}
+
+laplacianSchemes
+{
+    default none;
+    laplacian(h) Gauss linear corrected;
+    laplacian(Gamma,U) Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default    linear;
+}
+
+snGradSchemes
+{
+    default    corrected;
+}
+
+
+// ************************************************************************* //
+    ''')
+    builded = fvSchemes.substitute()
+
+    return builded
+
+
+def fvSolution_save_2p():
     fvSolution = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -488,3 +663,62 @@ relaxationFactors
 
     return builded
 
+
+def fvSolution_save_no_2p():
+    fvSolution = Template(r'''
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    U
+    {
+        solver          BiCGStab;
+        preconditioner  ILU0;
+        tolerance       $u_abs;
+        relTol          $u_rel;
+    }
+
+    h
+    {
+        solver          BiCGStab;
+        preconditioner  ILU0;
+        tolerance       $h_abs;
+        relTol          $h_rel;
+    }
+}
+
+nOuterCorrectors $Iterations;
+
+relaxationFactors
+{
+    h $u_relax;
+    U $h_relax;
+}
+
+// ************************************************************************* //
+    ''')
+
+    builded = fvSolution.substitute(Iterations=globalvar.VariableDict['Iterations'],
+                                    u_abs=globalvar.VariableDict['u_abs'],
+                                    u_rel=globalvar.VariableDict['u_rel'],
+                                    h_abs=globalvar.VariableDict['h_abs'],
+                                    h_rel=globalvar.VariableDict['h_rel'],
+                                    u_relax=globalvar.VariableDict['u_relax'],
+                                    h_relax=globalvar.VariableDict['h_relax'])
+
+    return builded

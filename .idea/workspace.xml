@@ -2,11 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="445c3bf2-e7d4-496f-abb9-1b7b72147e92" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/0/U" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/0/alpha1" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/0/alpha1.org" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/0/h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/0/manningField" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/0/psi" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/Allclean" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/Allrun" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/g" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/physicalParameters" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/polyMesh/boundary" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/polyMesh/faces" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/polyMesh/neighbour" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/polyMesh/owner" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/polyMesh/points" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/constant/transportProperties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/structuredMesh_FVmethod.unv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/system/changeDictionaryDict" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/system/controlDict" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/system/fvSchemes" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/system/fvSolution" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case/system/setFieldsDict" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case/constant/physicalParameters" afterPath="$PROJECT_DIR$/Case/constant/physicalParameters" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case/constant/transportProperties" afterPath="$PROJECT_DIR$/Case/constant/transportProperties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PreFile.py" afterPath="$PROJECT_DIR$/PreFile.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SALOME/WORK/Mesh_Tri.py" afterPath="$PROJECT_DIR$/SALOME/WORK/Mesh_Tri.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/globalvar.py" afterPath="$PROJECT_DIR$/globalvar.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainframe.py" afterPath="$PROJECT_DIR$/mainframe.py" />
     </list>
@@ -29,8 +48,8 @@
       <file leaf-file-name="PreFile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PreFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="210" column="45" lean-forward="true" selection-start-line="210" selection-start-column="45" selection-end-line="210" selection-end-column="45" />
+            <state relative-caret-position="1606">
+              <caret line="220" column="44" lean-forward="true" selection-start-line="220" selection-start-column="44" selection-end-line="220" selection-end-column="44" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -38,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mainframe.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mainframe.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainframe.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="426" column="24" lean-forward="true" selection-start-line="426" selection-start-column="24" selection-end-line="426" selection-end-column="24" />
+            <state relative-caret-position="484">
+              <caret line="292" column="66" lean-forward="true" selection-start-line="292" selection-start-column="66" selection-end-line="292" selection-end-column="66" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -50,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="globalvar.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="globalvar.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/globalvar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="16" column="24" lean-forward="true" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+            <state relative-caret-position="-316">
+              <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -99,9 +118,9 @@
         <option value="$PROJECT_DIR$/function_button.py" />
         <option value="$PROJECT_DIR$/MessageBox.py" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/PreFile.py" />
-        <option value="$PROJECT_DIR$/globalvar.py" />
         <option value="$PROJECT_DIR$/mainframe.py" />
+        <option value="$PROJECT_DIR$/globalvar.py" />
+        <option value="$PROJECT_DIR$/PreFile.py" />
       </list>
     </option>
   </component>
@@ -684,16 +703,6 @@
     <entry file="file://$PROJECT_DIR$/BrowseFolder.py" />
     <entry file="file://$PROJECT_DIR$/function_button.py" />
     <entry file="file://$PROJECT_DIR$/main.py" />
-    <entry file="file://$PROJECT_DIR$/PreFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="210" column="45" lean-forward="true" selection-start-line="210" selection-start-column="45" selection-end-line="210" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MessageBox.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -702,21 +711,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/globalvar.py">
+    <entry file="file://$PROJECT_DIR$/PreFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="24" lean-forward="true" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="1606">
+          <caret line="220" column="44" lean-forward="true" selection-start-line="220" selection-start-column="44" selection-end-line="220" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mainframe.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="426" column="24" lean-forward="true" selection-start-line="426" selection-start-column="24" selection-end-line="426" selection-end-column="24" />
+        <state relative-caret-position="484">
+          <caret line="292" column="66" lean-forward="true" selection-start-line="292" selection-start-column="66" selection-end-line="292" selection-end-column="66" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/globalvar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-316">
+          <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>

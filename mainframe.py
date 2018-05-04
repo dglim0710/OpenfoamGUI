@@ -28,7 +28,7 @@ class task_frame(LabelFrame):
             bt1.grid(row=0, column=3)
             for l in range(1, 9):
                 Label(self, text='').grid(row=l, column=0)
-            Label_dict = ['Type']
+            Label_dict = ['Nozzle shape']
             Value_dict = OrderedDict([('Type', 0.)])
             OptionList = ['circular', 'rectangular']
             var2 = StringVar()
@@ -51,7 +51,6 @@ class task_frame(LabelFrame):
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Liquid density', 'Liquid viscosity', 'Gas density', 'Gas viscosity', 'Surface tension coefficient', 'Gravity (x, y, z)']
             Unit_list = ['[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb3]', '[kg/m\u22C5s]', '[kg/m\xb2]', '[m/s\xb2]']
-            default_value = [0., 0., 0., 0., 0., 0., 0., -9.81]
             vector_dis = [0., 0., 0., 0., 0., 1.]
             int_dis = [0., 0., 0., 0., 0., 0., 0., 0.]
             Value_dict = OrderedDict([('Liquid_Density', 0.), ('Liquid_Viscosity', 0.), ('Gas_Density', 0.),
@@ -70,7 +69,7 @@ class task_frame(LabelFrame):
                     elif int_dis[j] == 1.:
                         Label_values[j] = IntVar()
                     Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
-                    Label_values[j].set(default_value[j])
+                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                     Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
                     j = j+1
                 elif vector_dis[i] == 1.:
@@ -80,7 +79,7 @@ class task_frame(LabelFrame):
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
                         Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
-                        Label_values[j].set(default_value[j])
+                        Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
@@ -89,10 +88,10 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+10, column=1, columnspan=5)
         elif globalvar.n == 2 and globalvar.Nozzle_shape == 'circular':
             self.config(text=tree_menu_list[globalvar.n]+' ('+globalvar.Nozzle_shape+')', font=fontsize)
-            Label_dict = ['Location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)',
-                          'Nozzle velocity', 'Radius', 'Fixed thickness', 'Jet velocity']
+            Label_dict = ['Initial location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)',
+                          'Nozzle velocity', 'Radius', 'Fixed thickness', 'Flow rate']
             vector_dis = [1., 1., 1., 0., 0., 0., 0.]
-            Unit_list = ['[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[m/s]']
+            Unit_list = ['[m]', '[RPM]', '', '[m/s]', '[m]', '[m]', '[LPM]']
             Value_dict = OrderedDict([('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
                                       ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.),
                                       ('Motion_directionY', 0.), ('Motion_directionZ', 0.), ('Nozzle_velocity', 0.),
@@ -111,6 +110,7 @@ class task_frame(LabelFrame):
                     elif int_dis[j] == 1.:
                         Label_values[j] = IntVar()
                     Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                     Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
                     j = j+1
                 elif vector_dis[i] == 1.:
@@ -120,6 +120,7 @@ class task_frame(LabelFrame):
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
                         Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
@@ -128,17 +129,17 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=5)
         elif globalvar.n == 2 and globalvar.Nozzle_shape == 'rectangular':
             self.config(text=tree_menu_list[globalvar.n]+' ('+globalvar.Nozzle_shape+')', font=fontsize)
-            Label_dict = ['Location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)',
+            Label_dict = ['Initial location (x, y, z)', 'Omega (x, y, z)', 'Scan direction (x, y, z)',
                           'Nozzle direction (x, y, z)','Nozzle velocity',
-                          'Width', 'Height', 'Length', 'Angle']
-            vector_dis = [1., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0.]
-            Unit_list = ['[m]', '[RPM]', '', '', '[m/s]', '[m]', '[m]', '[m]', '[\u00b0]']
+                          'Width', 'Height', 'Length', 'Angle', 'Flow rate']
+            vector_dis = [1., 1., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.]
+            Unit_list = ['[m]', '[RPM]', '', '', '[m/s]', '[m]', '[m]', '[m]', '[\u00b0]', '[LPM]']
             Value_dict = OrderedDict([('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
                                       ('OmegaX', 0.), ('OmegaY', 0.), ('OmegaZ', 0.), ('Motion_directionX', 0.),
                                       ('Motion_directionY', 0.), ('Motion_directionZ', 0.),  ('jet_directionX', 0.),
                                       ('jet_directionY', 0.), ('jet_directionZ', 0.),('Nozzle_velocity', 0.),
-                                      ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.),])
-            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+                                      ('Width', 0.), ('Height', 0.), ('Length', 0.), ('Angle', 0.), ('Jet_velocity', 0.)])
+            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
             j =0
@@ -152,6 +153,7 @@ class task_frame(LabelFrame):
                     elif int_dis[j] == 1.:
                         Label_values[j] = IntVar()
                     Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                     Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
                     j = j+1
                 elif vector_dis[i] == 1.:
@@ -161,6 +163,7 @@ class task_frame(LabelFrame):
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
                         Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
@@ -173,7 +176,6 @@ class task_frame(LabelFrame):
             Unit_list = ['[s]', '[s]', '[s]', '', '']
             vector_dis = [0., 0., 0., 0., 0.]
             int_dis = [0., 0., 0., 1., 1.]
-            default_value = [0., 0., 1e-6, 100]
             Value_dict = OrderedDict([('Start_time', 0.), ('End_time', 0.), ('Time_step', 0.), ('Write_interval', 0.)])
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
@@ -188,7 +190,7 @@ class task_frame(LabelFrame):
                     elif int_dis[j] == 1.:
                         Label_values[j] = IntVar()
                     Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
-                    Label_values[j].set(default_value[j])
+                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                     Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
                     j = j+1
                 elif vector_dis[i] == 1.:
@@ -198,7 +200,7 @@ class task_frame(LabelFrame):
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
                         Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
-                        Label_values[j].set(default_value[j])
+                        Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j = j+1
@@ -210,7 +212,7 @@ class task_frame(LabelFrame):
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
         elif globalvar.n == 5:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
-        elif globalvar.n == 6:
+        elif globalvar.n == 6 and globalvar.twophase_check == 1:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['\u03A8', 'U', 'h', 'U', 'h',  'Iterations']
             Value_dict = OrderedDict([('psi_abs', 0.), ('psi_rel', 0.), ('u_abs', 0.), ('u_rel', 0.),
@@ -279,6 +281,75 @@ class task_frame(LabelFrame):
             Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+5, column=4, pady=5, sticky=E)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=5)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=4)
+        elif globalvar.n == 6 and globalvar.twophase_check == 0:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
+            Label_dict = ['U', 'h', 'U', 'h',  'Iterations']
+            Value_dict = OrderedDict([('u_abs', 0.), ('u_rel', 0.),
+                                      ('h_abs', 0.), ('h_rel', 0.), ('u_relax', 0.), ('h_relax', 0.),
+                                      ('Iterations', 0.)])
+            vector_dis = [1., 1., 0., 0., 0.]
+            Unit_list = ['', '', '', '', '', '']
+            int_dis = [0., 0., 0., 0., 0., 0.,1.]
+            default_value = [1e-7, 1e-2, 1e-7, 1e-2, 0.2, 0.2, 15]
+            Label(self, text='Residual', width=10).grid(row=0, column=0)
+            Label(self, text='Absolute', width=10).grid(row=0, column=2)
+            Label(self, text='Relative', width=10).grid(row=0, column=3)
+            Label_array = list(Value_dict.keys())
+            Label_values = list(Value_dict.values())
+            j = 0
+            for i in range(0, 2):
+                k = 2
+                Label(self, text=Label_dict[i], width=20).grid(row=i+1, column=0, columnspan=1, pady=5)
+                Label(self, text=Unit_list[i], width=10).grid(row=i+1, column=1, columnspan=1)
+                if vector_dis[i] == 0.:
+                    if int_dis[j] == 0.:
+                        Label_values[j] = DoubleVar()
+                    elif int_dis[j] == 1.:
+                        Label_values[j] = IntVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(default_value[j])
+                    Value_dict[Label_array[j]].grid(row=i+1, column=2, columnspan=1, rowspan=1)
+                    j = j+1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j+2):
+                        if int_dis[j] == 0.:
+                            Label_values[j] = DoubleVar()
+                        elif int_dis[j] == 1.:
+                            Label_values[j] = IntVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(default_value[j])
+                        Value_dict[Label_array[j]].grid(row=i+1, column=k, columnspan=1, rowspan=1)
+                        k = k+1
+                    j = j+1
+            Label(self, text='').grid(row=4, column=0)
+            Label(self, text='Relaxation factor', width=20).grid(row=5, column=0, columnspan=1)
+            for i in range(2, 5):
+                k = 2
+                Label(self, text=Label_dict[i], width=20).grid(row=i+3, column=0, columnspan=1, pady=5)
+                Label(self, text=Unit_list[i], width=10).grid(row=i+3, column=1, columnspan=1)
+                if vector_dis[i] == 0.:
+                    if int_dis[j] == 0.:
+                        Label_values[j] = DoubleVar()
+                    elif int_dis[j] == 1.:
+                        Label_values[j] = IntVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(default_value[j])
+                    Value_dict[Label_array[j]].grid(row=i+3, column=2, columnspan=1, rowspan=1)
+                    j = j+1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j+2):
+                        if int_dis[j] == 0.:
+                            Label_values[j] = DoubleVar()
+                        elif int_dis[j] == 1.:
+                            Label_values[j] = IntVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(default_value[j])
+                        Value_dict[Label_array[j]].grid(row=i+3, column=k, columnspan=1, rowspan=1)
+                        k = k+1
+                    j = j+1
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+5, column=4, pady=5, sticky=E)
+            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=5)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=4)
         elif globalvar.n == 7:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
             Label_dict = ['Mesh type', 'Maximum mesh size']
@@ -290,7 +361,7 @@ class task_frame(LabelFrame):
             Label_values = list(Value_dict.values())
             OptionList = ['Triangular', 'Hexagonal']
             Label_values[0] = StringVar()
-            Label_values[0].set(OptionList[1])
+            Label_values[0].set(OptionList[0])
             Label(self, text=Label_dict[0]).grid(row=0, column=0, pady=5)
             OptionMenu(self, Label_values[0], *OptionList).grid(row=0, column=2)
             j = 1
@@ -304,6 +375,7 @@ class task_frame(LabelFrame):
                     elif int_dis[j] == 1.:
                         Label_values[j] = IntVar()
                     Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                     Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
                     j = j+1
                 elif vector_dis[i] == 1.:
@@ -313,6 +385,7 @@ class task_frame(LabelFrame):
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
                         Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(globalvar.VariableDict[Label_array[j]])
                         Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
                         k = k+1
                     j=j+1
@@ -483,7 +556,10 @@ def paraFoam(Casepath):
 def Runsolver(Casepath):
     Casepath = 'cd '+Casepath+' && '
     OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
-    RunOP = 'samsungFoamFVTPM7'
+    if globalvar.twophase_check == 1:
+        RunOP = 'samsungFoamFV2P'
+    else:
+        RunOP = 'samsungFoamFV'
     Total = OFpath+Casepath+RunOP
     os.system(Total)
 
@@ -535,7 +611,7 @@ def save(label_values, label_dict, label_array, menu_number):
         label_dict[input_list[i]] = label_values[i].get()
     for j in label_array:
         globalvar.VariableDict[j] = label_dict[j]
-    if menu_number == 1:
+    if menu_number == 1 and globalvar.twophase_check == 1:
         if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. \
                 or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
             MessageBox.Zero_warning()
@@ -544,16 +620,33 @@ def save(label_values, label_dict, label_array, menu_number):
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/constant/transportProperties', "w") as text_file:
-                text_file.write(PreFile.transportProperties_save())
+                text_file.write(PreFile.transportProperties_save_2p())
             with open(globalvar.Case_folder_path+'/constant/g', "w") as text_file:
                 text_file.write(PreFile.g_save())
-    elif menu_number == 2:
+    elif menu_number == 2 and globalvar.twophase_check == 1:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/constant/physicalParameters', "w") as text_file:
-                text_file.write(PreFile.physicalParameters_save())
+                text_file.write(PreFile.physicalParameters_save_2p())
+    elif menu_number == 1 and globalvar.twophase_check == 0:
+        if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. \
+                or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
+            MessageBox.Zero_warning()
+        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
+            MessageBox.UnselectedFolder()
+        else:
+            MessageBox.Save_complete()
+            with open(globalvar.Case_folder_path+'/constant/g', "w") as text_file:
+                text_file.write(PreFile.g_save())
+    elif menu_number == 2 and globalvar.twophase_check == 0:
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
+            MessageBox.UnselectedFolder()
+        else:
+            MessageBox.Save_complete()
+            with open(globalvar.Case_folder_path+'/constant/transportProperties', "w") as text_file:
+                text_file.write(PreFile.transportProperties_save_no_2p())
     elif menu_number == 3:
         if label_dict['Start_time'] > label_dict['End_time']:
             MessageBox.Simulationtime_error()
@@ -565,13 +658,24 @@ def save(label_values, label_dict, label_array, menu_number):
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/system/controlDict', "w") as text_file:
                 text_file.write(PreFile.controlDict_save())
-    elif menu_number == 6:
+    elif menu_number == 6 and globalvar.twophase_check == 1:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
             with open(globalvar.Case_folder_path+'/system/fvSolution', "w") as text_file:
-                text_file.write(PreFile.fvSolution_save())
+                text_file.write(PreFile.fvSolution_save_2p())
+            with open(globalvar.Case_folder_path+'/system/fvSchemes', "w") as text_file:
+                text_file.write(PreFile.fvSchemes_save_2p())
+    elif menu_number == 6 and globalvar.twophase_check == 0:
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
+            MessageBox.UnselectedFolder()
+        else:
+            MessageBox.Save_complete()
+            with open(globalvar.Case_folder_path+'/system/fvSolution', "w") as text_file:
+                text_file.write(PreFile.fvSolution_save_no_2p())
+            with open(globalvar.Case_folder_path+'/system/fvSchemes', "w") as text_file:
+                text_file.write(PreFile.fvSchemes_save_no_2p())
     elif menu_number == 7:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
