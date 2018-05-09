@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from collections import OrderedDict
+# import matplotlib.pyplot as plt
 import globalvar
 import os
 import PreFile
@@ -17,7 +18,7 @@ class task_frame(LabelFrame):
 
     def create_task(self):
         tree_menu_list = ['Basic setting', 'Properties', 'Nozzle spec', 'Solution control', 'Boundary condition',
-                          'Solution scheme', 'Solver control', 'Meshing', 'Result']
+                          'Solution scheme', 'Solver control', 'Meshing', 'Result', 'Graphs']
         fontsize = 30
 
         if globalvar.n == 0:
@@ -391,7 +392,7 @@ class task_frame(LabelFrame):
                     j=j+1
             Button(self, text='Save', width=12, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=3, pady=2)
             Button(self, text='Meshing', width=12,command=lambda: meshing(Label_values[0].get())).grid(row=len(Label_dict)+4, column=3, pady=2)
-            Button(self, text='Generate mesh', width=12,command=lambda: geneartemesh(globalvar.Case_folder_path, globalvar.Of_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=3, pady=2)
+            Button(self, text='Generate mesh', width=12,command=lambda: geneartemesh(globalvar.Case_folder_path, Label_values[0].get())).grid(row=len(Label_dict)+5, column=3, pady=2)
             Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+6, column=0, pady=2)
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif globalvar.n == 8:
@@ -402,6 +403,52 @@ class task_frame(LabelFrame):
             bt1.grid(row=0, column=3)
             bt1 = Button(self, text='Result', command=lambda: paraFoam(globalvar.Case_folder_path), width=5)
             bt1.grid(row=1, column=3)
+        elif globalvar.n == 9:
+            self.config(text=tree_menu_list[globalvar.n], font=fontsize)
+            Label_dict = ['Start point (x, y, z)', 'End point (x, y, z)', 'nPoints', 'Sampling time']
+            vector_dis = [1., 1., 0., 0.]
+            Unit_list = ['', '', '', '']
+            Value_dict = OrderedDict([('StartX', 0.), ('StartY', 0.), ('StartZ', 0.),
+                                      ('EndX', 0.), ('EndY', 0.), ('EndZ', 0.), ('nPoints', 0.), ('Sampling_time', 0.)])
+            int_dis = [0., 0., 0., 0., 0., 0., 0., 0.]
+            Label_array = list(Value_dict.keys())
+            Label_values = list(Value_dict.values())
+            j = 0
+            for i in range(0, len(Label_dict)):
+                k = 2
+                Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
+                Label(self, text=Unit_list[i], width=10).grid(row=i, column=1)
+                if vector_dis[i] == 0.:
+                    if int_dis[j] == 0.:
+                        Label_values[j] = DoubleVar()
+                    elif int_dis[j] == 1.:
+                        Label_values[j] = IntVar()
+                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
+                    Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
+                    j = j + 1
+                elif vector_dis[i] == 1.:
+                    for j in range(j, j + 3):
+                        if int_dis[j] == 0.:
+                            Label_values[j] = DoubleVar()
+                        elif int_dis[j] == 1.:
+                            Label_values[j] = IntVar()
+                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Label_values[j].set(globalvar.VariableDict[Label_array[j]])
+                        Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
+                        k = k + 1
+                    j = j + 1
+            Button(self, text='Save', width=5,
+                   command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(
+                row=len(Label_dict) + 3, column=5, sticky=E)
+            Button(self, text='Sampling', width=5,
+                   command=lambda: samplingdata(globalvar.Case_folder_path)).grid(
+                row=len(Label_dict) + 4, column=5, sticky=E)
+            Button(self, text='Plot', width=5,
+                   command=lambda: dataplot(str(Label_values[7].get()))).grid(
+                row=len(Label_dict) + 5, column=5, sticky=E)
+            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict) + 6, column=0, pady=5)
+            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict) + 6, column=1, columnspan=5)
 
 
 class tree_frame(LabelFrame):
@@ -466,9 +513,12 @@ class tree_frame(LabelFrame):
         bt7 = Button(self, text='Result', width=15, command=lambda: replace_task_frame(8))
         bt7.grid(row=15, column=0, padx=2, pady=2)
         bt7.config(bg='white', activebackground='gray', bd=0)
+        bt8 = Button(self, text='Graphs', width=15, command=lambda: replace_task_frame(9))
+        bt8.grid(row=16, column=0, padx=2, pady=2)
+        bt8.config(bg='white', activebackground='gray', bd=0)
 
         empty3 = Label(self, text='')
-        empty3.grid(row=16, column=0, padx=2, pady=20)
+        empty3.grid(row=17, column=0, padx=2, pady=20)
         empty3.config(bg='white', activebackground='gray')
         img = PhotoImage(file='logo.gif')
         wall = Label(self, image=img)
@@ -575,7 +625,7 @@ def meshing(mesh_type):
     os.system(total)
 
 
-def geneartemesh(Casepath, OFpath, mesh_type):
+def geneartemesh(Casepath, mesh_type):
     if mesh_type == 'Triangular':
         mesh_name = 'Mesh_Tri.unv'
     elif mesh_type == 'Hexagonal':
@@ -587,6 +637,32 @@ def geneartemesh(Casepath, OFpath, mesh_type):
     Total = OFpath+Casepath+generateMesh+mesh_name+changeDictionary
     os.system(Total)
 
+def samplingdata(Casepath):
+    Casepath = 'cd '+Casepath+' && '
+    OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
+    sample = 'sample'
+    Total = OFpath+Casepath+sample
+    os.system(Total)
+
+def dataplot(time):
+    filename = '/thickness_h.xy'
+    Plotpath = globalvar.Case_folder_path+'/sets/'+time+filename
+    Plotfile = open(Plotpath)
+    Plotcontent = Plotfile.readlines()
+    x = []
+    y = []
+    z = []
+    h = []
+    fileRegex = re.compile(r'([+-]?\d+\.?\d*)(e[+-]?\d*)?')
+    for i in range(0, len(Plotcontent)):
+        A = fileRegex.findall(Plotcontent[i])
+        x.append(float(A[0][0]+A[0][1]))
+        y.append(float(A[1][0]+A[1][1]))
+        z.append(float(A[2][0]+A[2][1]))
+        h.append(float(A[3][0]+A[3][1]))
+
+    plt.plot(y,h)
+    plt.show()
 
 def Case_browse_button():
     globalvar.Case_folder_path = filedialog.askdirectory()
@@ -683,6 +759,13 @@ def save(label_values, label_dict, label_array, menu_number):
             MessageBox.Save_complete()
             with open('./SALOME/WORK/Mesh_Tri.py', "w") as text_file:
                 text_file.write(PreFile.mesh_save())
+    elif menu_number == 7:
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
+                    MessageBox.UnselectedFolder()
+        else:
+            MessageBox.Save_complete()
+            with open(globalvar.Case_folder_path+'/system/sampleDict', "w") as text_file:
+                text_file.write(PreFile.sampleDict_save())
 
     ###################################################################################################################
     ###################################################################################################################

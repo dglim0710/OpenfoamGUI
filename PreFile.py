@@ -722,3 +722,68 @@ relaxationFactors
                                     h_relax=globalvar.VariableDict['h_relax'])
 
     return builded
+
+def sampleDict_save():
+    sampleDict = Template(r'''
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      sampleSurfaceDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+interpolationScheme cellPoint;
+
+surfaceFormat     raw;
+
+writeFormat     raw;
+
+setFormat raw;
+
+fields
+(
+    h
+);
+
+
+sets
+(
+    thickness
+    {
+        type            uniform;
+        axis            xyz;
+        start           ($startX $startY $startZ);
+        end             ($endX $endY $endZ);
+        nPoints         $nPoints;
+    }
+);
+
+surfaces
+(
+
+);
+
+
+// ************************************************************************* //
+    ''')
+
+    builded = sampleDict.substitute(startX=globalvar.VariableDict['StartX'],
+                                    startY=globalvar.VariableDict['StartY'],
+                                    startZ=globalvar.VariableDict['StartZ'],
+                                    endX=globalvar.VariableDict['endX'],
+                                    endY=globalvar.VariableDict['endY'],
+                                    endZ=globalvar.VariableDict['endZ'],
+                                    nPoints=globalvar.VariableDict['nPoints']
+                                    )
+
+    return builded
