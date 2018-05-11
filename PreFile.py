@@ -753,6 +753,7 @@ setFormat raw;
 fields
 (
     h
+    ih
 );
 
 
@@ -780,9 +781,9 @@ surfaces
     builded = sampleDict.substitute(startX=globalvar.VariableDict['StartX'],
                                     startY=globalvar.VariableDict['StartY'],
                                     startZ=globalvar.VariableDict['StartZ'],
-                                    endX=globalvar.VariableDict['endX'],
-                                    endY=globalvar.VariableDict['endY'],
-                                    endZ=globalvar.VariableDict['endZ'],
+                                    endX=globalvar.VariableDict['EndX'],
+                                    endY=globalvar.VariableDict['EndY'],
+                                    endZ=globalvar.VariableDict['EndZ'],
                                     nPoints=globalvar.VariableDict['nPoints']
                                     )
 

@@ -1,11 +1,12 @@
 from tkinter import *
 from tkinter import filedialog
 from collections import OrderedDict
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import globalvar
 import os
 import PreFile
 import MessageBox
+# import vtk
 
 
 class task_frame(LabelFrame):
@@ -410,7 +411,7 @@ class task_frame(LabelFrame):
             Unit_list = ['', '', '', '']
             Value_dict = OrderedDict([('StartX', 0.), ('StartY', 0.), ('StartZ', 0.),
                                       ('EndX', 0.), ('EndY', 0.), ('EndZ', 0.), ('nPoints', 0.), ('Sampling_time', 0.)])
-            int_dis = [0., 0., 0., 0., 0., 0., 0., 0.]
+            int_dis = [0., 0., 0., 0., 0., 0., 1., 0.]
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
             j = 0
@@ -645,7 +646,7 @@ def samplingdata(Casepath):
     os.system(Total)
 
 def dataplot(time):
-    filename = '/thickness_h.xy'
+    filename = '/thickness_h_ih.xy'
     Plotpath = globalvar.Case_folder_path+'/sets/'+time+filename
     Plotfile = open(Plotpath)
     Plotcontent = Plotfile.readlines()
@@ -653,15 +654,32 @@ def dataplot(time):
     y = []
     z = []
     h = []
+    ih = []
+    l = []
     fileRegex = re.compile(r'([+-]?\d+\.?\d*)(e[+-]?\d*)?')
     for i in range(0, len(Plotcontent)):
         A = fileRegex.findall(Plotcontent[i])
-        x.append(float(A[0][0]+A[0][1]))
-        y.append(float(A[1][0]+A[1][1]))
-        z.append(float(A[2][0]+A[2][1]))
+        xcoordi = float(A[0][0]+A[0][1])
+        ycoordi = float(A[1][0]+A[1][1])
+        zcoordi = float(A[2][0]+A[2][1])
+        distance = ((globalvar.VariableDict['StartX']-xcoordi)**2+(globalvar.VariableDict['StartY']-ycoordi)**2+
+                    (globalvar.VariableDict['StartZ']-zcoordi)**2)**0.5
+        x.append(xcoordi)
+        y.append(ycoordi)
+        z.append(zcoordi)
+        l.append(distance)
         h.append(float(A[3][0]+A[3][1]))
+        ih.append(float(A[4][0]+A[4][1]))
+    fig = plt.figure()
+    ax1 = fig.add_subplot(2, 1, 1)
+    ax2 = fig.add_subplot(2, 1, 2)
+    ax1.plot(l*1000, h*1000,'k')
+    ax1.set_xlabel('Distance (mm)')
+    ax1.set_ylabel('Thickness (mm)')
+    ax2.plot(l * 1000, ih * 1000,'k')
+    ax2.set_xlabel('Distance (mm)')
+    ax2.set_ylabel('Thickness over time (mm*s)')
 
-    plt.plot(y,h)
     plt.show()
 
 def Case_browse_button():
@@ -759,7 +777,7 @@ def save(label_values, label_dict, label_array, menu_number):
             MessageBox.Save_complete()
             with open('./SALOME/WORK/Mesh_Tri.py', "w") as text_file:
                 text_file.write(PreFile.mesh_save())
-    elif menu_number == 7:
+    elif menu_number == 9:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
                     MessageBox.UnselectedFolder()
         else:
@@ -769,7 +787,6 @@ def save(label_values, label_dict, label_array, menu_number):
 
     ###################################################################################################################
     ###################################################################################################################
-
 
 
 app = Application()
