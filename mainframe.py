@@ -676,7 +676,7 @@ def dataplot(time):
     ax1.plot(l*1000, h*1000,'k')
     ax1.set_xlabel('Distance (mm)')
     ax1.set_ylabel('Thickness (mm)')
-    ax2.plot(l * 1000, ih * 1000,'k')
+    ax2.plot(l * 1000, ih * 1000, 'k')
     ax2.set_xlabel('Distance (mm)')
     ax2.set_ylabel('Thickness over time (mm*s)')
 
@@ -696,6 +696,7 @@ def levelsetonoff(check):
 
 def nozzletype(type):
     globalvar.Nozzle_shape = type.get()
+
 
 def save(label_values, label_dict, label_array, menu_number):
     input_list = list(label_array)
