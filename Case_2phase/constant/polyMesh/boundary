@@ -21,22 +21,22 @@ FoamFile
 bottom
 {
     type            empty;
-    nFaces          26244;
-    startFace       44346;
+    nFaces          40592;
+    startFace       61252;
 }
 
 top
 {
     type            empty;
-    nFaces          26244;
-    startFace       70590;
+    nFaces          40592;
+    startFace       101844;
 }
 
 outlet
 {
     type            patch;
-    nFaces          120;
-    startFace       96834;
+    nFaces          472;
+    startFace       142436;
 }
 
 )

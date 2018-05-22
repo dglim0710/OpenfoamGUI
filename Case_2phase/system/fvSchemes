@@ -21,20 +21,25 @@ ddtSchemes
     default         none;
     ddt(h,U) Euler;
     ddt(h) Euler;
+    ddt(psi) Euler;
 }
 
 gradSchemes
 {
     default Gauss linear;
+    grad(psi) Gauss linear;
 }
 
 divSchemes
 {
-    default        none;
+    default        Gauss linear;
     div(phi,h)     Gauss Gamma 0.5;
     div(phi2,U)    Gauss upwind;
     div(phiC,U)    Gauss upwind;
     div(phiC,UB)   Gauss upwind;
+    div(phi,alpha)  Gauss vanLeer01;
+    div(phirb,alpha) Gauss linear;
+    div(phiIntrfc,psi)	Gauss upwind;
 }
 
 laplacianSchemes

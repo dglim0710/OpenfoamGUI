@@ -22,11 +22,9 @@ defaultFieldValues
 
 regions
 (
-    cylinderToCell
+    boxToCell
     {
-        p1 (0 0 -1);
-        p2 (0 0 1);
-	    radius 0.005;
+        box (0.01  -0.0002 -1.0) (0.021 0.0002 1.0);
         fieldValues
         (
             volScalarFieldValue alpha1 1

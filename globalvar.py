@@ -6,7 +6,7 @@ global Of_folder_path
 global twophase_check
 global Nozzle_shape
 
-Nozzle_shape = 'circular'
+Nozzle_shape = 'rectangular'
 # twophase_check = 1 >>>> 2 Phase
 # twophase_check = 0 >>>> Do not use 2 phase
 twophase_check = 1
@@ -37,11 +37,11 @@ VariableDict = OrderedDict([
     ('jet_directionY', 0.),
     ('jet_directionZ', 0.),
     ('Nozzle_velocity', 0.),
-    ('Radius', 0.),
-    ('Width', 0.),
-    ('Height', 0.),
-    ('Length', 0.),
-    ('Angle', 0.),
+    ('Radius', 0.005),
+    ('Width', 0.0004),
+    ('Height', 0.0066),
+    ('Length', 0.011),
+    ('Angle', 45.),
     ('Fixed_thickness', 0.0005),
     ('Jet_velocity', 0.),
     ####################################################################################################################
