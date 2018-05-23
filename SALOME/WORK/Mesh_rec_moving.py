@@ -20,7 +20,7 @@ v = geompy.MakeVector(o, z)
 
 # --- Define parameters
 wafer_radius = 0.15
-height = 0.0015
+height = 0.0025
 width = 0.1555
 length = 0.0004
 trans = -(0.15-width/2)
@@ -68,8 +68,8 @@ algo1D = wafer.Segment()
 algo1D.MaxSize(length=height)
 algo2D = wafer.Triangle(smeshBuilder.NETGEN_2D)
 
-longSeg = 825
-shortSeg1 = 10
+longSeg = 825.0
+shortSeg1 = 10.0
 shortSeg2 = shortSeg1/2
 
 subMeshRec = wafer.Quadrangle(group1)

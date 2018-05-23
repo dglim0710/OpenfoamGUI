@@ -101,8 +101,8 @@ v = geompy.MakeVector(o, z)
 # --- Define parameters
 wafer_radius = 0.15
 height = $Mesh_size
-width = 0.1555
-length = 0.0004
+width = $JetWidth
+length = $JetLength
 trans = -(0.15-width/2)
 
 # --- Make a shape and create study
@@ -148,8 +148,8 @@ algo1D = wafer.Segment()
 algo1D.MaxSize(length=height)
 algo2D = wafer.Triangle(smeshBuilder.NETGEN_2D)
 
-longSeg = 825
-shortSeg1 = 10
+longSeg = $Longseg
+shortSeg1 = $Shortseg
 shortSeg2 = shortSeg1/2
 
 subMeshRec = wafer.Quadrangle(group1)
@@ -186,8 +186,14 @@ wafer.ExportUNV('$Case_folder_path/Mesh_rec.unv')
 import os
 os._exit(0)
     ''')
+    jetwidth = globalvar.VariableDict['Length'] * 0.5 + 0.15
     builded = mesh_script.substitute(Mesh_size=globalvar.VariableDict['Mesh_size'],
-                                     Case_folder_path=globalvar.Case_folder_path)
+                                     Case_folder_path=globalvar.Case_folder_path,
+                                     JetLength=globalvar.VariableDict['Width'],
+                                     JetWidth=jetwidth,
+                                     Longseg=globalvar.VariableDict['longseg'],
+                                     Shortseg=globalvar.VariableDict['shortseg']
+                                     )
     return builded
 
 
@@ -397,7 +403,7 @@ NozzleMotionDir		($Motion_directionX $Motion_directionY $Motion_directionZ);
 
 // unit tangential vector of jet direction
 
-jetDir ($jet_directionX $jet_directionY $jet_directionZ)
+jetDir ($jet_directionX $jet_directionY $jet_directionZ);
 
 JetR JetR  [0 1 0 0 0 0 0]	$Radius;
 
@@ -995,6 +1001,55 @@ regions
     ''')
 
     builded = setFieldsDict.substitute(
+                                    )
+
+    return builded
+
+
+def alpha_save():
+    alpha = Template(r'''
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      alpha1;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    bottom
+    {
+        type            empty;
+    }
+    top
+    {
+        type            empty;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+}
+
+
+// ************************************************************************* //
+    ''')
+
+    builded = alpha.substitute(
                                     )
 
     return builded

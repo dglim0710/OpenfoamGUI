@@ -6,21 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="445c3bf2-e7d4-496f-abb9-1b7b72147e92" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/0/alpha1" afterPath="$PROJECT_DIR$/Case_2phase/0/alpha1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/0/alpha1.org" afterPath="$PROJECT_DIR$/Case_2phase/0/alpha1.org" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/physicalParameters" afterPath="$PROJECT_DIR$/Case_2phase/constant/physicalParameters" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/boundary" afterPath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/boundary" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/faces" afterPath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/faces" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/neighbour" afterPath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/neighbour" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/owner" afterPath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/owner" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/points" afterPath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/points" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/transportProperties" afterPath="$PROJECT_DIR$/Case_2phase/constant/transportProperties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/system/controlDict" afterPath="$PROJECT_DIR$/Case_2phase/system/controlDict" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/system/fvSchemes" afterPath="$PROJECT_DIR$/Case_2phase/system/fvSchemes" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/system/fvSolution" afterPath="$PROJECT_DIR$/Case_2phase/system/fvSolution" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/system/sampleDict" afterPath="$PROJECT_DIR$/Case_2phase/system/sampleDict" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/system/setFieldsDict" afterPath="$PROJECT_DIR$/Case_2phase/system/setFieldsDict" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PreFile.py" afterPath="$PROJECT_DIR$/PreFile.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SALOME/WORK/Mesh_rec_moving.py" afterPath="$PROJECT_DIR$/SALOME/WORK/Mesh_rec_moving.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/globalvar.py" afterPath="$PROJECT_DIR$/globalvar.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainframe.py" afterPath="$PROJECT_DIR$/mainframe.py" />
     </list>
@@ -43,8 +31,8 @@
       <file leaf-file-name="PreFile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PreFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="175" column="39" lean-forward="true" selection-start-line="175" selection-start-column="39" selection-end-line="175" selection-end-column="39" />
+            <state relative-caret-position="953">
+              <caret line="1039" column="30" lean-forward="true" selection-start-line="1039" selection-start-column="30" selection-end-line="1039" selection-end-column="30" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -55,8 +43,8 @@
       <file leaf-file-name="mainframe.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mainframe.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="931" column="38" lean-forward="true" selection-start-line="931" selection-start-column="38" selection-end-line="931" selection-end-column="38" />
+            <state relative-caret-position="-3894">
+              <caret line="741" column="20" lean-forward="true" selection-start-line="741" selection-start-column="20" selection-end-line="741" selection-end-column="20" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -67,8 +55,8 @@
       <file leaf-file-name="globalvar.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/globalvar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state relative-caret-position="198">
+              <caret line="9" column="33" lean-forward="true" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -386,10 +374,10 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15364583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19607843" sideWeight="0.501845" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32897604" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19607843" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19607843" sideWeight="0.49815497" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -697,6 +685,14 @@
     <entry file="file://$PROJECT_DIR$/BrowseFolder.py" />
     <entry file="file://$PROJECT_DIR$/function_button.py" />
     <entry file="file://$PROJECT_DIR$/main.py" />
+    <entry file="file://$PROJECT_DIR$/globalvar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="33" lean-forward="true" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MessageBox.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
@@ -705,18 +701,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/globalvar.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PreFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="175" column="39" lean-forward="true" selection-start-line="175" selection-start-column="39" selection-end-line="175" selection-end-column="39" />
+        <state relative-caret-position="953">
+          <caret line="1039" column="30" lean-forward="true" selection-start-line="1039" selection-start-column="30" selection-end-line="1039" selection-end-column="30" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
@@ -725,8 +713,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainframe.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="931" column="38" lean-forward="true" selection-start-line="931" selection-start-column="38" selection-end-line="931" selection-end-column="38" />
+        <state relative-caret-position="-3894">
+          <caret line="741" column="20" lean-forward="true" selection-start-line="741" selection-start-column="20" selection-end-line="741" selection-end-column="20" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>

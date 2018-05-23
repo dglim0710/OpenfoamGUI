@@ -9,7 +9,7 @@ global Nozzle_shape
 Nozzle_shape = 'rectangular'
 # twophase_check = 1 >>>> 2 Phase
 # twophase_check = 0 >>>> Do not use 2 phase
-twophase_check = 1
+twophase_check = 0
 n = 0
 Case_folder_path = '! Set the path of a simulation folder !'
 Of_folder_path = '! Set the path of the Openfoam folder !'
@@ -61,6 +61,8 @@ VariableDict = OrderedDict([
     ####################################################################################################################
     ('Mesh_Type', 'Triangular'),
     ('Mesh_size', 0.0025),
+    ('longseg', 825),
+    ('shortseg', 10),
     ####################################################################################################################
     ('StartX', 0.),
     ('StartY', 0.),

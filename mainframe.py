@@ -389,11 +389,11 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+6, column=1, columnspan=3)
         elif globalvar.n == 7 and globalvar.Nozzle_shape == 'rectangular':
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
-            Label_dict = ['Maximum mesh size']
-            vector_dis = [0.]
-            Unit_list = ['[m]']
-            Value_dict = OrderedDict([('Mesh_size', 0.)])
-            int_dis = [0.]
+            Label_dict = ['Maximum mesh size', 'Long segment', 'Short segment']
+            vector_dis = [0., 0., 0.]
+            Unit_list = ['[m]', '', '']
+            Value_dict = OrderedDict([('Mesh_size', 0.), ('longseg', 0.), ('shortseg', 0.)])
+            int_dis = [0., 0., 0.]
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
             j = 0
@@ -694,7 +694,7 @@ class upper_menu(Menu):
 class Application(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.title('Developer Simulator_V_0.1')
+        self.title('Developer Simulator')
         self.geometry()
         self.config(menu=upper_menu())
         self.render()
@@ -730,10 +730,15 @@ def Runsolver(Casepath):
     Casepath = 'cd '+Casepath+' && '
     OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
     if globalvar.twophase_check == 1:
+        with open(globalvar.Case_folder_path + '/0/alpha1', "w") as text_file:
+            text_file.write(PreFile.alpha_save())
+        # Copy = 'cp 0/alpha1.org 0/alpha1 && '
+        setfields = 'setFields &&'
         RunOP = 'samsungFoamFV2P'
+        Total = OFpath + Casepath + setfields + RunOP
     else:
         RunOP = 'samsungFoamFV'
-    Total = OFpath+Casepath+RunOP
+        Total = OFpath+Casepath+RunOP
     os.system(Total)
 
 
