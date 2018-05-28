@@ -1,0 +1,74 @@
+
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    psi
+    {
+        solver          BiCGStab;
+        preconditioner  ILU0;
+        tolerance       1e-09;
+        relTol          0.0001;
+    }
+
+    U
+    {
+        solver          BiCGStab;
+        preconditioner  ILU0;
+        tolerance       1e-09;
+        relTol          0.0001;
+    }
+
+    h
+    {
+        solver          BiCGStab;
+        preconditioner  ILU0;
+        tolerance       1e-09;
+        relTol          0.0001;
+    }
+}
+
+nOuter 15;
+
+fCo   0;  //0.0125;
+
+LapSwitch 0.;
+
+
+PISO
+{
+    cAlpha          1;
+}
+
+PIMPLE
+{
+    momentumPredictor yes;
+    nOuterCorrectors 17;
+    nCorrectors     4;
+    nNonOrthogonalCorrectors 0;
+    nAlphaCorr      2;
+    nAlphaSubCycles 2;
+}
+
+relaxationFactors
+{
+    h 0.05;
+    U 0.05;
+}
+// ************************************************************************* //
+    

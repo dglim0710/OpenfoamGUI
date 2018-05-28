@@ -31,20 +31,26 @@ class task_frame(LabelFrame):
             bt1.grid(row=0, column=3)
             for l in range(1, 9):
                 Label(self, text='').grid(row=l, column=0)
-            Label_dict = ['Nozzle shape']
-            Value_dict = OrderedDict([('Type', 0.)])
+            Label_dict = ['Nozzle shape','The number of process steps']
+            Value_dict = OrderedDict([('Type', 0.), ('step', 0.)])
             OptionList = ['rectangular', 'circular']
             var2 = StringVar()
             var2.set(globalvar.Nozzle_shape)
             Label(self, text=Label_dict[0]).grid(row=l+1, column=0, pady=5)
-            OptionMenu(self, var2, *OptionList, command=lambda _: nozzletype(var2)).grid(row=l+1, column=1, columnspan=2)
+            OptionMenu(self, var2, *OptionList, command=lambda _: nozzletype(var2)).grid(row=l+1, column=1, columnspan=1)
             var1 = IntVar(value=globalvar.twophase_check)
+            var3 = IntVar(value=globalvar.stepN)
+            # var3.set(globalvar.stepN)
+            Label(self, text=Label_dict[1]).grid(row=l+2, column=0, pady=5)
+            Value_dict['step'] = Entry(self, textvariable=var3, width=10)
+            Value_dict['step'].grid(row=l+2, column=1, pady=5)
+            Button(self, text='Save', width=5, command=lambda: changeStepN(Value_dict['step'].get())).grid(row=l+2, column=2, pady=5)
             levelsetbutton = Checkbutton(self,  text='Using two phase Model', variable=var1, command=lambda: levelsetonoff(var1))
             if globalvar.twophase_check == 1:
                 levelsetbutton.select()
             else:
                 levelsetbutton.deselect()
-            levelsetbutton.grid(row=l+2, column=0)
+            levelsetbutton.grid(row=l+3, column=0)
 
             # Label(self, text='Openfoam folder : ', width=15).grid(row=1, column=0)
             # Label(self, text=globalvar.Of_folder_path).grid(row=1, column=1, columnspan=2)
@@ -165,42 +171,62 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=5)
         elif globalvar.n == 3:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
-            Label_dict = ['Start time', 'End time', 'Time step', 'Write interval']
-            Unit_list = ['[s]', '[s]', '[s]', '', '']
-            vector_dis = [0., 0., 0., 0., 0.]
-            int_dis = [0., 0., 0., 1., 1.]
-            Value_dict = OrderedDict([('Start_time', 0.), ('End_time', 0.), ('Time_step', 0.), ('Write_interval', 0.)])
+            Label_dict = ['Time step', 'Write interval']
+            Unit_list = ['[s]', '']
+            vector_dis = [0., 0.]
+            int_dis_basic = [0., 1.]
+            # Value_dict = OrderedDict([('Time_step', 0.), ('Write_interval', 0.)])
+            Value_dict = OrderedDict()
+            int_dis = []
+            for nn in range(0, int(globalvar.stepN)):
+                Dict_front_name = ['Time_step', 'Write_interval']
+                for nnn in range(0, len(Dict_front_name)):
+                    makename = Dict_front_name[nnn]+str(nn+1)
+                    Value_dict[makename] = 0.
+                    if int_dis_basic[nnn] == 0.:
+                        int_dis.append(0)
+                    else:
+                        int_dis.append(1)
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
-            j = 0
+            stepframe = LabelFrame(self)
+            stepframe.config(bd=0, text='- Parameters')
+            stepframe.grid(row=0, column=0)
             for i in range(0, len(Label_dict)):
-                k = 2
-                Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
-                Label(self, text=Unit_list[i], width=10).grid(row=i, column=1, columnspan=1)
-                if vector_dis[i] == 0.:
-                    if int_dis[j] == 0.:
-                        Label_values[j] = DoubleVar()
-                    elif int_dis[j] == 1.:
-                        Label_values[j] = IntVar()
-                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
-                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
-                    Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
-                    j = j+1
-                elif vector_dis[i] == 1.:
-                    for j in range(j, j+3):
+                Label(stepframe, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
+                Label(stepframe, text=Unit_list[i], width=10).grid(row=i, column=1, pady=5)
+            j = 0
+            for nn in range(0, int(globalvar.stepN)):
+                stepframe = LabelFrame(self)
+                stepframename = 'Step ' + str(nn + 1)
+                stepframe.config(text=stepframename)
+                stepframe.grid(row=0, column=nn + 1)
+                for i in range(0, len(Label_dict)):
+                    k = 2
+                    if vector_dis[i] == 0.:
                         if int_dis[j] == 0.:
                             Label_values[j] = DoubleVar()
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
-                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]] = Entry(stepframe, textvariable=Label_values[j], width=10)
                         Label_values[j].set(globalvar.VariableDict[Label_array[j]])
-                        Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
-                        k = k+1
-                    j = j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=3, pady=2, sticky=E)
-            Button(self, text='Run', width=5, command=lambda: Runsolver(globalvar.Case_folder_path)).grid(row=len(Label_array)+4, column=3, sticky=E)
-            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
-            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=3)
+                        Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1, pady=5)
+                        j = j + 1
+                    elif vector_dis[i] == 1.:
+                        for j in range(j, j + 3):
+                            if int_dis[j] == 0.:
+                                Label_values[j] = DoubleVar()
+                            elif int_dis[j] == 1.:
+                                Label_values[j] = IntVar()
+                            Value_dict[Label_array[j]] = Entry(stepframe, textvariable=Label_values[j], width=10)
+                            Label_values[j].set(globalvar.VariableDict[Label_array[j]])
+                            Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1, pady=5)
+                            k = k + 1
+                        j = j + 1
+            Button(self, text='Save', width=5,
+                   command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=1, column=nn + 1,
+                                                                                                  pady=5, sticky=E)
+            Button(self, text='Run', width=5, command=lambda: Runsolver(globalvar.Case_folder_path)).grid(row=2, column=nn+1, sticky=E)
         elif globalvar.n == 4:
             self.config(text=tree_menu_list[globalvar.n], font=fontsize)
         elif globalvar.n == 5:
@@ -482,87 +508,123 @@ class task_frame(LabelFrame):
             Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict) + 6, column=1, columnspan=5)
         elif globalvar.n == 10 and globalvar.Nozzle_shape == 'circular':
             self.config(text=tree_menu_list[globalvar.n]+' ('+globalvar.Nozzle_shape+')', font=fontsize)
-            Label_dict = ['Initial location (x, y, z)', 'Scan direction (x, y, z)', 'Rotating speed',
-                          'Scan velocity', 'Fixed thickness', 'Flow rate']
-            vector_dis = [1., 1., 0., 0., 0., 0., 0.]
-            Unit_list = ['[m]', '', '[RPM]', '[m/s]', '[m]', '[LPM]']
-            Value_dict = OrderedDict([('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
-                                      ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.),
-                                      ('Nozzle_velocity', 0.), ('OmegaZ', 0.),
-                                      ('Fixed_thickness', 0.), ('Jet_velocity', 0.)])
-            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+            Label_dict = ['Initial location (x, y, z)', 'Final direction (x, y, z)', 'Rotating speed',
+                          'Process time', 'Fixed thickness', 'Flow rate']
+            vector_dis = [1., 1., 0., 0., 0., 0.]
+            Unit_list = ['[m]', '[m]', '[RPM]', '[s]', '[m]', '[LPM]']
+            Value_dict = OrderedDict()
+            int_dis = []
+            for nn in range(0, int(globalvar.stepN)):
+                Dict_front_name = ['Initial_LocationX', 'Initial_LocationY', 'Initial_LocationZ', 'Final_LocationX',
+                                   'Final_LocationY', 'Final_LocationZ', 'jet_directionX', 'jet_directionY',
+                                   'jet_directionZ', 'OmegaZ', 'Process_time', 'Fixed_thickness', 'Jet_velocity']
+                for nnn in range(0, len(Dict_front_name)):
+                    makename = Dict_front_name[nnn]+str(nn+1)
+                    Value_dict[makename] = 0.
+                    int_dis.append(0)
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
             j =0
+            stepframe = LabelFrame(self)
+            stepframe.config(bd=0, text='- Parameters')
+            stepframe.grid(row=0, column=0)
             for i in range(0, len(Label_dict)):
-                k = 2
-                Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
-                Label(self, text=Unit_list[i], width=10).grid(row=i, column=1)
-                if vector_dis[i] == 0.:
-                    if int_dis[j] == 0.:
-                        Label_values[j] = DoubleVar()
-                    elif int_dis[j] == 1.:
-                        Label_values[j] = IntVar()
-                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
-                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
-                    Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
-                    j = j+1
-                elif vector_dis[i] == 1.:
-                    for j in range(j, j+3):
+                Label(stepframe, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
+                Label(stepframe, text=Unit_list[i], width=10).grid(row=i, column=1, pady=5)
+            j = 0
+            for nn in range(0, int(globalvar.stepN)):
+                stepframe = LabelFrame(self)
+                stepframename = 'Step ' + str(nn + 1)
+                stepframe.config(text=stepframename)
+                stepframe.grid(row=0, column=nn + 1)
+                for i in range(0, len(Label_dict)):
+                    # if nn == 0:
+                    #     Label(stepframe, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
+                    #     Label(stepframe, text=Unit_list[i], width=10).grid(row=i, column=1, pady=5)
+                    k = 2
+                    if vector_dis[i] == 0.:
                         if int_dis[j] == 0.:
                             Label_values[j] = DoubleVar()
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
-                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]] = Entry(stepframe, textvariable=Label_values[j], width=10)
                         Label_values[j].set(globalvar.VariableDict[Label_array[j]])
-                        Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
-                        k = k+1
-                    j=j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=5, pady=5, sticky=E)
-            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
-            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=5)
+                        Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1, pady=5)
+                        j = j + 1
+                    elif vector_dis[i] == 1.:
+                        for j in range(j, j + 3):
+                            if int_dis[j] == 0.:
+                                Label_values[j] = DoubleVar()
+                            elif int_dis[j] == 1.:
+                                Label_values[j] = IntVar()
+                            Value_dict[Label_array[j]] = Entry(stepframe, textvariable=Label_values[j], width=10)
+                            Label_values[j].set(globalvar.VariableDict[Label_array[j]])
+                            Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1, pady=5)
+                            k = k + 1
+                        j = j + 1
+            Button(self, text='Save', width=5,
+                   command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=1, column=nn + 1,
+                                                                                                  pady=5, sticky=E)
         elif globalvar.n == 10 and globalvar.Nozzle_shape == 'rectangular':
             self.config(text=tree_menu_list[globalvar.n]+' ('+globalvar.Nozzle_shape+')', font=fontsize)
-            Label_dict = ['Initial location (x, y, z)', 'Scan direction (x, y, z)',
-                          'Nozzle direction (x, y, z)', 'Rotating speed', 'Scan velocity', 'Flow rate']
-            vector_dis = [1., 1., 1., 0., 0., 0., 0., 0.]
-            Unit_list = ['[m]', '', '', '[RPM]', '[m/s]', '[LPM]']
-            Value_dict = OrderedDict([('LocationX', 0.), ('LocationY', 0.), ('LocationZ', 0.),
-                                      ('Motion_directionX', 0.), ('Motion_directionY', 0.), ('Motion_directionZ', 0.),
-                                      ('jet_directionX', 0.), ('jet_directionY', 0.), ('jet_directionZ', 0.),
-                                      ('OmegaZ', 0.), ('Nozzle_velocity', 0.),
-                                      ('Jet_velocity', 0.)])
-            int_dis = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+            # nn = 0
+            Label_dict = ['Initial position (x, y, z)', 'Final position (x, y, z)',
+                          'Nozzle direction (x, y, z)', 'Rotating speed', 'Process time', 'Flow rate']
+            vector_dis = [1., 1., 1., 0., 0., 0.]
+            Unit_list = ['[m]', '[m]', '', '[RPM]', '[s]', '[LPM]']
+            Value_dict = OrderedDict()
+            int_dis = []
+            for nn in range(0, int(globalvar.stepN)):
+                Dict_front_name = ['Initial_LocationX', 'Initial_LocationY', 'Initial_LocationZ', 'Final_LocationX',
+                                   'Final_LocationY', 'Final_LocationZ', 'jet_directionX', 'jet_directionY',
+                                   'jet_directionZ', 'OmegaZ', 'Process_time', 'Jet_velocity']
+                for nnn in range(0, len(Dict_front_name)):
+                    makename = Dict_front_name[nnn]+str(nn+1)
+                    Value_dict[makename] = 0.
+                    int_dis.append(0)
             Label_array = list(Value_dict.keys())
             Label_values = list(Value_dict.values())
-            j =0
+            # for i in range(0, len(Label_dict)):
+            #     Label(self, text=Label_dict[i], width=20).grid(row=0, column=0, columnspan=1, pady=5)
+            #     Label(self, text=Unit_list[i], width=10).grid(row=0, column=1, pady=5)
+            stepframe = LabelFrame(self)
+            stepframe.config(bd=0, text='- Parameters')
+            stepframe.grid(row=0, column=0)
             for i in range(0, len(Label_dict)):
-                k = 2
-                Label(self, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
-                Label(self, text=Unit_list[i], width=10).grid(row=i, column=1)
-                if vector_dis[i] == 0.:
-                    if int_dis[j] == 0.:
-                        Label_values[j] = DoubleVar()
-                    elif int_dis[j] == 1.:
-                        Label_values[j] = IntVar()
-                    Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
-                    Label_values[j].set(globalvar.VariableDict[Label_array[j]])
-                    Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1)
-                    j = j+1
-                elif vector_dis[i] == 1.:
-                    for j in range(j, j+3):
+                Label(stepframe, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
+                Label(stepframe, text=Unit_list[i], width=10).grid(row=i, column=1, pady=5)
+            j = 0
+            for nn in range(0, int(globalvar.stepN)):
+                stepframe=LabelFrame(self)
+                stepframename = 'Step '+str(nn+1)
+                stepframe.config(text=stepframename)
+                stepframe.grid(row=0, column=nn+1)
+                for i in range(0, len(Label_dict)):
+                    # if nn == 0:
+                    #     Label(stepframe, text=Label_dict[i], width=20).grid(row=i, column=0, columnspan=1, pady=5)
+                    #     Label(stepframe, text=Unit_list[i], width=10).grid(row=i, column=1, pady=5)
+                    k = 2
+                    if vector_dis[i] == 0.:
                         if int_dis[j] == 0.:
                             Label_values[j] = DoubleVar()
                         elif int_dis[j] == 1.:
                             Label_values[j] = IntVar()
-                        Value_dict[Label_array[j]] = Entry(self, textvariable=Label_values[j], width=10)
+                        Value_dict[Label_array[j]] = Entry(stepframe, textvariable=Label_values[j], width=10)
                         Label_values[j].set(globalvar.VariableDict[Label_array[j]])
-                        Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1)
-                        k = k+1
-                    j=j+1
-            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=len(Label_dict)+3, column=5, pady=5, sticky=E)
-            Label(self, text='Saving folder : ', width=15).grid(row=len(Label_dict)+5, column=0, pady=5)
-            Label(self, text=globalvar.Case_folder_path).grid(row=len(Label_dict)+5, column=1, columnspan=5)
+                        Value_dict[Label_array[j]].grid(row=i, column=2, columnspan=1, rowspan=1, pady=5)
+                        j = j+1
+                    elif vector_dis[i] == 1.:
+                        for j in range(j, j+3):
+                            if int_dis[j] == 0.:
+                                Label_values[j] = DoubleVar()
+                            elif int_dis[j] == 1.:
+                                Label_values[j] = IntVar()
+                            Value_dict[Label_array[j]] = Entry(stepframe, textvariable=Label_values[j], width=10)
+                            Label_values[j].set(globalvar.VariableDict[Label_array[j]])
+                            Value_dict[Label_array[j]].grid(row=i, column=k, columnspan=1, rowspan=1, pady=5)
+                            k = k+1
+                        j=j+1
+            Button(self, text='Save', width=5, command=lambda: save(Label_values, Value_dict, Label_array, globalvar.n)).grid(row=1, column=nn+1, pady=5, sticky=E)
 
 
 class tree_frame(LabelFrame):
@@ -581,16 +643,16 @@ class tree_frame(LabelFrame):
 
         bt0 = Button(self, text='Basic setting', command=lambda: replace_task_frame(0), width=15)
         bt0.grid(row=1, column=0, padx=2, pady=2)
-        bt0.config(bg='white', activebackground='gray', bd=0)
+        bt0.config(bg='white', activebackground='gray', bd=1)
         bt1 = Button(self, text='Process condition', command=lambda: replace_task_frame(10), width=15)
         bt1.grid(row=2, column=0, padx=2, pady=2)
-        bt1.config(bg='white', activebackground='gray', bd=0)
+        bt1.config(bg='white', activebackground='gray', bd=1)
         bt2 = Button(self, text='Nozzle spec', command=lambda: replace_task_frame(2), width=15)
         bt2.grid(row=3, column=0, padx=2, pady=2)
-        bt2.config(bg='white', activebackground='gray', bd=0)
+        bt2.config(bg='white', activebackground='gray', bd=1)
         bt0 = Button(self, text='Meshing', command=lambda: replace_task_frame(7), width=15)
         bt0.grid(row=4, column=0, padx=2, pady=2)
-        bt0.config(bg='white', activebackground='gray', bd=0)
+        bt0.config(bg='white', activebackground='gray', bd=1)
 
         empty0 = Label(self, text='')
         empty0.grid(row=5, column=0, padx=2, pady=2)
@@ -600,7 +662,7 @@ class tree_frame(LabelFrame):
         label2.config(bg='white', activebackground='gray')
         bt1 = Button(self, text='Properties', command=lambda: replace_task_frame(1), width=15)
         bt1.grid(row=7, column=0, padx=2, pady=2)
-        bt1.config(bg='white', activebackground='gray', bd=0)
+        bt1.config(bg='white', activebackground='gray', bd=1)
         # bt1 = Button(self, text='Process condition', command=lambda: replace_task_frame(10), width=15)
         # bt1.grid(row=6, column=0, padx=2, pady=2)
         # bt1.config(bg='white', activebackground='gray', bd=0)
@@ -609,7 +671,7 @@ class tree_frame(LabelFrame):
         # bt2.config(bg='white', activebackground='gray', bd=0)
         bt3 = Button(self, text='Solution control', command=lambda: replace_task_frame(3), width=15)
         bt3.grid(row=8, column=0, padx=2, pady=2)
-        bt3.config(bg='white', activebackground='gray', bd=0)
+        bt3.config(bg='white', activebackground='gray', bd=1)
 
         empty1 = Label(self, text='')
         empty1.grid(row=9, column=0, padx=2, pady=2)
@@ -625,7 +687,7 @@ class tree_frame(LabelFrame):
         # bt5.config(bg='white', activebackground='gray', bd=0)
         bt6 = Button(self, text='Solver control', command=lambda: replace_task_frame(6), width=15)
         bt6.grid(row=11, column=0, padx=2, pady=2)
-        bt6.config(bg='white', activebackground='gray', bd=0)
+        bt6.config(bg='white', activebackground='gray', bd=1)
 
         empty2 = Label(self, text='')
         empty2.grid(row=12, column=0, padx=2, pady=2)
@@ -635,10 +697,10 @@ class tree_frame(LabelFrame):
         label4.config(bg='white', activebackground='gray')
         bt7 = Button(self, text='Result', width=15, command=lambda: replace_task_frame(8))
         bt7.grid(row=14, column=0, padx=2, pady=2)
-        bt7.config(bg='white', activebackground='gray', bd=0)
+        bt7.config(bg='white', activebackground='gray', bd=1)
         bt8 = Button(self, text='Graphs', width=15, command=lambda: replace_task_frame(9))
         bt8.grid(row=15, column=0, padx=2, pady=2)
-        bt8.config(bg='white', activebackground='gray', bd=0)
+        bt8.config(bg='white', activebackground='gray', bd=1)
 
         empty3 = Label(self, text='')
         empty3.grid(row=18, column=0, padx=2, pady=20)
@@ -760,7 +822,7 @@ def geneartemesh(Casepath, mesh_type):
         mesh_name = 'Mesh_Tri.unv'
     elif mesh_type == 'Hexagonal' and globalvar.Nozzle_shape == 'circular':
         mesh_name = 'Mesh_Hexa.unv'
-    elif globalvar.Nozzle_shape == 'rectagular':
+    elif globalvar.Nozzle_shape == 'rectangular':
         mesh_name = 'Mesh_rec.unv'
     Casepath = 'cd '+Casepath+' && '
     OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
@@ -775,6 +837,28 @@ def samplingdata(Casepath):
     sample = 'sample'
     Total = OFpath+Casepath+sample
     os.system(Total)
+
+
+def changeStepN(num):
+    globalvar.stepN = num
+    for nn in range(1, int(globalvar.stepN)):
+        Dict_front_name = ['Initial_LocationX', 'Initial_LocationY', 'Initial_LocationZ', 'Final_LocationX',
+                           'Final_LocationY', 'Final_LocationZ', 'jet_directionX', 'jet_directionY',
+                           'jet_directionZ', 'OmegaZ', 'Process_time', 'Fixed_thickness', 'Jet_velocity', 'Time_step',
+                           'Write_interval']
+        for nnn in range(0, len(Dict_front_name)):
+            makename = Dict_front_name[nnn] + str(nn + 1)
+            globalvar.VariableDict[makename] = 0.
+    if globalvar.twophase_check == 1.:
+        for i in range(0, int(globalvar.stepN)):
+            Copy = 'copy ./basic/2P '+globalvar.Case_folder_path+'/'+str(i+1)
+    elif globalvar.twophase_check == 0.:
+        for i in range(0, int(globalvar.stepN)):
+            Copy = 'copy ./basic/FV '+globalvar.Case_folder_path+'/'+str(i+1)
+    os.system(Copy)
+
+    MessageBox.Save_complete()
+
 
 def dataplot(time):
     filename = '/thickness_h_ih.xy'
@@ -832,8 +916,6 @@ def nozzletype(type):
 def save(label_values, label_dict, label_array, menu_number):
     input_list = list(label_array)
     for i in range(0, len(label_values)):
-        # if int_check[i] == 1. and type(label_values[i].get()) is not int:
-            # MessageBox.Float_warning()
         label_dict[input_list[i]] = label_values[i].get()
     for j in label_array:
         globalvar.VariableDict[j] = label_dict[j]
@@ -845,24 +927,29 @@ def save(label_values, label_dict, label_array, menu_number):
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/constant/transportProperties', "w") as text_file:
-                text_file.write(PreFile.transportProperties_save_2p())
-            with open(globalvar.Case_folder_path+'/constant/g', "w") as text_file:
-                text_file.write(PreFile.g_save())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/constant/transportProperties', "w") as text_file:
+                    text_file.write(PreFile.transportProperties_save_2p())
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/constant/g', "w") as text_file:
+                    text_file.write(PreFile.g_save())
     elif menu_number == 2 and globalvar.twophase_check == 1:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/constant/physicalParameters', "w") as text_file:
-                text_file.write(PreFile.physicalParameters_save_2p())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/constant/physicalParameters', "w") as text_file:
+                    text_file.write(PreFile.physicalParameters_save_2p(i))
     elif menu_number == 10 and globalvar.twophase_check == 1:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/constant/physicalParameters', "w") as text_file:
-                text_file.write(PreFile.physicalParameters_save_2p())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/constant/physicalParameters', "w") as text_file:
+                    text_file.write(PreFile.physicalParameters_save_2p(i))
+                with open(globalvar.Case_folder_path + '/' + str(i+1) + '/system/controlDict', "w") as text_file:
+                    text_file.write(PreFile.controlDict_save(i))
     elif menu_number == 1 and globalvar.twophase_check == 0:
         if label_dict['Gas_Viscosity'] == 0. or label_dict['Gas_Density'] == 0. or label_dict['Liquid_Viscosity'] == 0. \
                 or label_dict['Liquid_Density'] == 0. or label_dict['Surface_tension'] == 0.:
@@ -871,51 +958,59 @@ def save(label_values, label_dict, label_array, menu_number):
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/constant/g', "w") as text_file:
-                text_file.write(PreFile.g_save())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/constant/g', "w") as text_file:
+                    text_file.write(PreFile.g_save())
     elif menu_number == 2 and globalvar.twophase_check == 0:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/constant/transportProperties', "w") as text_file:
-                text_file.write(PreFile.transportProperties_save_no_2p())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/constant/transportProperties', "w") as text_file:
+                    text_file.write(PreFile.transportProperties_save_no_2p(i))
     elif menu_number == 10 and globalvar.twophase_check == 0:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/constant/transportProperties', "w") as text_file:
-                text_file.write(PreFile.transportProperties_save_no_2p())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/constant/transportProperties', "w") as text_file:
+                    text_file.write(PreFile.transportProperties_save_no_2p(i))
+                with open(globalvar.Case_folder_path + '/' + str(i+1) + '/system/controlDict', "w") as text_file:
+                    text_file.write(PreFile.controlDict_save(i))
     elif menu_number == 3:
-        if label_dict['Start_time'] > label_dict['End_time']:
-            MessageBox.Simulationtime_error()
-        elif globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
+        # if label_dict['Start_time'] > label_dict['End_time']:
+        #     MessageBox.Simulationtime_error()
+        if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
-        elif label_dict['Time_step'] == 0. or label_dict['Write_interval'] == 0:
-            MessageBox.Timestep_error()
+        # elif label_dict['Time_step'] == 0. or label_dict['Write_interval'] == 0:
+        #     MessageBox.Timestep_error()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/system/controlDict', "w") as text_file:
-                text_file.write(PreFile.controlDict_save())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/system/controlDict', "w") as text_file:
+                    text_file.write(PreFile.controlDict_save(i))
     elif menu_number == 6 and globalvar.twophase_check == 1:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/system/fvSolution', "w") as text_file:
-                text_file.write(PreFile.fvSolution_save_2p())
-            with open(globalvar.Case_folder_path+'/system/fvSchemes', "w") as text_file:
-                text_file.write(PreFile.fvSchemes_save_2p())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/system/fvSolution', "w") as text_file:
+                    text_file.write(PreFile.fvSolution_save_2p())
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/system/fvSchemes', "w") as text_file:
+                    text_file.write(PreFile.fvSchemes_save_2p())
     elif menu_number == 6 and globalvar.twophase_check == 0:
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()
         else:
             MessageBox.Save_complete()
-            with open(globalvar.Case_folder_path+'/system/fvSolution', "w") as text_file:
-                text_file.write(PreFile.fvSolution_save_no_2p())
-            with open(globalvar.Case_folder_path+'/system/fvSchemes', "w") as text_file:
-                text_file.write(PreFile.fvSchemes_save_no_2p())
+            for i in range(0, int(globalvar.stepN)):
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/system/fvSolution', "w") as text_file:
+                    text_file.write(PreFile.fvSolution_save_no_2p())
+                with open(globalvar.Case_folder_path+'/'+str(i+1)+'/system/fvSchemes', "w") as text_file:
+                    text_file.write(PreFile.fvSchemes_save_no_2p())
     elif menu_number == 7 and globalvar.Nozzle_shape == 'circular':
         if globalvar.Case_folder_path == '! Set the path of a simulation folder !' or globalvar.Case_folder_path == '':
             MessageBox.UnselectedFolder()

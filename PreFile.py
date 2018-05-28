@@ -197,7 +197,7 @@ os._exit(0)
     return builded
 
 
-def transportProperties_save_no_2p():
+def transportProperties_save_no_2p(num):
     transportProperties = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -228,7 +228,7 @@ sigma sigma [ 1 0 -2 0 0 0 0 ] $Surface_tension;
 
 h0 h0 [ 0 1 0 0 0 0 0] 1e-10;
 
-Omega ($OmegaX $OmegaY $OmegaZ);
+Omega (0. 0. $OmegaZ);
 Oxyz     (0 0 0);
 
 fCo   0;  //0.0125;
@@ -260,34 +260,54 @@ UMagFixedVal	$Jet_velocity;
 
 // ************************************************************************* //
     ''')
-    OmegaX_rad = globalvar.VariableDict['OmegaX'] * (2. * 3.141592) / 60.
-    OmegaY_rad = globalvar.VariableDict['OmegaY'] * (2. * 3.141592) / 60.
-    OmegaZ_rad = globalvar.VariableDict['OmegaZ'] * (2. * 3.141592) / 60.
-    UnitX = globalvar.VariableDict['Motion_directionX'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
-    UnitY = globalvar.VariableDict['Motion_directionY'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
-    UnitZ = globalvar.VariableDict['Motion_directionZ'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
-    UnitXX = globalvar.VariableDict['jet_directionX'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
-    UnitYY = globalvar.VariableDict['jet_directionY'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
-    UnitZZ = globalvar.VariableDict['jet_directionZ'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+
+    OmegaZ_rad_name = 'OmegaZ'+str(num+1)
+    OmegaZ_rad = globalvar.VariableDict[OmegaZ_rad_name] * (2. * 3.141592) / 60.
+    Initial_LocationX_name = 'Initial_LocationX' + str(num+1)
+    Initial_LocationY_name = 'Initial_LocationY' + str(num+1)
+    Initial_LocationZ_name = 'Initial_LocationZ' + str(num+1)
+    Final_LocationX_name = 'Final_LocationX' + str(num+1)
+    Final_LocationY_name = 'Final_LocationY' + str(num+1)
+    Final_LocationZ_name = 'Final_LocationZ' + str(num+1)
+    process_time_name = 'Process_time' + str(num+1)
+    DisX = globalvar.VariableDict[Final_LocationX_name] - globalvar.VariableDict[Initial_LocationX_name]
+    DisY = globalvar.VariableDict[Final_LocationY_name] - globalvar.VariableDict[Initial_LocationY_name]
+    DisZ = globalvar.VariableDict[Final_LocationZ_name] - globalvar.VariableDict[Initial_LocationZ_name]
+    nozzlevelocity = ((DisX**2 + DisY**2 + DisZ**2) ** (1/2)) / globalvar.VariableDict[process_time_name]
+    UnitX = DisX / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    UnitY = DisY / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    UnitZ = DisZ / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    jet_directionX_name = 'jet_directionX' + str(num+1)
+    jet_directionY_name = 'jet_directionY' + str(num+1)
+    jet_directionZ_name = 'jet_directionZ' + str(num+1)
+    UnitXX = globalvar.VariableDict[jet_directionX_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
+                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
+                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
+    UnitYY = globalvar.VariableDict[jet_directionY_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
+                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
+                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
+    UnitZZ = globalvar.VariableDict[jet_directionZ_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
+                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
+                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
     Angle_rad = globalvar.VariableDict['Angle'] * 3.141592 / 180.
     if globalvar.Nozzle_shape == 'circular':
         nozzle_area = 3.141592 * (globalvar.VariableDict['Radius'])**2
     elif globalvar.Nozzle_shape == 'rectangular':
         nozzle_area = globalvar.VariableDict['Width'] * globalvar.VariableDict['Length']
-    Flow_rate_velocity = globalvar.VariableDict['Jet_velocity'] * 0.001 / (60. * nozzle_area)
+    Flow_rate_velocity_name = 'Jet_velocity'+str(num+1)
+    fixed_thickness_name = 'Fixed_thickness'+str(num+1)
+    Flow_rate_velocity = globalvar.VariableDict[Flow_rate_velocity_name] * 0.001 / (60. * nozzle_area)
     builded = transportProperties.substitute(Liquid_Viscosity=globalvar.VariableDict['Liquid_Viscosity'],
                                              Liquid_Density=globalvar.VariableDict['Liquid_Density'],
                                              Gas_Viscosity=globalvar.VariableDict['Gas_Viscosity'],
                                              Gas_Density=globalvar.VariableDict['Gas_Density'],
                                              Surface_tension=globalvar.VariableDict['Surface_tension'],
                                              Type=globalvar.Nozzle_shape,
-                                             OmegaX=OmegaX_rad,
-                                             OmegaY=OmegaY_rad,
                                              OmegaZ=OmegaZ_rad,
-                                             LocationX=globalvar.VariableDict['LocationX'],
-                                             LocationY=globalvar.VariableDict['LocationY'],
-                                             LocationZ=globalvar.VariableDict['LocationZ'],
-                                             Nozzle_velocity=globalvar.VariableDict['Nozzle_velocity'],
+                                             LocationX=globalvar.VariableDict[Initial_LocationX_name],
+                                             LocationY=globalvar.VariableDict[Initial_LocationY_name],
+                                             LocationZ=globalvar.VariableDict[Initial_LocationZ_name],
+                                             Nozzle_velocity=nozzlevelocity,
                                              Motion_directionX=UnitX,
                                              Motion_directionY=UnitY,
                                              Motion_directionZ=UnitZ,
@@ -296,11 +316,12 @@ UMagFixedVal	$Jet_velocity;
                                              Width=globalvar.VariableDict['Width'],
                                              Angle=Angle_rad,
                                              Length=globalvar.VariableDict['Length'],
-                                             Fixed_thickness=globalvar.VariableDict['Fixed_thickness'],
+                                             Fixed_thickness=globalvar.VariableDict[fixed_thickness_name],
                                              Jet_velocity=Flow_rate_velocity,
                                              jet_directionX=UnitXX,
                                              jet_directionY=UnitYY,
-                                             jet_directionZ=UnitZZ)
+                                             jet_directionZ=UnitZZ
+                                             )
 
     return builded
 
@@ -362,7 +383,7 @@ sigma sigma [ 1 0 -2 0 0 0 0 ] $Surface_tension;
     return builded
 
 
-def physicalParameters_save_2p():
+def physicalParameters_save_2p(num):
     physicalParameters = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -388,7 +409,7 @@ h0 h0 [ 0 1 0 0 0 0 0] 1e-10;
 hTol hTol [ 0 1 0 0 0 0 0] 1e-5;
 
 
-Omega ($OmegaX $OmegaY $OmegaZ);
+Omega (0. 0. $OmegaZ);
 
 Oxyz     (0 0 0);
 
@@ -423,42 +444,63 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
 
 // ************************************************************************* //
     ''')
-    OmegaX_rad = globalvar.VariableDict['OmegaX'] * (2. * 3.141592) / 60.
-    OmegaY_rad = globalvar.VariableDict['OmegaY'] * (2. * 3.141592) / 60.
-    OmegaZ_rad = globalvar.VariableDict['OmegaZ'] * (2. * 3.141592) / 60.
-    UnitX = globalvar.VariableDict['Motion_directionX'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
-    UnitY = globalvar.VariableDict['Motion_directionY'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
-    UnitZ = globalvar.VariableDict['Motion_directionZ'] / (globalvar.VariableDict['Motion_directionX']**2 + globalvar.VariableDict['Motion_directionY']**2 + globalvar.VariableDict['Motion_directionZ']**2) ** (1/2)
-    UnitXX = globalvar.VariableDict['jet_directionX'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
-    UnitYY = globalvar.VariableDict['jet_directionY'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
-    UnitZZ = globalvar.VariableDict['jet_directionZ'] / (globalvar.VariableDict['jet_directionX']**2 + globalvar.VariableDict['jet_directionY']**2 + globalvar.VariableDict['jet_directionZ']**2) ** (1/2)
+    OmegaZ_rad_name = 'OmegaZ'+str(num+1)
+    OmegaZ_rad = globalvar.VariableDict[OmegaZ_rad_name] * (2. * 3.141592) / 60.
+    Initial_LocationX_name = 'Initial_LocationX' + str(num+1)
+    Initial_LocationY_name = 'Initial_LocationY' + str(num+1)
+    Initial_LocationZ_name = 'Initial_LocationZ' + str(num+1)
+    Final_LocationX_name = 'Final_LocationX' + str(num+1)
+    Final_LocationY_name = 'Final_LocationY' + str(num+1)
+    Final_LocationZ_name = 'Final_LocationZ' + str(num+1)
+    process_time_name = 'Process_time' + str(num+1)
+    DisX = globalvar.VariableDict[Final_LocationX_name] - globalvar.VariableDict[Initial_LocationX_name]
+    DisY = globalvar.VariableDict[Final_LocationY_name] - globalvar.VariableDict[Initial_LocationY_name]
+    DisZ = globalvar.VariableDict[Final_LocationZ_name] - globalvar.VariableDict[Initial_LocationZ_name]
+    nozzlevelocity = ((DisX**2 + DisY**2 + DisZ**2) ** (1/2)) / globalvar.VariableDict[process_time_name]
+    UnitX = DisX / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    UnitY = DisY / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    UnitZ = DisZ / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    jet_directionX_name = 'jet_directionX' + str(num+1)
+    jet_directionY_name = 'jet_directionY' + str(num+1)
+    jet_directionZ_name = 'jet_directionZ' + str(num+1)
+    UnitXX = globalvar.VariableDict[jet_directionX_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
+                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
+                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
+    UnitYY = globalvar.VariableDict[jet_directionY_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
+                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
+                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
+    UnitZZ = globalvar.VariableDict[jet_directionZ_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
+                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
+                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
     Angle_rad = globalvar.VariableDict['Angle'] * 3.141592 / 180.
     if globalvar.Nozzle_shape == 'circular':
         nozzle_area = 3.141592 * (globalvar.VariableDict['Radius'])**2
     elif globalvar.Nozzle_shape == 'rectangular':
         nozzle_area = globalvar.VariableDict['Width'] * globalvar.VariableDict['Length']
-    Flow_rate_velocity = globalvar.VariableDict['Jet_velocity'] * 0.001 / (60. * nozzle_area)
-    builded = physicalParameters.substitute(Type=globalvar.Nozzle_shape,
-                                            OmegaX=OmegaX_rad,
-                                            OmegaY=OmegaY_rad,
-                                            OmegaZ=OmegaZ_rad,
-                                            LocationX=globalvar.VariableDict['LocationX'],
-                                            LocationY=globalvar.VariableDict['LocationY'],
-                                            LocationZ=globalvar.VariableDict['LocationZ'],
-                                            Nozzle_velocity=globalvar.VariableDict['Nozzle_velocity'],
-                                            Motion_directionX=UnitX,
-                                            Motion_directionY=UnitY,
-                                            Motion_directionZ=UnitZ,
-                                            Radius=globalvar.VariableDict['Radius'],
-                                            Height=globalvar.VariableDict['Height'],
-                                            Width=globalvar.VariableDict['Width'],
-                                            Angle=Angle_rad,
-                                            Length=globalvar.VariableDict['Length'],
-                                            Fixed_thickness=globalvar.VariableDict['Fixed_thickness'],
-                                            Jet_velocity=Flow_rate_velocity,
-                                            jet_directionX=UnitXX,
-                                            jet_directionY=UnitYY,
-                                            jet_directionZ=UnitZZ)
+    Flow_rate_velocity_name = 'Jet_velocity'+str(num+1)
+    fixed_thickness_name = 'Fixed_thickness'+str(num+1)
+    Flow_rate_velocity = globalvar.VariableDict[Flow_rate_velocity_name] * 0.001 / (60. * nozzle_area)
+    builded = physicalParameters.substitute(
+                                             Type=globalvar.Nozzle_shape,
+                                             OmegaZ=OmegaZ_rad,
+                                             LocationX=globalvar.VariableDict[Initial_LocationX_name],
+                                             LocationY=globalvar.VariableDict[Initial_LocationY_name],
+                                             LocationZ=globalvar.VariableDict[Initial_LocationZ_name],
+                                             Nozzle_velocity=nozzlevelocity,
+                                             Motion_directionX=UnitX,
+                                             Motion_directionY=UnitY,
+                                             Motion_directionZ=UnitZ,
+                                             Radius=globalvar.VariableDict['Radius'],
+                                             Height=globalvar.VariableDict['Height'],
+                                             Width=globalvar.VariableDict['Width'],
+                                             Angle=Angle_rad,
+                                             Length=globalvar.VariableDict['Length'],
+                                             Fixed_thickness=globalvar.VariableDict[fixed_thickness_name],
+                                             Jet_velocity=Flow_rate_velocity,
+                                             jet_directionX=UnitXX,
+                                             jet_directionY=UnitYY,
+                                             jet_directionZ=UnitZZ
+                                             )
     return builded
 
 def g_save():
@@ -492,7 +534,7 @@ value           ($GravityX $GravityY $GravityZ);
     return builded
 
 
-def controlDict_save():
+def controlDict_save(num):
     controlDict = Template(r'''
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -520,7 +562,7 @@ application     samsungFoamFV;
 
 startFrom       startTime;
 
-startTime       $Start_time;
+startTime       0.;
 
 stopAt          endTime;
 
@@ -555,10 +597,13 @@ maxDeltaT           0.1;
 
 // ************************************************************************* //
     ''')
-    builded = controlDict.substitute(Start_time=globalvar.VariableDict['Start_time'],
-                                     End_time=globalvar.VariableDict['End_time'],
-                                     Time_step=globalvar.VariableDict['Time_step'],
-                                     Write_interval=globalvar.VariableDict['Write_interval'])
+    end_time_name = 'Process_time' + str(num+1)
+    time_step_name = 'Time_step' + str(num+1)
+    Write_interval_name = 'Write_interval' + str(num+1)
+
+    builded = controlDict.substitute(End_time=globalvar.VariableDict[end_time_name],
+                                     Time_step=globalvar.VariableDict[time_step_name],
+                                     Write_interval=globalvar.VariableDict[Write_interval_name])
     return builded
 
 

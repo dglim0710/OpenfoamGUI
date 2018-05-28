@@ -5,10 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="445c3bf2-e7d4-496f-abb9-1b7b72147e92" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/U" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/alpha1" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/manningField" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/psi" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/Allclean" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/Allrun" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/g" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/physicalParameters" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/boundary" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/faces" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/neighbour" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/owner" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/points" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/transportProperties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/changeDictionaryDict" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/controlDict" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/fvSchemes" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/fvSolution" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/sampleDict" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/setFieldsDict" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/constant/transportProperties" afterPath="$PROJECT_DIR$/Case_2phase/constant/transportProperties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PreFile.py" afterPath="$PROJECT_DIR$/PreFile.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SALOME/WORK/Mesh_rec_moving.py" afterPath="$PROJECT_DIR$/SALOME/WORK/Mesh_rec_moving.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/globalvar.py" afterPath="$PROJECT_DIR$/globalvar.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainframe.py" afterPath="$PROJECT_DIR$/mainframe.py" />
     </list>
@@ -31,8 +50,8 @@
       <file leaf-file-name="PreFile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PreFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="953">
-              <caret line="1039" column="30" lean-forward="true" selection-start-line="1039" selection-start-column="30" selection-end-line="1039" selection-end-column="30" />
+            <state relative-caret-position="432">
+              <caret line="605" column="94" lean-forward="false" selection-start-line="605" selection-start-column="94" selection-end-line="605" selection-end-column="94" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -43,8 +62,8 @@
       <file leaf-file-name="mainframe.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mainframe.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3894">
-              <caret line="741" column="20" lean-forward="true" selection-start-line="741" selection-start-column="20" selection-end-line="741" selection-end-column="20" />
+            <state relative-caret-position="176">
+              <caret line="865" column="29" lean-forward="false" selection-start-line="865" selection-start-column="29" selection-end-line="865" selection-end-column="29" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -55,8 +74,8 @@
       <file leaf-file-name="globalvar.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/globalvar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="33" lean-forward="true" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+            <state relative-caret-position="168">
+              <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -65,8 +84,8 @@
       <file leaf-file-name="MessageBox.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MessageBox.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="16" column="64" lean-forward="false" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="64" />
+            <state relative-caret-position="198">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -86,6 +105,8 @@
       <find>Click</find>
       <find>4</find>
       <find>parsed</find>
+      <find>print</find>
+      <find>else</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -377,11 +398,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19607843" sideWeight="0.501845" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32897604" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19607843" sideWeight="0.49815497" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34025374" sideWeight="0.49815497" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21895425" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21799308" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -685,26 +706,26 @@
     <entry file="file://$PROJECT_DIR$/BrowseFolder.py" />
     <entry file="file://$PROJECT_DIR$/function_button.py" />
     <entry file="file://$PROJECT_DIR$/main.py" />
-    <entry file="file://$PROJECT_DIR$/globalvar.py">
+    <entry file="file://$PROJECT_DIR$/MessageBox.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="9" column="33" lean-forward="true" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MessageBox.py">
+    <entry file="file://$PROJECT_DIR$/globalvar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="64" lean-forward="false" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="64" />
+        <state relative-caret-position="168">
+          <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PreFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="953">
-          <caret line="1039" column="30" lean-forward="true" selection-start-line="1039" selection-start-column="30" selection-end-line="1039" selection-end-column="30" />
+        <state relative-caret-position="432">
+          <caret line="605" column="94" lean-forward="false" selection-start-line="605" selection-start-column="94" selection-end-line="605" selection-end-column="94" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
@@ -713,8 +734,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainframe.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3894">
-          <caret line="741" column="20" lean-forward="true" selection-start-line="741" selection-start-column="20" selection-end-line="741" selection-end-column="20" />
+        <state relative-caret-position="176">
+          <caret line="865" column="29" lean-forward="false" selection-start-line="865" selection-start-column="29" selection-end-line="865" selection-end-column="29" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
