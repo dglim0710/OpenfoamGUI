@@ -807,10 +807,13 @@ def Runsolver(Casepath):
 def meshing(mesh_type):
     if globalvar.Nozzle_shape == 'circular' and mesh_type == 'Triangular':
         mesh_name = 'Mesh_Tri.py'
+        mesh_name_unv = 'Mesh_Tri.unv'
     elif globalvar.Nozzle_shape == 'circular' and mesh_type == 'Hexagonal':
         mesh_name = 'Mesh_Hexa.py'
+        mesh_name_unv = 'Mesh_Hexa.unv
     elif globalvar.Nozzle_shape == 'rectangular':
         mesh_name = 'Mesh_rec_moving.py'
+        mesh_name_unv = 'Mesh_rec.unv
     Salomepath = 'cd ./SALOME/WORK &&'
     RUNSalome = 'run_salome.bat '
     total = Salomepath+RUNSalome+mesh_name
@@ -819,16 +822,17 @@ def meshing(mesh_type):
 
 def geneartemesh(Casepath, mesh_type):
     if mesh_type == 'Triangular' and globalvar.Nozzle_shape == 'circular':
-        mesh_name = 'Mesh_Tri.unv'
+        mesh_name_unv = 'Mesh_Tri.unv'
     elif mesh_type == 'Hexagonal' and globalvar.Nozzle_shape == 'circular':
-        mesh_name = 'Mesh_Hexa.unv'
-    elif globalvar.Nozzle_shape == 'rectangular':
-        mesh_name = 'Mesh_rec.unv'
+        mesh_name_unv = 'Mesh_Hexa.unv'
+    elif globalvar.Nozzle_shape == 'rectangular' and mesh_type is not str:
+        mesh_name_unv = 'Mesh_rec.unv'
     Casepath = 'cd '+Casepath+' && '
     OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
     generateMesh = 'ideasUnvToFoam '
     changeDictionary = ' && changeDictionary'
-    Total = OFpath+Casepath+generateMesh+mesh_name+changeDictionary
+    remove = '&& del '+mesh_name_unv
+    Total = OFpath+Casepath+generateMesh+mesh_name_unv+changeDictionary+remove
     os.system(Total)
 
 def samplingdata(Casepath):

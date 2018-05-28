@@ -5,30 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="445c3bf2-e7d4-496f-abb9-1b7b72147e92" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/U" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/alpha1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/manningField" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/0/psi" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/Allclean" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/Allrun" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/g" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/physicalParameters" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/boundary" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/faces" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/neighbour" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/owner" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/polyMesh/points" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/constant/transportProperties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/changeDictionaryDict" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/controlDict" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/fvSchemes" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/fvSolution" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/sampleDict" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Case_2phase/system/setFieldsDict" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PreFile.py" afterPath="$PROJECT_DIR$/PreFile.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/globalvar.py" afterPath="$PROJECT_DIR$/globalvar.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainframe.py" afterPath="$PROJECT_DIR$/mainframe.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -62,8 +38,8 @@
       <file leaf-file-name="mainframe.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mainframe.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="865" column="29" lean-forward="false" selection-start-line="865" selection-start-column="29" selection-end-line="865" selection-end-column="29" />
+            <state relative-caret-position="308">
+              <caret line="802" column="37" lean-forward="true" selection-start-line="802" selection-start-column="37" selection-end-line="802" selection-end-column="37" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -734,8 +710,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainframe.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="865" column="29" lean-forward="false" selection-start-line="865" selection-start-column="29" selection-end-line="865" selection-end-column="29" />
+        <state relative-caret-position="308">
+          <caret line="802" column="37" lean-forward="true" selection-start-line="802" selection-start-column="37" selection-end-line="802" selection-end-column="37" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
