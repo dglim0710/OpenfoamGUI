@@ -5,6 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="445c3bf2-e7d4-496f-abb9-1b7b72147e92" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/1/constant/transportProperties" afterPath="$PROJECT_DIR$/Case_2phase/1/constant/transportProperties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/1/system/controlDict" afterPath="$PROJECT_DIR$/Case_2phase/1/system/controlDict" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/2/constant/transportProperties" afterPath="$PROJECT_DIR$/Case_2phase/2/constant/transportProperties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Case_2phase/2/system/controlDict" afterPath="$PROJECT_DIR$/Case_2phase/2/system/controlDict" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PreFile.py" afterPath="$PROJECT_DIR$/PreFile.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainframe.py" afterPath="$PROJECT_DIR$/mainframe.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,8 +32,8 @@
       <file leaf-file-name="PreFile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PreFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="605" column="94" lean-forward="false" selection-start-line="605" selection-start-column="94" selection-end-line="605" selection-end-column="94" />
+            <state relative-caret-position="234">
+              <caret line="635" column="0" lean-forward="true" selection-start-line="635" selection-start-column="0" selection-end-line="635" selection-end-column="0" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -38,8 +44,8 @@
       <file leaf-file-name="mainframe.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mainframe.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="802" column="37" lean-forward="true" selection-start-line="802" selection-start-column="37" selection-end-line="802" selection-end-column="37" />
+            <state relative-caret-position="456">
+              <caret line="840" column="0" lean-forward="true" selection-start-line="840" selection-start-column="0" selection-end-line="840" selection-end-column="0" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -50,8 +56,8 @@
       <file leaf-file-name="globalvar.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/globalvar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+            <state relative-caret-position="102">
+              <caret line="49" column="21" lean-forward="true" selection-start-line="49" selection-start-column="21" selection-end-line="49" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -127,7 +133,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -156,6 +161,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -369,7 +375,7 @@
     <frame x="0" y="24" width="1920" height="993" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15364583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15340011" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19607843" sideWeight="0.501845" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298731" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -692,16 +698,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/globalvar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+        <state relative-caret-position="102">
+          <caret line="49" column="21" lean-forward="true" selection-start-line="49" selection-start-column="21" selection-end-line="49" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PreFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="605" column="94" lean-forward="false" selection-start-line="605" selection-start-column="94" selection-end-line="605" selection-end-column="94" />
+        <state relative-caret-position="234">
+          <caret line="635" column="0" lean-forward="true" selection-start-line="635" selection-start-column="0" selection-end-line="635" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
@@ -710,8 +716,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainframe.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="802" column="37" lean-forward="true" selection-start-line="802" selection-start-column="37" selection-end-line="802" selection-end-column="37" />
+        <state relative-caret-position="456">
+          <caret line="840" column="0" lean-forward="true" selection-start-line="840" selection-start-column="0" selection-end-line="840" selection-end-column="0" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>

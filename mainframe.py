@@ -807,13 +807,13 @@ def Runsolver(Casepath):
 def meshing(mesh_type):
     if globalvar.Nozzle_shape == 'circular' and mesh_type == 'Triangular':
         mesh_name = 'Mesh_Tri.py'
-        mesh_name_unv = 'Mesh_Tri.unv'
+        # mesh_name_unv = 'Mesh_Tri.unv'
     elif globalvar.Nozzle_shape == 'circular' and mesh_type == 'Hexagonal':
         mesh_name = 'Mesh_Hexa.py'
-        mesh_name_unv = 'Mesh_Hexa.unv
+        # mesh_name_unv = 'Mesh_Hexa.unv'
     elif globalvar.Nozzle_shape == 'rectangular':
         mesh_name = 'Mesh_rec_moving.py'
-        mesh_name_unv = 'Mesh_rec.unv
+        # mesh_name_unv = 'Mesh_rec.unv'
     Salomepath = 'cd ./SALOME/WORK &&'
     RUNSalome = 'run_salome.bat '
     total = Salomepath+RUNSalome+mesh_name
@@ -827,13 +827,18 @@ def geneartemesh(Casepath, mesh_type):
         mesh_name_unv = 'Mesh_Hexa.unv'
     elif globalvar.Nozzle_shape == 'rectangular' and mesh_type is not str:
         mesh_name_unv = 'Mesh_rec.unv'
-    Casepath = 'cd '+Casepath+' && '
+
+    Casepath = 'cd '+Casepath+'/1/ && '
     OFpath = 'cd ./Openfoam/etc && call foamWindowsEnvironment.bat && '
     generateMesh = 'ideasUnvToFoam '
     changeDictionary = ' && changeDictionary'
     remove = '&& del '+mesh_name_unv
     Total = OFpath+Casepath+generateMesh+mesh_name_unv+changeDictionary+remove
     os.system(Total)
+    for i in range(0, int(globalvar.stepN)):
+        copy = 'xcopy '+Casepath.replace('/', '\\') + '\\1\\constant\\polyMesh\\*'+' '+Casepath.replace('/', '\\')+\
+               '\\'+str(i+1) + '\\constant\\polyMesh\\ /e /h /k'
+
 
 def samplingdata(Casepath):
     Casepath = 'cd '+Casepath+' && '
@@ -853,14 +858,18 @@ def changeStepN(num):
         for nnn in range(0, len(Dict_front_name)):
             makename = Dict_front_name[nnn] + str(nn + 1)
             globalvar.VariableDict[makename] = 0.
+    Current = os.getcwd()
+    Case_path = globalvar.Case_folder_path.replace('/', '\\')
     if globalvar.twophase_check == 1.:
+        Current = Current + '\\basic\\2P\\*'
         for i in range(0, int(globalvar.stepN)):
-            Copy = 'copy ./basic/2P '+globalvar.Case_folder_path+'/'+str(i+1)
+            Copy = 'xcopy '+Current+' '+Case_path+'\\'+str(i+1)+'\\ /e /h /k'
+            os.system(Copy)
     elif globalvar.twophase_check == 0.:
+        Current = Current + '\\basic\\FV\\*'
         for i in range(0, int(globalvar.stepN)):
-            Copy = 'copy ./basic/FV '+globalvar.Case_folder_path+'/'+str(i+1)
-    os.system(Copy)
-
+            Copy = 'xcopy '+Current+' '+Case_path+'\\'+str(i+1)+'\\ /e /h /k'
+            os.system(Copy)
     MessageBox.Save_complete()
 
 

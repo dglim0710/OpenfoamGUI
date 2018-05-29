@@ -274,21 +274,35 @@ UMagFixedVal	$Jet_velocity;
     DisY = globalvar.VariableDict[Final_LocationY_name] - globalvar.VariableDict[Initial_LocationY_name]
     DisZ = globalvar.VariableDict[Final_LocationZ_name] - globalvar.VariableDict[Initial_LocationZ_name]
     nozzlevelocity = ((DisX**2 + DisY**2 + DisZ**2) ** (1/2)) / globalvar.VariableDict[process_time_name]
-    UnitX = DisX / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
-    UnitY = DisY / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
-    UnitZ = DisZ / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    if DisX == 0. and DisY == 0. and DisZ == 0.:
+        UnitX = 1.
+        UnitY = 0.
+        UnitZ = 0.
+    else:
+        UnitX = DisX / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+        UnitY = DisY / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+        UnitZ = DisZ / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
     jet_directionX_name = 'jet_directionX' + str(num+1)
     jet_directionY_name = 'jet_directionY' + str(num+1)
     jet_directionZ_name = 'jet_directionZ' + str(num+1)
-    UnitXX = globalvar.VariableDict[jet_directionX_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
-                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
-                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
-    UnitYY = globalvar.VariableDict[jet_directionY_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
-                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
-                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
-    UnitZZ = globalvar.VariableDict[jet_directionZ_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
-                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
-                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
+    if globalvar.VariableDict[jet_directionX_name] == 0. and globalvar.VariableDict[jet_directionY_name] == 0. and DisZ == globalvar.VariableDict[jet_directionZ_name] == 0.:
+        UnitXX = 0.
+        UnitYY = 0.
+        UnitZZ = 0.
+    else:
+        UnitXX = globalvar.VariableDict[jet_directionX_name] / (globalvar.VariableDict[jet_directionY_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionZ_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionX_name] ** 2) ** (
+                                                               1 / 2)
+        UnitYY = globalvar.VariableDict[jet_directionY_name] / (globalvar.VariableDict[jet_directionY_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionZ_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionX_name] ** 2) ** (
+                                                               1 / 2)
+        UnitZZ = globalvar.VariableDict[jet_directionZ_name] / (globalvar.VariableDict[jet_directionY_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionZ_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionX_name] ** 2) ** (
+                                                               1 / 2)
+
     Angle_rad = globalvar.VariableDict['Angle'] * 3.141592 / 180.
     if globalvar.Nozzle_shape == 'circular':
         nozzle_area = 3.141592 * (globalvar.VariableDict['Radius'])**2
@@ -457,21 +471,34 @@ UMagFixedVal UMagFixedVal  [0 1 -1 0 0 0 0]	$Jet_velocity;
     DisY = globalvar.VariableDict[Final_LocationY_name] - globalvar.VariableDict[Initial_LocationY_name]
     DisZ = globalvar.VariableDict[Final_LocationZ_name] - globalvar.VariableDict[Initial_LocationZ_name]
     nozzlevelocity = ((DisX**2 + DisY**2 + DisZ**2) ** (1/2)) / globalvar.VariableDict[process_time_name]
-    UnitX = DisX / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
-    UnitY = DisY / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
-    UnitZ = DisZ / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+    if DisX == 0. and DisY == 0. and DisZ == 0.:
+        UnitX = 1.
+        UnitY = 0.
+        UnitZ = 0.
+    else:
+        UnitX = DisX / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+        UnitY = DisY / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
+        UnitZ = DisZ / (DisX**2 + DisY**2 + DisZ**2) ** (1/2)
     jet_directionX_name = 'jet_directionX' + str(num+1)
     jet_directionY_name = 'jet_directionY' + str(num+1)
     jet_directionZ_name = 'jet_directionZ' + str(num+1)
-    UnitXX = globalvar.VariableDict[jet_directionX_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
-                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
-                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
-    UnitYY = globalvar.VariableDict[jet_directionY_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
-                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
-                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
-    UnitZZ = globalvar.VariableDict[jet_directionZ_name] / (globalvar.VariableDict[jet_directionY_name]**2 +
-                                                            globalvar.VariableDict[jet_directionZ_name]**2 +
-                                                            globalvar.VariableDict[jet_directionX_name]**2) ** (1/2)
+    if globalvar.VariableDict[jet_directionX_name] == 0. and globalvar.VariableDict[jet_directionY_name] == 0. and DisZ == globalvar.VariableDict[jet_directionZ_name] == 0.:
+        UnitXX = 0.
+        UnitYY = 0.
+        UnitZZ = 0.
+    else:
+        UnitXX = globalvar.VariableDict[jet_directionX_name] / (globalvar.VariableDict[jet_directionY_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionZ_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionX_name] ** 2) ** (
+                                                               1 / 2)
+        UnitYY = globalvar.VariableDict[jet_directionY_name] / (globalvar.VariableDict[jet_directionY_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionZ_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionX_name] ** 2) ** (
+                                                               1 / 2)
+        UnitZZ = globalvar.VariableDict[jet_directionZ_name] / (globalvar.VariableDict[jet_directionY_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionZ_name] ** 2 +
+                                                                globalvar.VariableDict[jet_directionX_name] ** 2) ** (
+                                                               1 / 2)
     Angle_rad = globalvar.VariableDict['Angle'] * 3.141592 / 180.
     if globalvar.Nozzle_shape == 'circular':
         nozzle_area = 3.141592 * (globalvar.VariableDict['Radius'])**2
